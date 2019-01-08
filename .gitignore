@@ -8,4 +8,8 @@ public/
 static/**/*.zip
 *_cache/
 static/rmarkdown-libs/
+<<<<<<< HEAD
 content/class/09-class.html
+=======
+content/**/*.html
+>>>>>>> 2678588... fix ignore
