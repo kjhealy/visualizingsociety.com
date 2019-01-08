@@ -1,6 +1,6 @@
 SSH_USER = kjhealy@kjhealy.co
 DOCUMENT_ROOT = ~/public/visualizingsociety.com/public_html
-PUBLIC_DIR = public
+PUBLIC_DIR = public/
 PREFIX = /Users/kjhealy/.pandoc
 BIB = /Users/kjhealy/Documents/bibs/socbib-pandoc.bib
 CSL = apsa
