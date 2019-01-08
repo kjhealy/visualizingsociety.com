@@ -1,0 +1,10 @@
+lessons:
+  - title: '<span class="fake-header-table">Section</span>'
+    header: True
+
+  - title: "Topic"
+    date: "Date"
+    reading: "01-reading"
+    assignment: "01-problem-set"
+    class: "01-class"
+

@@ -1,0 +1,92 @@
+---
+title: Syllabus
+slug: syllabus
+citeproc: false
+bibliography: ../static/bib/references.bib
+csl: ../static/bib/chicago-syllabus-no-bib.csl
+---
+
+```{r load-libraries, message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(tibble)
+library(pander)
+```
+
+[^courseinfo]: {-}
+  `r blogdown::shortcode("courseinfo")`
+
+
+# Course objectives
+
+This class will teach you how to use modern, widely-used tools to create beautiful, understandable, reproducible visualizations of social science data.
+
+
+# Course materials
+
+I recommend (but do not require) you buy two books: 
+
+- [@Healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM)]
+- [@WickhamGrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/)]
+
+You should also be aware of:
+
+- [@Wilke:2019] [Draft version free online; print version at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089), forthcoming]
+
+There will also occasionally be additional material to read. When this happens, links to these other resources will be included on the reading page for that week.
+
+I also highly recommend subscribing to the [R Weekly newsletter](https://rweekly.org/). This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.
+
+## R and RStudio
+
+You will do all of your visualization work in this class with the open source (and free!) programming language [R](https://cran.r-project.org/). You will use [RStudio](https://www.rstudio.com/) as the main program to access R. Think of R as an engine and RStudio as a car dashboard—R handles all the calculations and the actual statistics, while RStudio provides a nice interface for running R code.
+
+R is free, but it can sometimes be a pain to install and configure. To make life easier, you can (and should!) use the free [RStudio.cloud](http://rstudio.cloud/) service, which lets you run a full instance of RStudio in your web browser. This means you won't have to install anything on your computer to get started with R! We will have a shared class workspace in RStudio.cloud that will let you quickly copy templates for labs and problem sets.
+
+# Course policies
+
+
+# Assignments and grades
+
+```{r assignments-grades, include=FALSE}
+assignments <- tribble(
+  ~Points,  ~Assignment,
+  15 * 14 , "Reflection memos (≈ 15 × 14)",
+  5 * 40  , "Problem sets (5 × 40)",
+  50      , "Code-through",
+  75     , "Mini project 1",
+  75     , "Mini project 2",
+  200     , "Final project"
+) %>%
+  mutate(Percent = Points / sum(Points),
+         Percent = scales::percent(Percent))
+
+grading <- tribble(
+  ~Grade, ~Range, ~Grade1, ~Range1,
+  "A",  "93–100%", "C",  "73–76%",
+  "A−", "90–92%", "C−", "70–72%",
+  "B+", "87–89%", "D+", "67–69%",
+  "B",  "83–86%", "D",  "63–66%",
+  "B−", "80–82%", "D−", "60–62%",
+  "C+", "77–79%", "F",  "< 60%"
+)
+```
+
+```{r show-assignments-table, echo=FALSE, results="asis", eval = FALSE}
+assignments_total <- data_frame(Assignment = "Total",
+                                Points = sum(assignments$Points),
+                                Percent = NA)
+
+bind_rows(assignments, assignments_total) %>% 
+  select(Assignment, Points, Percent) %>% 
+  pandoc.table(justify = "lcc", missing = "—")
+```
+
+\
+
+```{r show-grades-table, echo=FALSE, results="asis", eval = FALSE}
+grading %>%
+  pandoc.table(justify = "lclc", 
+               col.names = c("Grade", "Range", "Grade", "Range"))
+```
+
+

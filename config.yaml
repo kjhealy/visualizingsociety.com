@@ -1,0 +1,72 @@
+baseURL: "https://visualizingsociety.com/"
+languageCode: en-us
+title: Visualizing Society
+theme: "ath-tufte-hugo_18-19"
+googleAnalytics: ""
+ignoreFiles:
+  - \.Rmd$
+  - \.Rmarkdown$
+  - \.yaml$
+  - _files$
+  - _cache$
+  - \.csl$
+permalinks:
+  post: "/:year/:month/:day/:slug/"
+buildFuture: true
+menu:
+  main:
+    - name: Syllabus
+      url: /syllabus/
+      weight: 1
+    - name: Assignments
+      url: /assignments/
+      weight: 3
+    - name: Schedule
+      url: /schedule/
+      weight: 2
+    - name: Reference
+      url: /reference/
+      weight: 4
+# Disable taxonomies
+taxonomies:
+  tag: ""
+  group: ""
+  category: ""
+params:
+  author: Kieran Healy
+  thumbnail: /images/dataviz_meta.png
+  instructor: 
+    name: Kieran Healy
+    email: kjhealy@soc.duke.edu
+    url: "https://www.kieranhealy.org"
+    twitter: kjhealy
+    github: kjhealy
+    office: "Soc/Psych 255"
+  course:
+    number: SOCIOL 290S
+    semester: Spring 2019
+    days: "Tu/Th"
+    time: "8:30–9:45 AM"
+    location: "Soc/Psych 248"
+    twitter: kjhealy
+    dates: "January 11th–April 17th, 2019"
+    github: "kjhealy/visualizingsociety.com"
+    copyrightYear: "2019"
+    contactDetails: >-
+      Office hours: By appointment.
+  university: 
+    name: Duke University
+    url: "https://www.duke.edu"
+  school:
+    name: Sociology Department
+    url: "https://sociology.duke.edu"
+  description: "Learn why and how to visualize data"
+  primaryColor: "#DA5B69"
+  secondaryColor: "#F9983E"
+  credits: >-
+  logo:
+    url: /images/dataviz_hires.png
+    alt: Visualizing Society
+  meta:
+    twitterSite: "@kjhealy"
+    twitterCreator: "@kjhealy"
