@@ -1,7 +1,7 @@
 baseURL: "https://visualizingsociety.com/"
 languageCode: en-us
 title: Visualizing Society
-theme: "ath-tufte-hugo_18-19"
+theme: "kjh-tufte-hugo"
 googleAnalytics: ""
 ignoreFiles:
   - \.Rmd$
