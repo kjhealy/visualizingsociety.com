@@ -18,7 +18,7 @@ build:
 	Rscript -e "blogdown::build_site()"
 
 serve: build
-	Rscript -e "blogdown::serve_site(port=4321)"
+	Rscript -e "blogdown::serve_site()"
 
 deploy: build
 	rsync -Prvzc --exclude='.DS_Store' --delete $(OUTPUTDIR)/ 'ssh -p 22' $(PUBLIC_DIR) $(SSH_USER):$(DOCUMENT_ROOT)
