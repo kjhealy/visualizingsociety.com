@@ -1,8 +1,5 @@
 ---
 title: "Midterm Prjoect"
-date: ""
-due_date: ""
-due_time: "11:59 PM"
 editor_options: 
   chunk_output_type: console
 ---
