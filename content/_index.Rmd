@@ -3,10 +3,12 @@ title: "Visualizing Society"
 author: "Kieran Healy"
 ---
 
-^[{-} `r blogdown::shortcode("courseinfo")`] This is the course website for SOCIOL 290S: Visualizing Society, taught during Spring 2019 at Duke University.
-
-The course teaches you the how and why of visualizing sociological (and other) data using modern tools, focused on producing high-quality visualizations in a reproducible way.
+^[{-} `r blogdown::shortcode("courseinfo")`] 
 
 <figure>
 [![](/images/vax-excerpt.png)](/images/vax-excerpt.png)
 </figure>
+
+This is the course website for SOCIOL 290S: Visualizing Society, taught during Spring 2019 at Duke University.
+
+The course teaches you the how and why of visualizing sociological (and other) data using modern tools, focused on producing high-quality visualizations in a reproducible way.

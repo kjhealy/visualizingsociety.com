@@ -3,12 +3,10 @@ title: "Schedule"
 slug: schedule
 ---
 
-Here's your roadmap for the semester!
-
 - <i class="fas fa-book-reader"></i> Readings 
 - <i class="fas fa-file-alt"></i> Memos
 - <i class="fas fa-laptop-code"></i> Assignments
-- <i class="fas fa-university"></i></a> Class materials (slides, in-class activities, etc.) will be added on the day of class
+- <i class="fas fa-university"></i></a> Class materials
 
 ---
 

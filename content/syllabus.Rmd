@@ -18,12 +18,22 @@ library(pander)
 
 # Course objectives
 
-This class will teach you how to use modern, widely-used tools to create beautiful, understandable, reproducible visualizations of social science data.
+This class will teach you how to use modern, widely-used tools to create beautiful, understandable, reproducible visualizations of social science data. We will also put the theory and practice of visualization into context at the beginning of the course and throughout the semester. By that I mean that we will think about different ways of looking at social science data, about where data comes from in the first place, and the implications of choosing to represent it in different ways.
 
+By the end of the course you will
 
-# Course materials
+- Understand the basic principles behind effective data visualization.
+- Have a practical sense for why some graphs and figures work well,
+  while others may fail to inform or actively mislead.
+- Know how to create a wide range of plots in R using ggplot2.
+- Know how to refine plots for effective presentation.
+- Have an understanding of ethical and conceptual questions
+  surrounding the collection and presentation of quantitative data in
+  social science and beyond.
 
-I recommend (but do not require) you buy two books: 
+# Core Texts
+
+I strongly recommend (but do not require) you buy two books: 
 
 - [@Healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM)]
 - [@WickhamGrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/)]
@@ -32,61 +42,74 @@ You should also be aware of:
 
 - [@Wilke:2019] [Draft version free online; print version at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089), forthcoming]
 
-There will also occasionally be additional material to read. When this happens, links to these other resources will be included on the reading page for that week.
 
-I also highly recommend subscribing to the [R Weekly newsletter](https://rweekly.org/). This e-mail is sent every Monday and is full of helpful tutorials about how to do stuff with R.
+# Other Material 
 
-## R and RStudio
+We will also read other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
 
-You will do all of your visualization work in this class with the open source (and free!) programming language [R](https://cran.r-project.org/). You will use [RStudio](https://www.rstudio.com/) as the main program to access R. Think of R as an engine and RStudio as a car dashboard—R handles all the calculations and the actual statistics, while RStudio provides a nice interface for running R code.
+- [@battle-baptiste18:_w]
+- [@berinato16:_good_chart]
+- [@cairo16:_truth_art]
+- [@cleveland1994]
+- [@few09:_now_you_see_it]
+- [@lupton10:_think_type]
+- [@munzer14:_visual_analy_desig]
+- [@tufte83:_visual_displ_quant_infor]
+- [@ware08:_visual_think_desig]
+- [@yau11:_visual_this]
 
-R is free, but it can sometimes be a pain to install and configure. To make life easier, you can (and should!) use the free [RStudio.cloud](http://rstudio.cloud/) service, which lets you run a full instance of RStudio in your web browser. This means you won't have to install anything on your computer to get started with R! We will have a shared class workspace in RStudio.cloud that will let you quickly copy templates for labs and problem sets.
+
+# Software
+
+We will do all of our visualization work in this class using the programming language [R](https://cran.r-project.org/). We will use [RStudio](https://www.rstudio.com/) to manage our code and projects. R and R Studio are widely used tools for data analysis in academia and industry.
+
+
+You will need to install some software first. Here is what to do:
+
+1. Get the most recent version of R. R is free and available for Windows, Mac, and Linux operating systems. Download^[`cloud.r-project.org`] the version of R compatible with your operating system. If you are running Windows or MacOS, you should choose one of the *precompiled binary* distributions (i.e., ready-to-run applications) linked at the top of the R Project's webpage. 
+2. Once^[`rstudio.com`] R is installed, download and install R Studio. R Studio is an "Integrated Development Environment", or IDE. This means it is a front-end for R that makes it much easier to work with. R Studio is also free, and available for Windows, Mac, and Linux platforms.
+3. Install^[`tidyverse.org`] the tidyverse library and several other add-on packages for R. These libraries provide useful functionality that we will take advantage of throughout the book. You can learn more about the tidyverse's family of packages at its website.
+
+   To install the tidyverse, make sure you have an Internet connection and then launch R Studio. Type the following lines of code at R's command prompt, located in the window named "Console", and hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
+
+```{r, echo=TRUE, eval=FALSE, tidy = FALSE}
+my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
+                 "gapminder", "GGally", "ggrepel", "ggridges", "gridExtra",
+                 "here", "interplot", "margins", "maps", "mapproj",
+                 "mapdata", "MASS", "quantreg", "rlang", "scales",
+                 "survey", "srvyr", "devtools")
+
+install.packages(my_packages, repos = "http://cran.rstudio.com")
+```
+
+R Studio should then download and install these packages for you. It may take a little while to download everything.
+
+With these packages available, you can then install one last library of material that's useful specifically for this book. It^[`github.com`] is hosted on GitHub,^[GitHub is a web-based service where users can host, develop, and share code. It uses git, a version control system that allows projects, or repositories, to preserve their history and incorporate changes from contributors in an organized way.] rather than R's central package repository, so we use a different function to fetch it.
+
+```{r, echo=TRUE, eval=FALSE}
+devtools::install_github("kjhealy/socviz")
+```
 
 # Course policies
 
-
-# Assignments and grades
-
-```{r assignments-grades, include=FALSE}
-assignments <- tribble(
-  ~Points,  ~Assignment,
-  15 * 14 , "Reflection memos (≈ 15 × 14)",
-  5 * 40  , "Problem sets (5 × 40)",
-  50      , "Code-through",
-  75     , "Mini project 1",
-  75     , "Mini project 2",
-  200     , "Final project"
-) %>%
-  mutate(Percent = Points / sum(Points),
-         Percent = scales::percent(Percent))
-
-grading <- tribble(
-  ~Grade, ~Range, ~Grade1, ~Range1,
-  "A",  "93–100%", "C",  "73–76%",
-  "A−", "90–92%", "C−", "70–72%",
-  "B+", "87–89%", "D+", "67–69%",
-  "B",  "83–86%", "D",  "63–66%",
-  "B−", "80–82%", "D−", "60–62%",
-  "C+", "77–79%", "F",  "< 60%"
-)
-```
-
-```{r show-assignments-table, echo=FALSE, results="asis", eval = FALSE}
-assignments_total <- data_frame(Assignment = "Total",
-                                Points = sum(assignments$Points),
-                                Percent = NA)
-
-bind_rows(assignments, assignments_total) %>% 
-  select(Assignment, Points, Percent) %>% 
-  pandoc.table(justify = "lcc", missing = "—")
-```
-
-\
-
-```{r show-grades-table, echo=FALSE, results="asis", eval = FALSE}
-grading %>%
-  pandoc.table(justify = "lclc", 
-               col.names = c("Grade", "Range", "Grade", "Range"))
-```
+- Attendance is required. I am a reasonable person; if you need to be absent please _let me know in advance_ insofar as that is possible.
+- Do the assigned readings in advance of class. 
+- Submit memos, problem sets, or other assigned work by 11:59pm the day they are due. 
+- You will need to bring a laptop to class and use it for note-taking and in-class work. 
+- Because it is hard even for me to compete with the entirety of human knowledge, friendship, entertainment, and retailing options available online, I may occasionally ask you to close the laptop. 
+- If I find you're engaging in non-class-related laptop use that is distracting to me or other students, I will warn you about it once. After that I'll penalize your grade.
 
 
+# Required Work and Grading
+
+There are three kinds of [assignments](assignments/) for the course: memos, problem sets, and projects. 
+
+- Each week you will write one short reflection memo (250 to 500 words) on the reading. Together these will account for 25% of your grade. Memos are due on the _Sunday_ of each week. 
+- Problem sets will let you practice your visualization skills. Five problem sets will together be worth 25% of your grade. Problem sets are due on _Fridays_ the week after they are given out.
+- Midterm project: 25% of your grade. 
+- Final project: 25% of your grade. 
+
+
+# Duke Community Standard
+
+Like all classes at the university, this course is conducted under the Duke Community Standard. Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, respect, and accountability. Citizens of this community commit to reflect upon and uphold these principles in all academic and nonacademic endeavors, and to protect and promote a culture of integrity. To uphold the Duke Community Standard you will not lie, cheat, or steal in academic endeavors; you will conduct yourself honorably in all your endeavors; and you will act if the Standard is compromised.

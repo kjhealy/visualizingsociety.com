@@ -3,10 +3,8 @@ title: "Assignments"
 slug: assignments
 ---
 
-# Weekly memo
+# Weekly memos
 
 # Problem sets
 
-# Code-through
-
-# Final project
+# Projects

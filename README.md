@@ -1,4 +1,4 @@
-# SOCIOL 290S
+# SOCIOL 290S: Visualizing Society
 
 This repository contains the code for generating [visualizingsociety.com](https://visualizingsociety.com/).
 
