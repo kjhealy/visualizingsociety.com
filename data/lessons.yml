@@ -1,73 +1,68 @@
 lessons:
   
   - title: "Orientation"
-    date: "January 10th"
+    date: "Week 1"
 
   - title: "Get Up and Running in R"
-    date: "January 15th/17th"
+    date: "Week 2"
     reading: "02-reading"
 
   - title: "Look at Data"
-    date: "January 22nd/24th"
+    date: "Week 3"
     reading: "03-reading"
 
   - title: "Ways of Seeing"    
-    date: "January 29th/31st"
+    date: "Week 4"
     reading: "05-reading"
     assignment: "05-problem-set"
 
   - title: "Make a Graph"
-    date: "February 5th/7th"
+    date: "Week 5"
     reading: "06-reading"
     assignment: "06-problem-set"
 
   - title: "Mapping Data to Visual Elements"    
-    date: "February 12th/14th"
+    date: "Week 6"
     reading: "07-reading"
     assignment: "07-problem-set"
 
   - title: "Faceting and Transforming Data"    
-    date: "February 19th/21st"
+    date: "Week 7"
     reading: "08-reading"
     assignment: "08-problem-set"
 
   - title: "Pipelines and Summaries"
-    date: "February 26th/28th"
+    date: "Week 8"
     reading: "09-reading"
     assignment: "09-problem-set"
 
   - title: "Text, Labels, Annotations"
-    date: "March 5th/7th"
+    date: "Week 10"
     reading: "10-reading"
     assignment: "10-problem-set"
 
   - title: "Draw Maps"
-    date: "March 12th/14th"
+    date: "Week 11"
     reading: "11-reading"
     assignment: "11-problem-set"
 
   - title: "Statistical Models"
-    date: "March 19th/21st"
+    date: "Week 12"
     reading: "12-reading"
     assignment: "12-problem-set"
     
   - title: "Refining Plots"
-    date: "March 26th/28th"
+    date: "Week 13"
     reading: "13-reading"
     assignment: "13-problem-set"
     
   - title: "Moving Pictures"
-    date: "April 2nd/4th"
+    date: "Week 14"
     reading: "14-reading"
     assignment: "14-problem-set"
 
   - title: "Presenting your Work I"
-    date: "April 9th/11th"
+    date: "Week 15"
     reading: "15-reading"
     assignment: "15-problem-set"
-
-  - title: "Presenting your Work II"
-    date: "April 16th/18th"
-    reading: "16-reading"
-    assignment: "16-problem-set"
     

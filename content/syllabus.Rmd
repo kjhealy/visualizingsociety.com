@@ -18,7 +18,7 @@ library(pander)
 
 # Course objectives
 
-This class will teach you how to use modern, widely-used tools to create beautiful, understandable, reproducible visualizations of social science data. We will also put the theory and practice of visualization into context at the beginning of the course and throughout the semester. By that I mean that we will think about different ways of looking at social science data, about where data comes from in the first place, and the implications of choosing to represent it in different ways.
+This class will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. We will also put the theory and practice of visualization into context throughout the semester. By that I mean that we will think about different ways of looking at social science data, about where data comes from in the first place, and the implications of choosing to represent it in different ways.
 
 By the end of the course you will
 
@@ -33,7 +33,7 @@ By the end of the course you will
 
 # Core Texts
 
-I strongly recommend (but do not require) you buy two books: 
+I strongly recommend you buy two books: 
 
 - [@Healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM)]
 - [@WickhamGrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/)]

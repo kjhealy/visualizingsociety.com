@@ -43,13 +43,13 @@ params:
     github: kjhealy
     office: "Soc/Psych 255"
   course:
-    number: SOCIOL 290S
-    semester: Spring 2019
-    days: "Tu/Th"
-    time: "8:30–9:45 AM"
-    location: "Soc/Psych 248"
+    number: SOCIOL 1xxFS
+    semester: Fall 2019
+    days: "TBA"
+    time: "TBA"
+    location: "TBA"
     twitter: kjhealy
-    dates: "January 11th–April 17th, 2019"
+    dates: "Fall 2019"
     github: "kjhealy/visualizingsociety.com"
     copyrightYear: "2019"
     contactDetails: >-
