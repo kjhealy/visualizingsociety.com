@@ -1,68 +1,53 @@
 lessons:
   
-  - title: "Orientation"
-    date: "Week 1"
+  - title: "Orientation and Setup"
+    date: "August 21st, 23rd"
 
-  - title: "Get Up and Running in R"
-    date: "Week 2"
-    reading: "02-reading"
+  - title: "Ways of Seeing / Expressing Yourself with R"
+    date: "August 28th / 30th"
 
-  - title: "Look at Data"
-    date: "Week 3"
-    reading: "03-reading"
+  - title: "Looking at Data / Working Tidily with Data"
+    date: "September 4th / 6th"
 
-  - title: "Ways of Seeing"    
-    date: "Week 4"
-    reading: "05-reading"
-    assignment: "05-problem-set"
+  - title: "Making Graphs / Showing the Right Numbers"    
+    date: "September 11th / 13th"
 
-  - title: "Make a Graph"
-    date: "Week 5"
-    reading: "06-reading"
-    assignment: "06-problem-set"
+  - title: "(No class this week)"
+    date: "September 18th / 20th"
 
-  - title: "Mapping Data to Visual Elements"    
-    date: "Week 6"
-    reading: "07-reading"
-    assignment: "07-problem-set"
+  - title: "Groups, Kinds, and Comparisons / Working with Tables"    
+    date: "September 25th / 27th"
 
-  - title: "Faceting and Transforming Data"    
-    date: "Week 7"
-    reading: "08-reading"
-    assignment: "08-problem-set"
+  - title: "Time, Trends, and Flows / Expanding your Visual Vocabulary"    
+    date: "October 2nd / 4th"
 
-  - title: "Pipelines and Summaries"
-    date: "Week 8"
-    reading: "09-reading"
-    assignment: "09-problem-set"
+  - title: "Trees, Ties, Relations / Visualizing Networks and Hierarchies"
+    date: "October 9th / 11th"
 
-  - title: "Text, Labels, Annotations"
-    date: "Week 10"
-    reading: "10-reading"
-    assignment: "10-problem-set"
+  - title: "Populations and Distributions / Beeswarms, Pyramids, and Lexis Surfaces"
+    date: "October 16th / 18th"
 
-  - title: "Draw Maps"
-    date: "Week 11"
-    reading: "11-reading"
-    assignment: "11-problem-set"
+  - title: "Midterm Workshop / Midterm Presentations"
+    date: "October 23rd / 25th"
 
-  - title: "Statistical Models"
-    date: "Week 12"
-    reading: "12-reading"
-    assignment: "12-problem-set"
+  - title: "Space and Place / Maps I"    
+    date: "October 30th / November 1st"
     
-  - title: "Refining Plots"
-    date: "Week 13"
-    reading: "13-reading"
-    assignment: "13-problem-set"
+  - title: "Nations and States / Maps II"
+    date: "November 6th / 8th"
     
-  - title: "Moving Pictures"
-    date: "Week 14"
-    reading: "14-reading"
-    assignment: "14-problem-set"
+  - title: "Design Thinking / Refining Plots"
+    date: "November 13th / 15th"
 
-  - title: "Presenting your Work I"
-    date: "Week 15"
-    reading: "15-reading"
-    assignment: "15-problem-set"
+  - title: "Representing and Intervening"
+    date: "November 20th / 22nd"
+
+  - title: "Thanksgiving (No Class)"
+    date: "November 27th / 29th"
+
+  - title: "Final Projects"
+    date: "December 4th / 6th"
+
+
+
     

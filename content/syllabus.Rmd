@@ -6,6 +6,8 @@ bibliography: ../static/bib/references.bib
 csl: ../static/bib/chicago-syllabus-no-bib.csl
 ---
 
+<!-- \bibliography{../static/bib/references.bib} So that RefTeX knows about the bibliography -->
+
 ```{r load-libraries, message=FALSE, warning=FALSE, include=FALSE}
 library(dplyr)
 library(tibble)
@@ -16,9 +18,9 @@ library(pander)
   `r blogdown::shortcode("courseinfo")`
 
 
-# Course objectives
+# Course Objectives
 
-This class will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. We will also put the theory and practice of visualization into context throughout the semester. By that I mean that we will think about different ways of looking at social science data, about where data comes from in the first place, and the implications of choosing to represent it in different ways.
+This class will do two things. It will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. It will also teach you about the theory and practice of efforts to visualize sociological data, and society more generally. We will think about different ways of looking at social science data, about where data comes from in the first place, and about the implications of choosing to represent it in different ways.
 
 By the end of the course you will
 
@@ -27,37 +29,39 @@ By the end of the course you will
   while others may fail to inform or actively mislead.
 - Know how to create a wide range of plots in R using ggplot2.
 - Know how to refine plots for effective presentation.
-- Have an understanding of ethical and conceptual questions
-  surrounding the collection and presentation of quantitative data in
-  social science and beyond.
+- Have an understanding of some issues surrounding the collection and
+  representation of data in the social sciences and beyond.
 
 # Core Texts
 
 I strongly recommend you buy two books: 
 
-- [@Healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM)]
-- [@WickhamGrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/)]
+- [@healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM) or other bookshops.]
+- [@wickhamgrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/) or other bookshops.]
 
 You should also be aware of:
 
-- [@Wilke:2019] [Draft version free online; print version at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089), forthcoming]
+- [@wilke:2019] [Draft version free online; print version at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089) or other bookshops.]
 
 
 # Other Material 
 
-We will also read other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
+We will also read material from the following books, amongst other sources:
 
 - [@battle-baptiste18:_w]
+- [@field18:_cartog]
+- [@berger72:_ways_seein]
 - [@berinato16:_good_chart]
+- [@bertin10:_semiol_graph]
 - [@cairo16:_truth_art]
 - [@cleveland1994]
 - [@few09:_now_you_see_it]
+- [@lima14:_book_trees]
 - [@lupton10:_think_type]
 - [@munzer14:_visual_analy_desig]
 - [@tufte83:_visual_displ_quant_infor]
 - [@ware08:_visual_think_desig]
 - [@yau11:_visual_this]
-
 
 # Software
 
@@ -67,10 +71,10 @@ We will do all of our visualization work in this class using the programming lan
 You will need to install some software first. Here is what to do:
 
 1. Get the most recent version of R. R is free and available for Windows, Mac, and Linux operating systems. Download^[`cloud.r-project.org`] the version of R compatible with your operating system. If you are running Windows or MacOS, you should choose one of the *precompiled binary* distributions (i.e., ready-to-run applications) linked at the top of the R Project's webpage. 
-2. Once^[`rstudio.com`] R is installed, download and install R Studio. R Studio is an "Integrated Development Environment", or IDE. This means it is a front-end for R that makes it much easier to work with. R Studio is also free, and available for Windows, Mac, and Linux platforms.
+2. Once R is installed, download and install R Studio.^[`rstudio.com`] R Studio is an "Integrated Development Environment", or IDE. This means it is a front-end for R that makes it much easier to work with. R Studio is also free, and available for Windows, Mac, and Linux platforms.
 3. Install^[`tidyverse.org`] the tidyverse library and several other add-on packages for R. These libraries provide useful functionality that we will take advantage of throughout the book. You can learn more about the tidyverse's family of packages at its website.
 
-   To install the tidyverse, make sure you have an Internet connection and then launch R Studio. Type the following lines of code at R's command prompt, located in the window named "Console", and hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
+   To install the tidyverse and some additional useful packages, make sure you have an Internet connection and then launch R Studio. Type the following lines of code at R's command prompt, located in the window named "Console", and hit return. In the code below, the `<-` arrow is made up of two keystrokes, first `<` and then the short dash or minus symbol, `-`.
 
 ```{r, echo=TRUE, eval=FALSE, tidy = FALSE}
 my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
@@ -84,11 +88,15 @@ install.packages(my_packages, repos = "http://cran.rstudio.com")
 
 R Studio should then download and install these packages for you. It may take a little while to download everything.
 
-With these packages available, you can then install one last library of material that's useful specifically for this book. It^[`github.com`] is hosted on GitHub,^[GitHub is a web-based service where users can host, develop, and share code. It uses git, a version control system that allows projects, or repositories, to preserve their history and incorporate changes from contributors in an organized way.] rather than R's central package repository, so we use a different function to fetch it.
+With these packages available, you can then install one last library of material that's useful specifically for this book.
 
 ```{r, echo=TRUE, eval=FALSE}
-devtools::install_github("kjhealy/socviz")
+devtools::install.packages("socviz")
 ```
+
+# Schedule
+
+See the [Schedule Page](/schedule/) for an overview of the weekly topics. The schedule is likely to change as we go. Links to readings, assignments, and other materials from class will also be posted on this page. 
 
 # Course policies
 
@@ -104,10 +112,12 @@ devtools::install_github("kjhealy/socviz")
 
 There are three kinds of [assignments](assignments/) for the course: memos, problem sets, and projects. 
 
-- Each week you will write one short reflection memo (250 to 500 words) on the reading. Together these will account for 25% of your grade. Memos are due on the _Sunday_ of each week. 
-- Problem sets will let you practice your visualization skills. Five problem sets will together be worth 25% of your grade. Problem sets are due on _Fridays_ the week after they are given out.
-- Midterm project: 25% of your grade. 
-- Final project: 25% of your grade. 
+- Each week you will write one short **Reflection Memo** (250 to 500 words) on the reading. Together these will account for 25% of your grade. Memos are due on the _Tuesday_ of each week. 
+- **Problem Sets** will let you practice your visualization skills. Five problem sets will together be worth 25% of your grade. Problem sets are due on _Fridays_ the week after they are given out.
+- A **Midterm project** will let you test out your data visualization skills. I will assign the dataset and set the parameters of the project. The project is due on Friday, October 24th. It will be worth 25% of your grade. 
+- A **Final Project** will allow you to develop a more substantial visualization or series of visualizations. I will suggest several possible datasets, or you can propose your own. The project is due on Friday, December 6th. It will be worth 25% of your grade. 
+
+There is no final exam for the class.
 
 
 # Duke Community Standard

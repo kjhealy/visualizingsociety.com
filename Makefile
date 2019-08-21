@@ -13,6 +13,7 @@ all: deploy
 
 clean:
 	rm -rf public/
+	find content -type f -name '*.html' -delete
 
 build:
 	Rscript -e "blogdown::build_site()"
@@ -20,5 +21,5 @@ build:
 serve: build
 	Rscript -e "blogdown::serve_site()"
 
-deploy: build
+deploy:	build
 	rsync --exclude='.DS_Store' -Prvzce 'ssh -p 22' $(PUBLIC_DIR) $(SSH_USER):$(DOCUMENT_ROOT) --delete-after
