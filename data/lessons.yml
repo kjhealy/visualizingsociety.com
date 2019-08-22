@@ -1,6 +1,7 @@
 lessons:
 
   - title: "Topic"
+    date: "Date"
     header: true
     
   - title: "Orientation and Setup"
