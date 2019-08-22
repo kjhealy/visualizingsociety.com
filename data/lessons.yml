@@ -1,5 +1,8 @@
 lessons:
-  
+
+  - title: "Topic"
+    header: true
+    
   - title: "Orientation and Setup"
     date: "August 21st, 23rd"
 
@@ -21,10 +24,10 @@ lessons:
   - title: "Time, Trends, and Flows / Expanding your Visual Vocabulary"    
     date: "October 2nd / 4th"
 
-  - title: "Trees, Ties, Relations / Visualizing Networks and Hierarchies"
-    date: "October 9th / 11th"
-
   - title: "Populations and Distributions / Beeswarms, Pyramids, and Lexis Surfaces"
+    date: "October 9th / 11th"
+    
+  - title: "Trees, Ties, Relations / Visualizing Networks and Hierarchies"
     date: "October 16th / 18th"
 
   - title: "Midterm Workshop / Midterm Presentations"

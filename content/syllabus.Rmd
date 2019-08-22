@@ -20,7 +20,7 @@ library(pander)
 
 # Course Objectives
 
-This class will do two things. It will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. It will also teach you about the theory and practice of efforts to visualize sociological data, and society more generally. We will think about different ways of looking at social science data, about where data comes from in the first place, and about the implications of choosing to represent it in different ways.
+This class will do two things. First, it will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. Second,  you will also learn about the theory and practice of efforts to visualize sociological data, and society more generally. We will think about different ways of looking at social science data, about where data comes from in the first place, and about the implications of choosing to represent it in different ways.
 
 By the end of the course you will
 
@@ -39,7 +39,7 @@ I strongly recommend you buy two books:
 - [@healy:2019] [Draft version free online; print version at [Amazon](https://amzn.to/2vfAixM) or other bookshops.]
 - [@wickhamgrolemund:2017] [Free online; print version at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/) or other bookshops.]
 
-You should also be aware of:
+You should also consider buying this one:
 
 - [@wilke:2019] [Draft version free online; print version at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089) or other bookshops.]
 
@@ -78,17 +78,16 @@ You will need to install some software first. Here is what to do:
 
 ```{r, echo=TRUE, eval=FALSE, tidy = FALSE}
 my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
-                 "gapminder", "GGally", "ggrepel", "ggridges", "gridExtra",
-                 "here", "interplot", "margins", "maps", "mapproj",
-                 "mapdata", "MASS", "quantreg", "rlang", "scales",
-                 "survey", "srvyr", "devtools")
+                 "gapminder", "GGally", "ggraph", "ggrepel", "ggridges", "gridExtra",
+                 "here", "maps", "mapproj", "mapdata", "MASS", "quantreg",
+                 "rlang", "scales", "survey", "srvyr", "devtools")
 
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 ```
 
 R Studio should then download and install these packages for you. It may take a little while to download everything.
 
-With these packages available, you can then install one last library of material that's useful specifically for this book.
+With these packages available, you can then install one last package that's useful specifically for this course.
 
 ```{r, echo=TRUE, eval=FALSE}
 devtools::install.packages("socviz")
@@ -96,15 +95,17 @@ devtools::install.packages("socviz")
 
 # Schedule
 
-See the [Schedule Page](/schedule/) for an overview of the weekly topics. The schedule is likely to change as we go. Links to readings, assignments, and other materials from class will also be posted on this page. 
+`r blogdown::shortcode("topiclist")`
+
+As the weeks go by, consult the [Schedule Page](/schedule/) for more information on weekly topics, problem sets, readings, and other materials. The schedule is likely to change as we go. Links to readings, assignments, and other materials from class will be posted on that page. 
 
 # Course policies
 
 - Attendance is required. I am a reasonable person; if you need to be absent please _let me know in advance_ insofar as that is possible.
 - Do the assigned readings in advance of class. 
-- Submit memos, problem sets, or other assigned work by 11:59pm the day they are due. 
+- Submit memos, problem sets, or other assigned work on the day they are due. 
 - You will need to bring a laptop to class and use it for note-taking and in-class work. 
-- Because it is hard even for me to compete with the entirety of human knowledge, friendship, entertainment, and retailing options available online, I may occasionally ask you to close the laptop. 
+- Because it is hard even for me to compete with the interconnected entirety of human knowledge, friendship, entertainment, and retailing options available online, I may occasionally ask you to close the laptop. 
 - If I find you're engaging in non-class-related laptop use that is distracting to me or other students, I will warn you about it once. After that I'll penalize your grade.
 
 
