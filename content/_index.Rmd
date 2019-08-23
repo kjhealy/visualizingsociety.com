@@ -1,14 +1,15 @@
 ---
-title: "Visualizing Society"
+title: 
 author: "Kieran Healy"
 ---
 
 [^courseinfo]: {-}
   `r blogdown::shortcode("courseinfo")`
 
-This is the course website for SOC 179FS (Fall 2019), a [FOCUS cluster](https://focus.duke.edu/focus-program) first-year seminar taught at [Duke University](http://duke.edu). The course teaches you the how and why of visualizing social science data using modern tools. It also explores various efforts to systematically represent social structure and social relations in a visually coherent manner. Learn more by reading [the syllabus](syllabus/) and the [schedule](schedule/).
-
 <figure>
 [![](/images/vax-excerpt.png)](/images/vax-excerpt.png)
 </figure>
+
+This is the course website for SOC 179FS (Fall 2019), a [FOCUS cluster](https://focus.duke.edu/focus-program) first-year seminar taught at [Duke University](http://duke.edu). The course teaches you the how and why of visualizing social science data using modern tools. It also explores various efforts to systematically represent social structure and social relations in a visually coherent manner. Learn more by reading [the syllabus](syllabus/) and the [schedule](schedule/).
+
 

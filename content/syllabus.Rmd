@@ -49,12 +49,12 @@ You should also consider buying this one:
 We will also read material from the following books, amongst other sources:
 
 - [@battle-baptiste18:_w]
-- [@field18:_cartog]
 - [@berger72:_ways_seein]
 - [@berinato16:_good_chart]
 - [@bertin10:_semiol_graph]
 - [@cairo16:_truth_art]
 - [@cleveland1994]
+- [@field18:_cartog]
 - [@few09:_now_you_see_it]
 - [@lima14:_book_trees]
 - [@lupton10:_think_type]
