@@ -90,7 +90,7 @@ R Studio should then download and install these packages for you. It may take a 
 With these packages available, you can then install one last package that's useful specifically for this course.
 
 ```{r, echo=TRUE, eval=FALSE}
-devtools::install.packages("socviz")
+install.packages("socviz")
 ```
 
 # Schedule
