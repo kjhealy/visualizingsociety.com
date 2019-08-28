@@ -80,7 +80,7 @@ You will need to install some software first. Here is what to do:
 my_packages <- c("tidyverse", "broom", "coefplot", "cowplot",
                  "gapminder", "GGally", "ggraph", "ggrepel", "ggridges", "gridExtra",
                  "here", "maps", "mapproj", "mapdata", "MASS", "quantreg",
-                 "rlang", "scales", "survey", "srvyr", "devtools")
+                 "rlang", "scales", "survey", "srvyr", "usethis", "devtools")
 
 install.packages(my_packages, repos = "http://cran.rstudio.com")
 ```
