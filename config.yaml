@@ -27,11 +27,7 @@ menu:
     - name: Reference
       url: /reference/
       weight: 4
-# Disable taxonomies
-taxonomies:
-  tag: ""
-  group: ""
-  category: ""
+disableKinds: ["taxonomy", "taxonomyTerm"]      
 params:
   author: Kieran Healy
   thumbnail: /images/dataviz_meta.png
