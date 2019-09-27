@@ -1,0 +1,85 @@
+---
+title: "Problem set 2: MacArthur Award Data"
+date: "2019-09-27"
+due_date: "2019-09-27"
+due_time: "6:00 PM"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## In this Problem Set, you will use R, RStudio, and ggplot to look at a freshly-collected data and not yet cleaned dataset about MacArthur Award winners.
+
+
+##  **Create** a new RStudio project and place it on your computer somewhere. 
+
+## Open that new folder in Windows File Explorer or macOS Finder (however you navigate around the files on your computer), and create a folder there named `figures` 
+
+## **Create** a new R Markdown file and save it in your project. 
+
+## In RStudio go to File > New File > R Markdown…, choose the default options, and delete all the placeholder text in the new file except for the metadata at the top, which is between `---` and `---`. 
+
+
+## **Verify** that your project folder is structured like this:
+
+    ```
+    your-project-name/
+      your-analysis.Rmd
+      your-project-name.Rproj
+      data/
+        <EMPTY>
+      figures/
+        <EMPTY>
+    ```
+
+## **Load** the libraries required for the analysis
+
+```{r setup}
+
+library(tidyverse)
+library(socviz)
+
+```
+
+## **Download** the MacArthur Data
+
+The data are at the following URL: 
+
+`https://visualizingsociety.com/data/macarthur.csv`
+
+Use the `read_csv()` function to get this data into an object called `macarthur`. You can do this more than one way. Either grab the data directly from the url, or save it to your project's `data/` folder first and then load it.
+
+## If you download the data directly, **save** the data file to your computer, in the `data/` folder
+
+Use `write_csv()` to do this.
+
+## **Examine** the MacArthur Data
+
+```{r gapminder, eval = FALSE}
+macarthur
+```
+
+The variables in the data are as follows:
+
+* `name`: The name of the awardee
+* `url`: Their Wikipedia page, if they have one
+* `year`: The year of their award
+* `body_out`: Their birth year as scraped from their Wikipedia page
+* `bday_out`: Their birth year as extracted from their Wikipedia bio card
+* `born`: Our best first guess as to the awardee's birth year. (It is the value of `bday_out` if there is one, otherwise the value of `body_out`, if there is one.)
+* `born_rc`: Our best guess of as to the awardee's birth year, with some manual changes applied
+* `age`: Our calculation of the awardee's age at the time of their award. This is `year` minus `born_rc`.
+
+
+## Questions to answer
+
+1. How much missing data is there in this file, and what is missing? (Hint: missing data is designated by `NA`. The `is.na()` function returns `TRUE` if an observation is missing and `FALSE` if it is not.)
+2. Let's say we are interested in whether the age profile of MacArthur award recipients has changed over time. Draw some plots to help you investigate this question. 
+3. Can we use `geom_boxplot()` to look at the age distribution of awardees within each year? (Hint: you may have to transform the _year_ variable into a categorical variable, or factor, rather than an integer.)
+4. Does the missing data show any structure that you can see, or is it missing at random?
+5. Can you find any errors in the data? What sort of strategies might we employ for finding errors?
+6. Can you make a plot that picks out or highlights our very own Professor Tung in this data?
+
+# Finish
+
+Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps02` and upload it to the Sakai dropbox.
