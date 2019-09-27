@@ -1,7 +1,7 @@
 ---
 title: "Problem set 2: MacArthur Award Data"
 date: "2019-09-27"
-due_date: "2019-09-27"
+due_date: "2019-10-04"
 due_time: "6:00 PM"
 editor_options: 
   chunk_output_type: console
@@ -75,7 +75,7 @@ The variables in the data are as follows:
 
 1. How much missing data is there in this file, and what is missing? (Hint: missing data is designated by `NA`. The `is.na()` function returns `TRUE` if an observation is missing and `FALSE` if it is not.)
 2. Let's say we are interested in whether the age profile of MacArthur award recipients has changed over time. Draw some plots to help you investigate this question. 
-3. Can we use `geom_boxplot()` to look at the age distribution of awardees within each year? (Hint: you may have to transform the _year_ variable into a categorical variable, or factor, rather than an integer.)
+3. Can we use `geom_boxplot()` to look at the age distribution of awardees within each year? (Hint: try using the `socviz` library's `int_to_year()` function to change the _year_ variable from an integer to a date. Alternatively, try using ``factor()` to make `year` a categorical variable.)
 4. Does the missing data show any structure that you can see, or is it missing at random?
 5. Can you find any errors in the data? What sort of strategies might we employ for finding errors?
 6. Can you make a plot that picks out or highlights our very own Professor Tung in this data?
