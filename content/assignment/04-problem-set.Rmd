@@ -1,0 +1,62 @@
+---
+title: "Problem set 4: California Vaccination Exemptions"
+date: "2019-10-27"
+due_date: "2019-11-01"
+due_time: "6:00 PM"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## In this Problem Set, we'll be looking at some data on California vaccination exemptions
+
+Until recently, in the state of California it was possible to obtain a "Personal Belief Exemption" to avoid the requirement of vaccinating your child before they began school. The dataset you'll examine in this dataset represents records of exemption rates amongst kindergarten classes in California schools in 2015. 
+
+The data is available as an R package. To install it, do the following.
+
+If you haven't already, install and load `drat`:
+
+1. Install the `drat` package with `install.packages(drat)`
+2. Load it with `library(drat)`
+3. Add the repository where the data is: `drat::addRepo("kjhealy")`
+
+You can now install `cavax` with
+
+4. `install.packages("cavax")`
+
+## Create a project for the assignment, as before
+
+## Open the project in RStudio and make an Rmd file for the analysis called something like `vax.Rmd`
+
+## Load the required libraries
+
+```{r setup}
+
+library(tidyverse)
+library(socviz)
+library(ggbeeswarm)
+library(cavax)
+
+```
+
+## Take a look at the data
+
+```{r}
+
+cavax
+
+```
+
+You can get a brief summary of each variable in the dataset by searching for it by name in the Help file.
+
+## Questions to answer
+
+1. What is the unit of observation in this dataset?
+2. What is the average size of kindergarten class enrollment in the state of California? What's the median class size? What's the range of variability?
+3. What percentage of kids have a PBE exemption, on average? 
+4. Explore the structure of variation in PBE exemptions. How does it vary by public and private schools, for instance? Or by county? Or school type? Draw graphs to illustrate the variation you find, and write a sentence or two describing what it looks like to you. Possibly useful geoms you might experiment with include `geom_point()`, `geom_boxplot()`, `geom_density()`, `geom_beeswarm()` and `geom_quasirandom()`. The latter two are from the `ggbeeswarm` package. Read the help for these geoms to see what it is they do.
+5. Can you find any particularly unusual-looking schools, school types, or counties, either with respect to their PBE rates, their size, or both? Why do you think they might be unusual?
+
+# Finish
+
+Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps02` and upload it to the Sakai dropbox.

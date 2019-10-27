@@ -185,8 +185,7 @@ Now let's write a PCA helper function that's specific to the data we're working 
 
 ```{r pca0}
 do_pca <- function(df){
-  prcomp(df,
-         center = TRUE, scale = TRUE)
+  prcomp(df)
 }
 ```
 
