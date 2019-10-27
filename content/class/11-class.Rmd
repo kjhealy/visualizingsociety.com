@@ -76,7 +76,7 @@ We've reorganized our data into continent-year rows, each of which contains a co
 ```{r g5}
 out_le %>% 
    filter(continent == "Europe" & year == 1977) %>% 
-   unnest()
+   unnest(cols = c(data))
 ```
 
 List columns are useful because we can act on them in a compact and
@@ -185,7 +185,8 @@ Now let's write a PCA helper function that's specific to the data we're working 
 
 ```{r pca0}
 do_pca <- function(df){
-  prcomp(df)
+  prcomp(df,
+         center = TRUE, scale = TRUE)
 }
 ```
 

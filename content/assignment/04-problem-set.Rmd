@@ -47,7 +47,7 @@ cavax
 
 ```
 
-You can get a brief summary of each variable in the dataset by searching for it by name in the Help file.
+You can get a brief summary of each variable in the dataset by looking at the Help file in RStudio for the `cavax` package, or by looking at the documentation on the package homepage: <http://kjhealy.github.io/cavax>.
 
 ## Questions to answer
 
