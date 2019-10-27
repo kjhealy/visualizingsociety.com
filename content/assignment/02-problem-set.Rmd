@@ -10,6 +10,7 @@ editor_options:
 
 ## In this Problem Set, you will use R, RStudio, and ggplot to look at a freshly-collected data and not yet cleaned dataset about MacArthur Award winners.
 
+NB: this page was updated around 6pm on Sunday, September 28th 2019 with a better dataset than we had originally. 
 
 ##  **Create** a new RStudio project and place it on your computer somewhere. 
 
@@ -62,14 +63,9 @@ macarthur
 The variables in the data are as follows:
 
 * `name`: The name of the awardee
-* `url`: Their Wikipedia page, if they have one
 * `year`: The year of their award
-* `body_out`: Their birth year as scraped from their Wikipedia page
-* `bday_out`: Their birth year as extracted from their Wikipedia bio card
-* `born`: Our best first guess as to the awardee's birth year. (It is the value of `bday_out` if there is one, otherwise the value of `body_out`, if there is one.)
-* `born_rc`: Our best guess of as to the awardee's birth year, with some manual changes applied
-* `age`: Our calculation of the awardee's age at the time of their award. This is `year` minus `born_rc`.
-
+* `age`: Their age at the time of their award
+* `sex`: Our best guess of as to the awardee's gender, automatically inferred from their fellowship page
 
 ## Questions to answer
 

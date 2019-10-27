@@ -1,0 +1,122 @@
+---
+title: "Problem set 3: Dog Names and People Names"
+date: "2019-10-11"
+due_date: "2019-10-18"
+due_time: "6:00 PM"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## In this Problem Set, we'll be looking at the Names of New York Dogs and American Humans
+
+## If you haven't done so already, download the skeleton project that contains the NYC dogs data
+
+You can clone it in GitHub if you're familiar with that process: <https://github.com/kjhealy/nyc_tmp>
+
+Alternatively, download a zip file of the project: <https://github.com/kjhealy/nyc_tmp/archive/master.zip>
+
+When you download this file, *make sure you unzip it* rather than just looking inside it with your file manager. 
+
+## Open the project in R Studio by double-clicking the `nyc_tmp.Rproj` file. **Verify** (in R Studio's file viewer pane) that your project folder is structured like this:
+
+    ```
+    nyc_tmp/
+      data/
+        nyc_bites.rda
+        nyc_license.rda
+        nyc_zips.rda
+      .gitignore
+      .here
+      dogs.Rmd
+      nyc_tmp.Rproj
+        
+    ```
+
+## Open the `dogs.Rmd` file and do the analysis in that.
+
+## Load the required libraries
+
+```{r setup}
+
+library(tidyverse)
+library(stringr)
+library(socviz)
+library(babynames)
+library(sf)
+
+```
+
+## Load the dogs data
+
+If you copy this code chunk into your working file, remove `eval = FALSE` from them, otherwise it won't run. 
+
+```{r eval = FALSE}
+
+load("data/nyc_license.rda")
+load("data/nyc_zips.rda")
+load("data/nyc_bites.rda")
+
+```
+
+
+
+## Take a look at the babynames data
+
+```r{}
+
+babynames
+
+```
+
+## Remember how we've been working with the NYC dogs data
+
+Reproduce the code below in your own analysis. 
+
+```{r eval = FALSE}
+
+boro_names <- c("Manhattan", "Queens", 
+                "Brooklyn", "Bronx", 
+                "Staten Island")
+no_name <- c("Unknown", "Name Not Provided")
+
+top_names <- nyc_license %>% 
+  filter(borough %in% boro_names, 
+         animal_name %nin% no_name) %>% 
+  group_by(borough, animal_name) %>%
+  tally() %>%
+  mutate(freq = n / sum(n), 
+         pct = freq * 100) %>% 
+  top_n(5) %>%
+  arrange(desc(pct)) 
+  
+p <- ggplot(data = top_names,
+            mapping = aes(x = reorder(animal_name, pct), 
+                          y = pct))
+
+p + geom_point(size = 3) + 
+  coord_flip() + 
+  facet_wrap(~ reorder(borough, -pct), 
+             scales = "free_y", ncol = 1) + 
+  labs(x = NULL, 
+       y = "Percent", 
+       title = "Most Popular Dog Names") + 
+  theme_minimal()
+```
+
+
+## Questions to answer
+
+1. Briefly explain in your own words what the sequence of operations from `nyc_license %>%` to `arrange(desc(pct))` are doing to the data in the code chunk listed above.
+2. Produce a table and accompanying figure that shows the five most popular names for male and female dogs, instead of for each borough. 
+3. Produce a table and accompanying figure that shows the five most popular names for male and female dogs, *within* each borough. 
+4. Produce a map showing where dogs named Max are most commonly found in New York City.
+6. Now look at the `babynames` dataset. What were the five most popular names for girls in 1900? What where they in 2000?
+7. Make a figure tracing the popularity of any two of the following names: Shirley, Linda, Bittany, Emma, Ella, Mark, Oliver, Brayden, Michael. (Remember to filter the data by sex before trying to draw any plots.)
+8. Place the two names on the same plot.
+9. Can you think of a way to get a sense of the relative heterogeneity of boy vs girl names over time?
+
+
+# Finish
+
+Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps02` and upload it to the Sakai dropbox.
