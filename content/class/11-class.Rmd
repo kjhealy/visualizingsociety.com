@@ -353,13 +353,11 @@ out <- midwest %>%
 
 ggplot(data = out, aes(x = .fittedPC1,
                y = .fittedPC2,
-               color = state,
                label = county)) +
     geom_text(size = 1.1) +
     labs(x = "First Principal Component", 
          y = "Second Principal Component") +
-    theme_minimal() + facet_wrap(~ state, ncol = 2) +
-    theme(legend.position = "top") 
+    theme_minimal() + facet_wrap(~ state, ncol = 2) 
 
 
 ```
@@ -373,13 +371,11 @@ We can also look at the second and third components. Ideally the interpretation 
 ```{r, fig.height = 12, fig.width = 10, fig.fullwidth = TRUE}
 ggplot(data = out, aes(x = .fittedPC2,
                y = .fittedPC3,
-               color = state,
                label = county)) +
     geom_text(size = 1.1) +
     labs(x = "Second Principal Component", 
          y = "Third Principal Component") +
-    theme_minimal() + facet_wrap(~ state, ncol = 2) +
-    theme(legend.position = "top")
+    theme_minimal() + facet_wrap(~ state, ncol = 2) 
 
 ```
 
