@@ -1,0 +1,453 @@
+---
+title: "Notes for October 23rd/26th: Mapping Functions"
+date: "2019-10-27"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Mapping functions to subsets of your data
+
+In class we talked about the general strategy of table-based data analysis. You start with your data in some sort of tabular layout---perhaps spread across several tables, or perhaps just one very large table---and as you explore it you *group* or *split* the data into sub-units of some sort (in effect: smaller tables) and then analyze those sub-units in some way. The analysis can range from the very straightforward (e.g., "How many of these things are there?", which is what `tally()` is for) to the more complex (e.g., "I want to fit some sort of statistical model here"). In the process of doing the analysis, whatever it is, we will be performing various sorts of operations on our tables. Some of them involve adding columns to the table. This is what `mutate()` is for. And some of them involve producing some sort of *summary* of the table, which is what `summarize()` is for. 
+
+If you think about it, `mutate()` and `summarize()` are not really things you do to the data. Rather, inside them we specify the function that does the thing we want, such as using `mutate()` to create a new column that adds the values of two existing columns together, for example. Or using `summarize()` to specify that we want the `mean()` or `median()` of some grouped data.
+
+# Quick Review
+
+First let's set up some libraries and load some data. 
+
+```{r libs}
+library(tidyverse)
+library(broom)
+library(socviz)
+library(congress)
+library(gapminder)
+```
+
+The Gapminder data is very familiar at this point:
+
+```{r gapminder}
+gapminder
+```
+
+We know that we can perform *mutating* actions on the whole dataset at once---that is, actions that add one or more columns to the table but don't change the number of rows:
+
+```{r g1}
+gapminder %>% 
+   mutate(pop_m = pop/1e6) # population in millons
+```
+
+And also *summarizing* actions on the whole dataset at once---that is, actions that calculate some statistic (however simple or complex) that results in a summary table that's smaller than the original:
+
+```{r g2}
+gapminder %>% 
+   summarize(pop_mean = mean(pop)) 
+```
+
+We have also been doing a lot of grouping-and-summarizing:
+
+```{r g3}
+gapminder %>% 
+   group_by(continent) %>%
+   summarize(le_mean = mean(lifeExp)) 
+```
+
+# Nesting your data
+
+Sometimes, instead of just grouping our data, we want a kind of "super-grouping". The motivation is that we want to perform some series of actions on subgroup of our data, but those actions don't necessarily result in output that can immediately be slotted into a single table. This happens, for example, when we want to do some statistical analysis and we get the results by subgroup, but those results contain all kinds of bits and pieces that aren't single variables that. In these cases we take advantage of the our ability to *nest* data and store results in *list columns*. The simplest sort of list column is just a miniature table of data for the row we're working with. Here's gapminder again:
+
+```{r g4}
+out_le <- gapminder %>%
+    group_by(continent, year) %>%
+    nest()
+
+out_le
+
+```
+
+We've reorganized our data into continent-year rows, each of which contains a column identifying the continent, a column identifying the year, and then a special list column with the other three variables stored as a little mini-tibble. By default it is called `data`. Think of what `nest()` does as a more intensive version what `group_by()` does. We can look at what's inside any given row's `data` list column by filtering and unnesting it:
+
+```{r g5}
+out_le %>% 
+   filter(continent == "Europe" & year == 1977) %>% 
+   unnest()
+```
+
+List columns are useful because we can act on them in a compact and
+tidy way. In particular, we can pass functions along to each row of
+the list column and make something happen. For simple operations, just using `group_by()` often works fine. But if we want to do something a little more complicated, nesting the columns we want and then *mapping* a function to each piece will be more effective.
+
+For example, we might want to try to predict life expectancy using GDP per capita. Let's say we wanted to see how a very simple model of this sort performed when applied to each continent-year subset. We can write a little custom, one-off function that says "fit the model we want to some data". Like this:
+
+```{r g7}
+fit_ols <- function(df) {
+    lm(lifeExp ~ log(gdpPercap), data = df)
+}
+```
+
+Now we have an object called `fit_ols()`. It's a function, and what it does is try to find the best-fitting linear relationship between `lifeExp` and the log of `gdpPercap` for *some* set of data, which we're referring to by the placeholder `df`. Rhe function requires us to specify `df` whenever we call it, because otherwise it won't know what to do.
+
+We can fit it on the whole Gapminder dataset if we like:
+
+```{r g10}
+out <- fit_ols(df = gapminder)
+
+summary(out)
+```
+
+But what we really want to do is to *apply* or *map* this function to every one of our continent-year subsets. That is, to the `data` piece of every row of the `out_le` object:
+
+```{r g11}
+out_le
+````
+
+And we can do that with the *map()* function. Let's start over:
+
+```{r g12}
+out_le <- gapminder %>%
+  group_by(continent, year) %>%
+  nest() %>%
+  mutate(model = map(data, fit_ols))
+
+out_le
+
+```
+
+Notice that the job of `mutate()` is the same as always. We're using it to add a column to our main table. In this case, we call it `model`. But instead of being the direct result of a bit of arithmetic whatever, we use `map()` to *apply* the `fit_ols` function to every row of the `data` list-column. Every one of those rows is a little mini-tibble, remember. And the `fit_ols()` function expects one argument, a table of data with columns named `lifeExp` and `gdpPercap`. The `map()` function feeds `data` to `fit_ols` for each row of the grouped Gapminder data. The function does its job and returns a linear model object, and which gets added to the `model` row of the nested Gapminder dataset. So now we have a list column named `data` and a list-column named `model`. The value of the list column format should be clearer here, because unlike a simpler function or operation, the thing that `fit_ols` returns is not a simple table that can be added directly to our main data table. 
+
+When the results our functions are inside of list-columns like this, they're not much use to us. But the idea isn't to just store them there. Instead, we can do further work on them and have them produce results that *can* fit into a nice tidy table. For example, we can use broom's `tidy()` function to get some summaries from the models we just fit. Again, we use map:
+
+```{r g13}
+
+out_tidy <- gapminder %>%
+    group_by(continent, year) %>%
+    nest() %>% 
+    mutate(model = map(data, fit_ols),
+           tidied = map(model, tidy)) %>%
+    unnest(cols = c(tidied)) 
+
+out_tidy
+```
+
+Look at that. Now our table has new columns containing information from the model (`estimate`, `std.error`, etc), and also new rows. Double the number of rows, in fact, because within each continent-year observation, we have these estimates and standard errors and so on for each term in the model. In this case, two terms: an estimate of the intercept, and an estimate of the coefficient (i.e. the slope) of the `log(gdpPercap)` variable. Let's forget about the intercept:
+
+
+```{r g15}
+
+out_tidy <- gapminder %>%
+    group_by(continent, year) %>%
+    nest() %>% 
+    mutate(model = map(data, fit_ols),
+           tidied = map(model, tidy)) %>%
+    unnest(cols = c(tidied)) %>%
+    filter(term %nin% "(Intercept)")
+
+out_tidy
+```
+
+We now have tidy regression output with an estimate of the association
+between log GDP per capita and life expectancy for each year, within
+continents. We can plot these estimates in a way that takes advantage
+of their groupiness, perform further calculations on them, and so on.
+
+# Principal Components Example
+
+A few of you are doing some PCA with Professor Mukherjee. Principal Component Analysis is a technique that's quite closely related to linear regression. It's often used in situations where we have too many variables or "features" in our data to easily understand, and we suspect they might tend to group together into a much smaller number of underlying factors or tendencies or components. In a PCA approach, we apply a series of transformations to the data in order to find the "best" set of underlying components. In particular we want the dimensions we choose to be orthogonal to one another---that is, uncorrelated. PCA is an inductive approach to data analysis. Just because of the way it works, we're arithmetically guaranteed to find a set of components that "explain" all the variance we observe. The substantive question is whether the components uncovered by the PCA have a plausible interpretation. 
+
+## PCA on the Midwest data
+
+The Gapminder data isn't really well-suited to this approach, just because we have relatively few variables. (There are only three numeric variables.) Instead, lets use the `midwest` data that we've seen once or twice before. Remember what it looks like:
+
+```{r mw1}
+midwest
+```
+
+There are a bunch of US counties from Midwestern states, and we have a whole bunch of numeric measures from the Census. Let's group them by state and then select just the numeric measures:. 
+
+```{r mw2}
+mw_pca <- midwest %>%
+    group_by(state) %>%
+    select_if(is.numeric) %>%
+    select(-PID)
+    
+mw_pca
+```
+
+Note the use of `select_if()` there. We also drop `PID` because although it's numeric, it's a case identifier, not a measured variable.
+
+Now let's write a PCA helper function that's specific to the data we're working with. As with `fit_ols()` it takes some data, `df` and then does the thing we want to that data---in this case, fit a PCA using the `prcomp` function. 
+
+```{r pca0}
+do_pca <- function(df){
+  prcomp(df,
+         center = TRUE, scale = TRUE)
+}
+```
+
+The `center` and `scale` arguments are for `prcomp`. PCA results are sensitive to how variables are measured, so it is conventional to center them (by subtracting the mean of each one) and scale them (by dividing by the standard deviations). This makes the resulting numerical values more directly comparable
+
+As before we could do a PCA on the whole dataset:
+
+```{r pca3}
+out_pca <- mw_pca %>%
+    ungroup() %>%
+    select(-state) %>%
+    do_pca()
+```
+
+If you print the results of a PCA analysis to the console, you will see a square table of numbers. The *rows* of this table will have the same names as the *columns* from our original data, i.e., the variables. The *columns* are the orthogonal principal components, named `PC1` to `PC24` in this case. (Each column is an eigenvector.)  There will be as many components as variables. Ideally, the first few components will "explain" most of the variation in the data, and the way that the original variables are associated with each component will have some sort of substantively plausible interpretation.
+
+Here's peek at the components for the whole dataset:
+
+```{r pca4}
+
+out_pca
+
+```
+
+You can also get a summary of the components:
+
+```{r pca5}
+summary(out_pca)
+```
+
+There's a `broom` method for PCA, so we can tidy the results. The function can tidy up in various ways. We use the `matrix` argument to get tidy information on the principal components. 
+
+```{r pca6}
+
+tidy_pca <- tidy(out_pca, matrix = "pcs")
+
+tidy_pca
+
+```
+
+You can see from the `percent` and `cumulative` columns that the first principal component accounts for 40% of the variance. The second accounts for about 20% by itself and 60% cumulatively, and so on. By the fourth component we're up to 77 percent accounted for. Note again that although it's conventional to say that the components "explain" the variance in the variables, this is something that's mathematically guaranteed by the way that the calculation happens. Whether this purely formal sense of "explanation" translates into something more substantively explanatory is a separate question.
+
+Now we can make a "scree plot", showing the relative importance of the components. Ideally we'd like the first four or so to account for almost all the variance:
+
+```{r pca7}
+tidy_pca %>%
+    ggplot(aes(x = PC, y = percent)) +
+    geom_line() +
+    labs(x = "Principal Component", y = "Variance Explained") 
+
+
+```
+
+Not bad. 
+
+## PCA on the Midwest data, grouped by State
+
+Now, Let's say instead of doing a PCA on the whole dataset at once, we wanted to do it within each state instead. This is where our split-apply-combine approach comes in. First we take our `mw_pca` data and nest it within states:
+
+```{r pca8}
+mw_pca <- mw_pca %>%
+    group_by(state) %>%
+    nest()
+
+mw_pca
+```
+
+Now we can do the PCA by group (i.e. by state) and tidy the results:
+
+```{r pca1}
+
+state_pca <- mw_pca %>% 
+    mutate(pca = map(data, do_pca))
+
+state_pca
+
+```
+
+This gives us a new list column, `pca`, each row of which is an object that contains all the results of  running `prcomp()`. We can add a second list column with the tidied summary. Again we'll write a helper function to make what we're doing a little more legible. 
+
+```{r pca12}
+do_tidy <- function(pr){
+    broom::tidy(pr, matrix = "pcs")
+}
+
+```
+
+```{r pca10}
+
+state_pca  <- mw_pca %>%
+    mutate(pca = map(data, do_pca),
+           pcs = map(pca, do_tidy)) 
+
+state_pca
+```
+
+The `pcs` list column contains the tidied summary of the PCA. We can unnest it, and draw a graph like before, only with state-level grouping:
+
+```{r, fig.fullwidth = TRUE, fig.height = 3, fig.width = 8}
+
+state_pca %>%
+    unnest(cols = c(pcs)) %>%
+    ggplot(aes(x = PC, y = percent)) +
+    geom_line(size = 1.1) +
+    facet_wrap(~ state, nrow = 1) +
+    labs(x = "Principal Component",
+         y = "Variance Explained") 
+
+```
+
+We can also use the tools that broom gives us to see where the original data points (the counties) fall in the space created by the PCA. For this we'll use broom's `augment()` function. Augment returns tidy information at the level of the original observations (in this case, the counties in the `midwest` data). Again, a helper function for clarity. 
+
+```{r }
+
+do_aug <- function(pr){
+    broom::augment(pr)
+}
+
+```
+
+Let's just recreate the whole object with the augmented data there as a third list column:
+
+```{r }
+state_pca  <- mw_pca %>%
+    mutate(pca = map(data, do_pca),
+           pcs = map(pca, do_tidy),
+           fitted = map(pca, do_aug)) 
+
+state_pca
+
+```
+
+You can see that the tibbles in the `fitted` list column all have 25 columns (the 24 numeric variables in `midwest` + their id), and a varying number of rows. The number of rows is the number of counties in that state.
+
+Now we plot the counties projected on to the first two principal components, faceted by state. We facet the graph because we ran the PCA separately for each state.
+
+```{r }
+state_pca %>%
+    unnest(cols = c(fitted)) %>%
+    ggplot(aes(x = .fittedPC1,
+               y = .fittedPC2)) +
+    geom_point() +
+    facet_wrap(~ state) + 
+    labs(x = "First Principal Component", 
+         y = "Second Principal Component") 
+
+```
+
+It looks like the counties within each state cluster very strongly on the first component (the x-axis), with a couple of outlying counties in each case. The variation is on the second component (the y-axis). Just for the sake of it, because now I'm curious about what those outlying counties are, let's redo all the steps from the start, this time also holding on to the county names so we can use them the plot. Here we go, all in one breath from the very beginning:
+
+```{r, fig.height = 12, fig.width = 10, fig.fullwidth = TRUE}
+
+out <- midwest %>%
+    group_by(state) %>%
+    select_if(is.numeric) %>%
+    select(-PID) %>%
+    nest() %>%
+    mutate(pca = map(data, do_pca),
+           pcs = map(pca, do_tidy),
+           fitted = map(pca, do_aug)) %>%
+    unnest(cols = c(fitted)) %>%
+    add_column(county = midwest$county) 
+
+
+ggplot(data = out, aes(x = .fittedPC1,
+               y = .fittedPC2,
+               color = state,
+               label = county)) +
+    geom_text(size = 1.1) +
+    labs(x = "First Principal Component", 
+         y = "Second Principal Component") +
+    theme_minimal() + facet_wrap(~ state, ncol = 2) +
+    theme(legend.position = "top") 
+
+
+```
+
+We can do that last `add_column(county = midwest$county)` step because we know we've ended with a tibble where the rows are the same entities (and in the same order) as the original `midwest` dataset. 
+
+You can see that in some cases the big outliers along the x-axis (the first component) are very highly populated counties. E.g. Cook County, IL, is the city of Chicago, Marion County, IN, is Indianapolis, and so on. Meanwhile, on the y-axis (the second cmponent), looking at Illinois we can see DuPage County at one end, a well-to-do exurb of Chicago where Wheaton is located. And at the other end is Alexander County, the southernmost county in Illinois, with a relatively small population (about 8,000 people). Compare the characterizations of [Alexander County](https://en.wikipedia.org/wiki/Alexander_County,_Illinois) and [DuPage County](https://en.wikipedia.org/wiki/DuPage_County,_Illinois) to get a sense of why the PCA is putting them far apart from one another on the first component. 
+
+We can also look at the second and third components. Ideally the interpretation here is something like "Accounting for or excluding or apart from everything that the first component is picking up, how do counties vary or cluster on the next two orthogonal dimensions identified by the PCA?"
+
+```{r, fig.height = 12, fig.width = 10, fig.fullwidth = TRUE}
+ggplot(data = out, aes(x = .fittedPC2,
+               y = .fittedPC3,
+               color = state,
+               label = county)) +
+    geom_text(size = 1.1) +
+    labs(x = "Second Principal Component", 
+         y = "Third Principal Component") +
+    theme_minimal() + facet_wrap(~ state, ncol = 2) +
+    theme(legend.position = "top")
+
+```
+
+
+# Using map and mutate to recode data
+
+When we were working with the Congressional term data, we wanted to
+ask some questions about freshman classes of representatives
+since 1945. To get this right we must first restrict ourselves to
+people in the dataset with a start date on or after the first Congress
+we observe, the 79th. Then we need to get each unique individual's
+first term. CQ has no `term_id` so we have to make one. One way to do
+this is by nesting the data by unique individual (the `pid` variable)
+and then adding a column inside each nested person-level data frame
+giving a per-person sequence of terms served. This way of making a
+`term_id` results in a sequence from 1 to _n_ terms for each
+individual. Note that this isn't a proper temporal variable as it does
+not capture gaps or breaks in the sequence of terms, and so on. Given
+that we only want to look at first terms now, this is acceptable. 
+
+We create the `term_id` sequences per `pid` like this. First let's again make a helper function. 
+
+```{r congress0}
+
+make_termid <- function(data){
+    data %>%
+        mutate(term_id = 1 + congress - first(congress))
+}
+
+```
+
+```{r congress1}
+library(congress)
+
+first_terms <- congress %>%
+    filter(position == "U.S. Representative",
+           start > "1945-01-01") %>%
+    group_by(pid) %>%
+    nest() %>%
+    mutate(data = map(data, make_termid)) %>%
+    unnest(cols = c(data)) %>%
+    filter(term_id == 1) %>%
+    select(pid, term_id, everything())
+
+first_terms
+
+```
+
+# Map functions can be written several ways
+
+In the examples above, we wrote a helper function like `do_pca()` or `make_termid()` so as to make it clear what was happening when `map()` took a `do_something()` function and fed it to each element of our nested data. This isn't the only way to make use of `map()`. The "do something" part can be written more than one way. As you become more comfortable with `map()`  you will probably make use of the alternatives, because they are more compact. In effect they amount to writing the "do something" part directly inside the `map()` function. Here's an example. Before, we wrote this:
+
+```{r map2}
+out  <- mw_pca %>%
+    mutate(pca = map(data, do_pca))
+
+out
+
+```
+
+This presupposed us writing the `do_pca()` function as well. But we could also have used R's formula syntax (using `~`) to stuff the contents of `do_pca()` right in the `map()` call. This can be worthwhile when the `do_something()` you want is a function that already exists, as is the case with `prcomp`.
+
+```{r }
+state_pca <- mw_pca %>% 
+    mutate(pca = map(data, ~ prcomp(.x, center = TRUE, scale = TRUE)))
+
+state_pca
+
+```
+
+Notice the use of `.x` here. A function is "pipeable" if it obeys a few rules about its arguments and its output, notably that it accepts a data argument named `.x` as its first argument, and produces tidy output named `.x` on the other side so that it can be handed off down the pipeline. The `prcomp()` function is not pipeable in this way, as it's part of base R. It doesn't know it's in a tidy pipeline and needs to be told what the data frame it's going to be using is called --- hence, `.x`.

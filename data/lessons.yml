@@ -29,12 +29,14 @@ lessons:
 
   - title: "Populations and Distributions / Beeswarms, Pyramids, and Lexis Surfaces"
     date: "October 9th / 11th"
+    assignment: "03-problem-set"
     
   - title: "Trees, Ties, Relations / Visualizing Networks and Hierarchies"
     date: "October 16th / 18th"
 
   - title: "Midterm Workshop / Midterm Presentations"
     date: "October 23rd / 25th"
+    class: "11-class"
 
   - title: "Space and Place / Maps I"    
     date: "October 30th / November 1st"
