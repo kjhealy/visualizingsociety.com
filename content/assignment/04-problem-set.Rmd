@@ -59,4 +59,4 @@ You can get a brief summary of each variable in the dataset by looking at the He
 
 # Finish
 
-Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps02` and upload it to the Sakai dropbox.
+Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps04` and upload it to the Sakai dropbox.
