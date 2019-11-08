@@ -1,0 +1,81 @@
+---
+title: "Problem set 5: Birth and Death Rates"
+date: "2019-11-08"
+due_date: "2019-11-15"
+due_time: "6:00 PM"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## In this Problem Set, we will examine birth and death rates for various countries
+
+The data is available as an R package. To install it, do the following.
+
+If you haven't already, install and load `drat`:
+
+1. Install the `drat` package with `install.packages(drat)`
+2. Load it with `library(drat)`
+3. Add the repository where the data is: `drat::addRepo("kjhealy")`
+
+You can now install `demog` with
+
+4. `install.packages("demog")`
+
+Note that the `demog` package has been updated since last week! So `install.packages("demog")` even if you've done it before.
+
+## Create a project for the assignment
+
+## Open the project in RStudio and make an Rmd file for the analysis called something like `okboomer.Rmd`
+
+## Load the required libraries
+
+```{r setup}
+
+library(tidyverse)
+library(socviz)
+library(demog)
+
+```
+
+## Take a look at the data
+
+There are various data files included in this package. You can get a brief summary of each variable in the dataset by looking at the Help file in RStudio for the `demog` package, or by looking at the documentation on the package homepage: <http://kjhealy.github.io/demog>.
+
+Start with birth rates in the US and England/Wales:
+
+```{r}
+
+okboomer
+
+```
+
+## Questions to answer on the Birth Rates data
+
+1. What is the unit of observation in this dataset?
+2. Make a plot of birth rates for the United States.
+3. Over the years, which _month_ has the highest average number of births per capita per day?
+4. Draw a plot showing the seasonality of births in the United States for each decade in the dataset. _Hint:_ Consider using `coord_polar()` to draw a circular chart.
+
+
+## Mortality rates
+
+The mortality rate data is in a nested tibble:
+
+```{r }
+mortality
+```
+
+The `data` column of this tibble contains each country's estimated male, female, and total morality rates for each age-year combination. 
+
+## Questions to answer on the Mortality data
+
+Choose a country from the data to focus on. 
+
+1. Plot the combined (`total`) mortality rate at age 0, age 5, age 50, and age 70 across all years in your country's data. 
+2. Create a Lexis Surface plot or heatmap for that country's male mortality rate. _Hint:_ Use `geom_raster()` or `geom_tile()` to graph the mortality rate mapped to the `fill` aesthetic.
+3. Calculate the _ratio_ of male to female mortality rates for the country you've chosen, and the _percentage difference_ between male and female mortality rates. Make a plot of the results. What sort of color scale should you use for measures like these, and why? Briefly discuss any patterns you can discern in the data you graph.  
+
+# Finish
+
+Knit the completed R Markdown file as a Word or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps05` and upload it to the Sakai dropbox.
