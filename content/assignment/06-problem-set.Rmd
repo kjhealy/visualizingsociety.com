@@ -1,0 +1,108 @@
+---
+title: "Problem set 6: FARS data"
+date: "2019-12-04"
+due_date: "2019-12-15"
+due_time: "6:00 PM"
+editor_options: 
+  chunk_output_type: console
+---
+
+
+## In this final Problem Set, we'll take a look at some data from the Fatal Accident Reporting System, a data source on vehicle accidents in the United States
+
+The data is available as an R package. To install it, do the following.
+
+If you haven't already, install `drat`:
+
+1. Install the `drat` package with `install.packages(drat)`
+
+Then load it:
+
+1. `library(drat)`
+2. Add the repository where the data is: `drat::addRepo("kjhealy")`
+
+You can now install `farsdata` with
+
+4. `install.packages("farsdata")`
+
+## Create a project for the assignment
+
+## Open the project in RStudio and make an Rmd file for the analysis called something like `farsdata.Rmd`
+
+## Load the required libraries
+
+```{r setup}
+
+library(tidyverse)
+library(socviz)
+library(farsdata)
+
+```
+
+## Take a look at the data
+
+There are three datasets in the package. You can get a brief summary of each by looking at the Help file in RStudio for the `farsdata` package, or by looking at the documentation on the package homepage: <http://kjhealy.github.io/farsdata>.
+
+```{r }
+persons
+```
+
+```{r }
+agetimes
+```
+
+```{r}
+
+vehicles
+
+```
+
+How are the `vehicles` data organized? We have seven kinds of crash condition, measured by the variable `involving`. These are _distracted_, _drowsy_, _older_, _pedestrian_, _rollover_, _speeding_, and _younger_. For each of those crash conditions, we have a count of the number of fatal crashes that involved (`yes`) or did not involve (`no`) the condition. These counts are broken out by `vehicle_type` (Passenger Car, Pickup Truck, Motorcycle, etc). Finally we have these counts for each `year` from 2004 to 2018. 
+
+## Understanding the Data
+
+Take a look at this code: 
+
+```{r}
+
+crashes %>%
+   filter(vehicle_type == "Bus", year == 2004) %>% 
+   mutate(total = yes + no)
+
+```
+
+And then this code:
+
+```{r}
+
+crashes %>% 
+   filter(involving == "distracted", year == 2004) %>% 
+   mutate(total = yes + no)
+
+```
+
+1. What's the difference between these two totals? Why does the first always sum to the same number, but the second sums to different numbers? What does this tell you about the data you are working with, and the relationship between the `vehicle_type` and `involving` variables?
+
+## Exploring the Vehicle Data (`vehicles`)
+
+1. In `vehicles`, choose one crash condition. Graph the count of crashes for this condition over time for each vehicle type.
+2. Examine the differences between graphing counts of crashes and graphing proportions of crashes. When might it be useful to use one rather than the other?
+3. Are there crash conditions that are more common in specific vehicle types? Are there any interesting trends in crash conditions by vehicle types over time?
+
+## Exploring the Persons Data (`persons`)
+
+1. Are there any race/ethnicity-specific trends in these data?
+2. Are men or women more likely to be killed in accidents? Is there any change over time in the difference between men and women's fatality rates?
+
+## Exploring the Age/Time Data (`agetimes`)
+
+_Hint:_ There are two "hours" variables in `agetimes`, `time` and `time_fct`. The former is a character variable; the latter is an ordered factor, with "Unknown Hours" coded as `NA`, or missing.
+
+1. Calculate the proportion or percentage of fatalities across hours, for each age group. 
+2. Using either `time` or `time_fct` plot the time variation across age groups in at least two different ways. What sort of visualization do you think is most effective, and why?
+3. Can the "Unknown Hours" category be safely ignored when plotting
+   the data, or not? Say why or why not.
+
+# Finish
+
+Knit the completed R Markdown file as an HTML, Word, or PDF document (use the "Knit" button at the top of the script editor window). Save it with a name of the form `lastname_firstname_ps06` and upload it to the Sakai dropbox.

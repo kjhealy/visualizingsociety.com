@@ -1,0 +1,165 @@
+---
+title: "Notes for November 13th/15th: Networks"
+date: "2019-10-27"
+citeproc: false
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+    template: ../../pandoc/toc-title_html.template
+    toc: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Network data in ggplot
+
+First let's set up some libraries. 
+
+```{r libs}
+library(tidyverse)
+library(socviz)
+
+## Install if necessary with install.packages()
+library(ggraph)
+library(tidygraph)
+library(graphlayouts)
+```
+
+Next, load the data package. If you don't have the `kjhnet` package installed, then use `drat` to tell R where to find it adn then `install.packages()`
+
+```{r data}
+
+# drat::addRepo("kjhealy")
+# install.packages("kjhnet")
+
+library(kjhnet)
+
+```
+
+```{r theme, echo = FALSE, message = FALSE, warning = FALSE}
+library(showtext)
+showtext_auto()
+
+library(myriad)
+import_myriad_semi()
+
+theme_set(theme_myriad_semi())
+set_graph_style(family = "Myriad Pro SemiCondensed")
+
+```
+
+## Paul Revere
+
+
+First the groups data:
+
+```{r persons-r}
+revere_groups
+```
+
+We'll calculate a centrality measure (that we might look at separately) and then plot the edges weighted by the number of ties between organzations.
+
+```{r groups-plot}
+revere_groups %>%
+  mutate(centrality = centrality_degree()) %>%
+  ggraph(layout = "kk") +
+  geom_edge_link(aes(width = value), color = "gray80") +
+  geom_node_label(aes(label = name))
+```
+
+Next, the persons data:
+
+```{r persons-dat}
+revere_persons
+```
+
+```{r persons-plot}
+revere_persons %>%
+  activate(nodes) %>%
+  mutate(centrality = centrality_eigen()) %>%
+  ggraph(layout = "stress") +
+  geom_edge_link0(aes(filter = value > 1, width = value), color = "gray90") +
+  geom_node_point() +
+  geom_node_label(aes(filter = centrality > 0.9, label = name), size = rel(2.5))
+```
+
+## The Iliad Data
+
+These data are from Rossman (2017), see <https://osf.io/jasf4/> for details.
+
+```{r iliad}
+il_tidy
+```
+
+Here's the overall network.
+
+```{r iliad-plot1}
+il_tidy %>%
+  activate(nodes) %>%
+  ggraph(layout = "fr") +
+  geom_edge_link(color = "gray80") +
+  geom_node_point(aes(color = affil)) +
+  scale_color_manual(values = c("blue", "red"), labels = c("Athenian", "Trojan")) +
+  guides(color = guide_legend(title = "Side", )) +
+  labs(title = "Killings in The Iliad") +
+  theme(plot.title = element_text(size = rel(3)))
+```
+
+Calculate and plot the Betweenness Centrality of the male characters. 
+
+```{r iliad-between}
+il_tidy %>%
+  activate(nodes) %>%
+  mutate(centrality = centrality_degree(),
+         betweenness = centrality_betweenness()) %>%
+  arrange(desc(betweenness)) %>%
+  top_n(10, wt = betweenness) %>%
+  ggplot(mapping = aes(x = betweenness, y = reorder(name, betweenness), color = affil)) + 
+  geom_point(size = 3) + 
+  labs(x = "Betweenness", y = NULL, color = "Side") +
+  theme_minimal() + 
+  theme(legend.position = "top")
+```
+
+And the "Google centrality" (i.e., Pagerank) of the male characters. Notice that we calculate this on the edges, not the nodes.
+
+```{r iliad-pagerank}
+il_tidy %>%
+  activate(edges) %>%
+  filter(act == "kills") %>%
+  reroute(from = to, to = from) %>%
+  activate(nodes) %>%
+  mutate(p_rank = centrality_pagerank()) %>%
+  top_n(10, wt = p_rank) %>%
+  ggplot(mapping = aes(x = p_rank,
+                       y = reorder(name, p_rank),
+                       color = affil)) +
+  geom_point(size = 3) +
+    labs(x = "PageRank Centrality", y = NULL,
+         color = "Side") +
+  theme_minimal() +
+  theme(legend.position = "top")
+```
+
+Finally a graph with labels. You may need to install the `prismatic` library here. 
+
+```{r iliad-labeled, fig.width = 10, fig.height = 10, fig.fullwidth = TRUE}
+label_colors <- c(prismatic::clr_lighten("blue", 0.7), 
+                  prismatic::clr_lighten("red", 0.7))
+il_tidy %>%
+  activate(nodes) %>%
+  mutate(centrality = centrality_degree(mode = "out")) %>%
+  ggraph(layout = 'graphopt') +
+  geom_edge_link(aes(start_cap = label_rect(node1.name),
+                     end_cap = label_rect(node2.name)),
+                 arrow = arrow(length = unit(1.5, 'mm'))) +
+  geom_node_point(aes(color = affil)) +
+  scale_color_manual(values = c("blue", "red"), labels = c("Athenian", "Trojan")) +
+  guides(color = FALSE, fill = FALSE) +
+  geom_node_label(aes(filter = centrality > 3, label = name, fill = affil), size = rel(2.5)) +
+  scale_fill_manual(values = label_colors) + 
+  labs(title = "Killings in The Iliad") +
+  theme(plot.title = element_text(size = rel(3)))
+
+```
