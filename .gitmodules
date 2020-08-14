@@ -1,3 +1,6 @@
 [submodule "themes/kjh-tufte-hugo"]
 	path = themes/kjh-tufte-hugo
 	url = git@github.com:kjhealy/kjh-tufte-hugo.git
+[submodule "themes/hugo-academic"]
+	path = themes/hugo-academic
+	url = https://github.com/gcushen/hugo-academic

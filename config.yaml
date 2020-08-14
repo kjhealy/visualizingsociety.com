@@ -1,18 +1,66 @@
 baseURL: "https://visualizingsociety.com/"
 languageCode: en-us
 title: Visualizing Society
-theme: "kjh-tufte-hugo"
-googleAnalytics: ""
-ignoreFiles:
-  - \.Rmd$
-  - \.Rmarkdown$
-  - \.yaml$
-  - _files$
-  - _cache$
-  - \.csl$
+theme: "hugo-academic"
+  
+# ------------------
+# Building options
+# ------------------
 permalinks:
   post: "/:year/:month/:day/:slug/"
-buildFuture: true
+buildFuture: True
+
+# No taxonomy
+disableKinds:
+  - taxonomy
+  - taxonomyTerm
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    codeFences: false
+  tableOfContents:
+    startLevel: 2
+    endLevel: 4
+imaging:
+  resampleFilter: lanczos
+  quality: 90
+  anchor: smart
+
+
+copyright: ''
+enableGitInfo: true
+hasCJKLanguage: false
+defaultContentLanguageInSubdir: false
+removePathAccents: true
+paginate: 10
+enableEmoji: true
+footnotereturnlinkcontents: <sup>^</sup>
+
+  
+# ----------------
+# Output options
+# ----------------
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+    - WebAppManifest
+  section:
+    - HTML
+    - RSS
+mediaTypes:
+  application/manifest+json:
+    suffixes:
+      - webmanifest
+outputFormats:
+  WebAppManifest:
+    mediaType: application/manifest+json
+    rel: manifest
+    
 menu:
   main:
     - name: Syllabus
@@ -27,42 +75,14 @@ menu:
     - name: Reference
       url: /reference/
       weight: 4
-disableKinds: ["taxonomy", "taxonomyTerm"]      
-params:
-  author: Kieran Healy
-  thumbnail: /images/dataviz_meta.png
-  instructor: 
-    name: Kieran Healy
-    email: kjhealy@soc.duke.edu
-    url: "https://www.kieranhealy.org"
-    twitter: kjhealy
-    github: kjhealy
-    office: "Soc/Psych 255"
-  course:
-    number: SOCIOL 179FS
-    semester: Fall 2019
-    days: "Wed/Fri"
-    time: "1:25pm-2:40pm"
-    location: "Sociology/Psychology 248"
-    twitter: kjhealy
-    dates: "Fall 2019"
-    github: "kjhealy/visualizingsociety.com"
-    copyrightYear: "2019"
-    contactDetails: >-
-      Office hours: By appointment.
-  university: 
-    name: Duke University
-    url: "https://www.duke.edu"
-  school:
-    name: Sociology Department
-    url: "https://sociology.duke.edu"
-  description: "Learn why and how to visualize data"
-  primaryColor: "#DA5B69"
-  secondaryColor: "#F9983E"
-  credits: >-
-  logo:
-    url: /images/dataviz_hires.png
-    alt: Visualizing Society
-  meta:
-    twitterSite: "@kjhealy"
-    twitterCreator: "@kjhealy"
+
+ignoreFiles:
+  - \.Rmd$
+  - \.Rmarkdown$
+  - \.yaml$
+  - _files$
+  - _cache$
+  - \.csl$
+
+
+    

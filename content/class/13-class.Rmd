@@ -114,7 +114,8 @@ il_tidy %>%
   mutate(centrality = centrality_degree(),
          betweenness = centrality_betweenness()) %>%
   arrange(desc(betweenness)) %>%
-  top_n(10, wt = betweenness) %>%
+    top_n(10, wt = betweenness) %>%
+    as_tibble() %>%
   ggplot(mapping = aes(x = betweenness, y = reorder(name, betweenness), color = affil)) + 
   geom_point(size = 3) + 
   labs(x = "Betweenness", y = NULL, color = "Side") +
@@ -126,12 +127,13 @@ And the "Google centrality" (i.e., Pagerank) of the male characters. Notice that
 
 ```{r iliad-pagerank}
 il_tidy %>%
-  activate(edges) %>%
+    activate(edges) %>%
   filter(act == "kills") %>%
   reroute(from = to, to = from) %>%
   activate(nodes) %>%
   mutate(p_rank = centrality_pagerank()) %>%
-  top_n(10, wt = p_rank) %>%
+   top_n(10, wt = p_rank) %>%
+   as_tibble() %>%
   ggplot(mapping = aes(x = p_rank,
                        y = reorder(name, p_rank),
                        color = affil)) +
@@ -148,8 +150,8 @@ Finally a graph with labels. You may need to install the `prismatic` library her
 label_colors <- c(prismatic::clr_lighten("blue", 0.7), 
                   prismatic::clr_lighten("red", 0.7))
 il_tidy %>%
-  activate(nodes) %>%
-  mutate(centrality = centrality_degree(mode = "out")) %>%
+    activate(nodes) %>%
+    mutate(centrality = centrality_degree(mode = "out")) %>%
   ggraph(layout = 'graphopt') +
   geom_edge_link(aes(start_cap = label_rect(node1.name),
                      end_cap = label_rect(node2.name)),
