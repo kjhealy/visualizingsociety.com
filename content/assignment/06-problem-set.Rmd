@@ -2,7 +2,7 @@
 title: "Problem set 6: FARS data"
 date: "2019-12-04"
 due_date: "2019-12-15"
-due_time: "6:00 PM"
+due_time: "11:59 PM"
 editor_options: 
   chunk_output_type: console
 ---
