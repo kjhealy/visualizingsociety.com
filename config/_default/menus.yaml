@@ -5,9 +5,9 @@ main:
   - name: Schedule
     url: /schedule/
     weight: 2
+  - name: Class
+    url: /class/
+    weight: 3
   - name: Reference
     url: /reference/
-    weight: 3
-  - name: RStudio.cloud
-    url: https://rstudio.cloud/
     weight: 4

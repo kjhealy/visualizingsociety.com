@@ -1,0 +1,106 @@
+---
+title: Syllabus
+slug: syllabus
+citeproc: true
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl
+output:
+  blogdown::html_page:
+      toc: TRUE
+---
+
+```{r load-libraries, message=FALSE, warning=FALSE, include=FALSE}
+library(dplyr)
+library(tibble)
+library(pander)
+```
+
+[^courseinfo]: {-}
+  `r blogdown::shortcode("courseinfo")`
+
+## Course Objectives
+
+This class will do two things. First, it will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. Second, you will also learn about the theory and practice of efforts to visualize sociological data, and society more generally. We will think about different ways of looking at social science data, about where data comes from in the first place, and about the implications of choosing to represent it in different ways.
+
+By the end of the course you will
+
+- Understand the basic principles behind effective data visualization.
+- Have a practical sense for why some graphs and figures work well,
+  while others may fail to inform or actively mislead.
+- Know how to create a wide range of plots in R using ggplot2.
+- Know how to refine plots for effective presentation.
+- Have an understanding of some issues surrounding the collection and
+  representation of data in the social sciences and beyond.
+
+## Core Texts
+
+I strongly recommend (but do not require) you buy three books: 
+
+- [@healy:2019] A draft version is freely-available online. The print version can be purchased at [Amazon](https://amzn.to/2vfAixM) and other bookshops.
+- [@wickhamgrolemund:2017] A draft version is freely-available online. The print version can be purchased at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/) and other bookshops.
+- [@wilke:2019] A draft version is freely-available online. The print version can be purchased at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089) and other bookshops.
+
+
+## Other Material 
+
+We may also read other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
+
+- [@battle-baptiste18:_w]
+- [@berinato16:_good_chart]
+- [@cairo:2019]
+- [@cleveland1994]
+- [@few09:_now_you_see_it]
+- [@lupton10:_think_type]
+- [@munzer14:_visual_analy_desig]
+- [@tufte83:_visual_displ_quant_infor]
+- [@ware08:_visual_think_desig]
+- [@yau11:_visual_this]
+
+
+## Software
+
+We will do all of our visualization work in this class using [R](https://cran.r-project.org/) and use  [RStudio](https://www.rstudio.com/) to manage our code and projects. [R](https://cran.r-project.org/) is a freely-available programming language that is designed for statistical computing and widely used across the natural and social sciences, as well as in the rapidly-growing world of "data science" generally. [RStudio](https://www.rstudio.com/) is an integrated development environment, or IDE, for R, a kind of control center from which you can manage the engine-room of R itself. It is also freely available. 
+
+If you haven't used these tools before, don't worry. The course does not presuppose any familiarity with them. We will get up and running with them during the first week. 
+
+## Schedule Overview
+
+`r blogdown::shortcode("topiclist")`
+
+As the weeks go by, consult the [Schedule Page](/schedule/) for more information on weekly topics, problem sets, readings, and other materials. The schedule is likely to change as we go. Links to readings, assignments, and other materials from class will be posted on that page. 
+ 
+## COVID-19 Considerations
+
+This semester is going to be weird. 
+
+Nominally we are set to meet in person, in Soc/Psych 126. We will see how that goes. I will be in touch with you via Email and the course Slack and keep you informed about what is happening. Details on the current state of the University's response and policies can be found at [Duke United](https://returnto.duke.edu) and in their [FAQ for Undergraduates](https://keeplearning.duke.edu/undergraduate-students/).
+
+There is more to the situation than simply logistics, however. The transition to university courses can be challenging enough in ordinary times for first year students. The pandemic has made things harder for everyone. Teaching properly and learning well requires effort from me and from you. We will try to remember how fortunate we are to have this opportunity to work and learn together, even though things are more difficult than usual. You can expect me to be sensible and reasonable in the work I require for the course, and to be flexible and responsive as circumstances change over the duration of the semester. I ask that you do your best to proceed in good faith, to care for yourself and your classmates, and to work with me to make the best things as you begin what will be a very unusual first year of college.
+
+## Course policies
+
+- Attendance is required. I am a reasonable person; if you need to be absent please _let me know in advance_ insofar as that is possible.
+- Do the assigned readings in advance of class. 
+- Submit memos, problem sets, or other assigned work when it is due. 
+
+## Course Slack
+
+During the first week we will set up a [Slack group](https://slack.com) for the course. This will be the most convenient way to share information with everyone, to share things like additional readings and code, and to contact me. 
+
+## Required Work and Grading
+
+There are three kinds of [assignments](assignments/) for the course: memos, problem sets, and a final project. 
+
+- **Reflection Memos** are 250 to 500 words long and response to the assigned reading. Problem sets are due on _Tuesdays_ by the end of the day.  
+- **Problem Sets** let you practice your visualization skills. Problem sets are due on _Fridays_ the week _after_ they are given out.
+- A **Final Project** will allow you to develop a more substantial visualization or series of visualizations. I will suggest several possible datasets, or you can propose your own. The project is due on Friday, November 20th. 
+
+Reflection memos and problem sets may not be assigned every week.
+
+There is no final exam for the class.
+
+This semester, this course is graded on a Satisfactory/Unsatisfactory (S/U) scale. For more information about S/U courses and the special policies that apply for the Fall 2020 semester, please [carefully read this overview](https://trinity.duke.edu/undergraduate/academic-policies/unsatisfactory-satisfactory-grading-option) from the College of Arts & Sciences. You will obtain a Satisfactory grade in the course by (a) Attending and participating in class sessions, (b) Completing required weekly problem sets and exercises, and (c) Submitting the final project for the class.
+
+## Duke Community Standard
+
+Like all classes at the university, this course is conducted under the Duke Community Standard. Duke University is a community dedicated to scholarship, leadership, and service and to the principles of honesty, fairness, respect, and accountability. Citizens of this community commit to reflect upon and uphold these principles in all academic and nonacademic endeavors, and to protect and promote a culture of integrity. To uphold the Duke Community Standard you will not lie, cheat, or steal in academic endeavors; you will conduct yourself honorably in all your endeavors; and you will act if the Standard is compromised.

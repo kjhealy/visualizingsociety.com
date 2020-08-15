@@ -14,6 +14,7 @@ buildFuture: True
 disableKinds:
   - taxonomy
   - taxonomyTerm
+  
 markup:
   defaultMarkdownHandler: goldmark
   goldmark:
@@ -61,21 +62,6 @@ outputFormats:
     mediaType: application/manifest+json
     rel: manifest
     
-menu:
-  main:
-    - name: Syllabus
-      url: /syllabus/
-      weight: 1
-    - name: Assignments
-      url: /assignments/
-      weight: 3
-    - name: Schedule
-      url: /schedule/
-      weight: 2
-    - name: Reference
-      url: /reference/
-      weight: 4
-
 ignoreFiles:
   - \.Rmd$
   - \.Rmarkdown$
