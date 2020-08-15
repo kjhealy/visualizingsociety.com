@@ -43,15 +43,20 @@ I strongly recommend (but do not require) you buy three books:
 
 ## Other Material 
 
-We may also read other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
+We will be reading other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
 
 - [@battle-baptiste18:_w]
+- [@berger72:_ways_seein]
 - [@berinato16:_good_chart]
 - [@cairo:2019]
 - [@cleveland1994]
 - [@few09:_now_you_see_it]
+- [@field18:_cartog]
+- [@friendly17:_discr_data_analy_r]
+- [@lima14:_book_trees]
 - [@lupton10:_think_type]
 - [@munzer14:_visual_analy_desig]
+- [@rendgen19:_histor_infor_graph]
 - [@tufte83:_visual_displ_quant_infor]
 - [@ware08:_visual_think_desig]
 - [@yau11:_visual_this]
