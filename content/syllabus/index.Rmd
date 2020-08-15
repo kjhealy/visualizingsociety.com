@@ -38,11 +38,10 @@ By the end of the course you will
 
 ## Core Texts
 
-I strongly recommend (but do not require) you buy three books: 
+I recommend (but do not require) you buy two books: 
 
 - [@healy:2019] A draft version is freely-available online. The print version can be purchased at [Amazon](https://amzn.to/2vfAixM) and other bookshops.
 - [@wickhamgrolemund:2017] A draft version is freely-available online. The print version can be purchased at [Amazon](https://www.amazon.com/R-Data-Science-Hadley-Wickham/dp/1491910399/) and other bookshops.
-- [@wilke:2019] A draft version is freely-available online. The print version can be purchased at  [Amazon](https://www.amazon.com/Fundamentals-Data-Visualization-Informative-Compelling/dp/1492031089) and other bookshops.
 
 
 ## Other Material 
@@ -54,6 +53,7 @@ We will be reading other material as we go. I will make it available to you befo
 - [@cairo:2019]
 - [@rendgen19:_histor_infor_graph]
 - [@ware08:_visual_think_desig]
+- [@wilke:2019] 
 
 ### Groups and Categories
 - [@battle-baptiste18:_w]
@@ -88,7 +88,7 @@ We will be reading other material as we go. I will make it available to you befo
 - [@few09:_now_you_see_it]
 - [@munzer14:_visual_analy_desig]
 - [@tufte83:_visual_displ_quant_infor]
-
+- [@wilke:2019] 
 
 
 ## Software
