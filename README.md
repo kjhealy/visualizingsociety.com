@@ -2,7 +2,7 @@
 
 ## Kieran Healy
 
-![Socviz badge](static/img/social-image.png)
+![Socviz badge](static/img/social-image.png) 
 
 This repository is a Hugo/Blogdown site that makes [visualizingsociety.com](https://visualizingsociety.com/), the website for a Freshman FOCUS Cluster seminar [I](https://kieranhealy.org) am teaching at Duke University in the Fall of 2020.
 
