@@ -18,6 +18,10 @@ library(pander)
 [^courseinfo]: {-}
   `r blogdown::shortcode("courseinfo")`
 
+## About this Course
+
+This course is a seminar for Freshers. It is part of the [Duke Focus Program](https://focus.duke.edu), specifically the "[What If? Explaining the Past/Predicting the Future](https://focus.duke.edu/clusters-courses/what-if-explaining-pastpredicting-future)" cluster, and is taught alongside Professor [Lillian Pierce's](https://services.math.duke.edu/~pierce/) seminar "Cryptography and Society", and Professor [Lynn Smith-Lovin's](https://scholar.google.com/citations?user=aI_za38AAAAJ&hl=en) seminar "Mathematical Models of Self, Identity and Emotion". 
+
 ## Course Objectives
 
 This class will do two things. First, it will teach you how to use modern, widely-used tools to create insightful, beautiful, reproducible visualizations of social science data. Second, you will also learn about the theory and practice of efforts to visualize sociological data, and society more generally. We will think about different ways of looking at social science data, about where data comes from in the first place, and about the implications of choosing to represent it in different ways.
@@ -43,23 +47,48 @@ I strongly recommend (but do not require) you buy three books:
 
 ## Other Material 
 
-We will be reading other material as we go. I will make it available to you beforehand. It will include material from the following books, amongst other sources:
+We will be reading other material as we go. I will make it available to you beforehand. It will include material from the following sources, but this is not an exhaustive list:
 
-- [@battle-baptiste18:_w]
+### Ways of Seeing
 - [@berger72:_ways_seein]
-- [@berinato16:_good_chart]
 - [@cairo:2019]
-- [@cleveland1994]
-- [@few09:_now_you_see_it]
-- [@field18:_cartog]
-- [@friendly17:_discr_data_analy_r]
-- [@lima14:_book_trees]
-- [@lupton10:_think_type]
-- [@munzer14:_visual_analy_desig]
 - [@rendgen19:_histor_infor_graph]
-- [@tufte83:_visual_displ_quant_infor]
 - [@ware08:_visual_think_desig]
-- [@yau11:_visual_this]
+
+### Groups and Categories
+- [@battle-baptiste18:_w]
+- [@friendly17:_discr_data_analy_r]
+
+### Trends and Flows
+
+- [@cleveland1994]
+- [@hyndman20:_forec]
+- [@tukey77:_explor_data_analy]
+
+### Populations and Distributions
+
+- [@schöley17:_visual_compos_data_lexis_surfac]
+- [@walker70:_statis_united_states]
+
+### The View from Nowhere 
+
+- Paul Starr, "The Sociology of Official Statistics", in [@alonso80:_polit_number] 
+- [@pettit12:_invis_men]
+
+### Networks and Ties
+- [@lima14:_book_trees] 
+- [@ognyanova19:_networ_visual_r]
+
+### Maps
+- [@field18:_cartog]
+- [@lynch60:_image_city]
+
+### Design
+- [@berinato16:_good_chart]
+- [@few09:_now_you_see_it]
+- [@munzer14:_visual_analy_desig]
+- [@tufte83:_visual_displ_quant_infor]
+
 
 
 ## Software
