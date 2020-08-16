@@ -1,0 +1,12 @@
+---
+title: Class Materials
+menu:
+  content:
+    parent: Overview
+    weight: 1
+type: docs
+weight: 1
+---
+
+Required readings, slides, and other material 
+

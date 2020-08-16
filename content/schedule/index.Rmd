@@ -3,6 +3,12 @@ title: "Schedule"
 slug: schedule
 ---
 
+Every weekly session has three sections. 
+
+- <i class="fas fa-book-reader"></i> [**Class**](/class/): This page contains the reading, slides, and other material from that week's class.
+- <i class="fas fa-chalkboard-teacher"></i> [**Show**](/show/): This page contains worked examples relevant to what we cover each week.
+- <i class="fas fa-laptop-code"></i> [**Work**](/work/): This page contains any problem sets or memo topics for the week.
+
 ---
 
 

@@ -9,15 +9,14 @@
 
             {{- if .header }}
 
-            <td style="width:10%;text-align:center" class="mid-table-header">Read</td>
             <td style="width:10%;text-align:center" class="mid-table-header">Class</td>
+            <td style="width:10%;text-align:center" class="mid-table-header">Show</td>
             <td style="width:10%;text-align:center" class="mid-table-header">Work</td>
 
             {{- else }}
-
-            {{- if .read }}
-            <td align="center" style="width:10%;text-align:center"><a
-                    href="{{ .Site.baseurl }}/reading/{{ .reading }}/">
+            
+            {{- if .class }}
+            <td align="center" style="width:10%;text-align:center"><a href="{{ .Site.baseurl }}/class/{{ .class }}/">
                     <i class="fas fa-book-reader fa-lg"></i></a></td>
             {{- else }}
             <td align="center" style="width:10%;text-align:center">
@@ -25,9 +24,11 @@
                     <i class="fas fa-book-reader fa-lg"></i></font>
             </td>
             {{- end }}
-            
-            {{- if .class }}
-            <td align="center" style="width:10%;text-align:center"><a href="{{ .Site.baseurl }}/class/{{ .class }}/">
+
+
+            {{- if .show }}
+            <td align="center" style="width:10%;text-align:center"><a
+                    href="{{ .Site.baseurl }}/show/{{ .show }}/">
                     <i class="fas fa-chalkboard-teacher fa-lg"></i></a></td>
             {{- else }}
             <td align="center" style="width:10%;text-align:center">
@@ -35,11 +36,12 @@
                     <i class="fas fa-chalkboard-teacher fa-lg"></i></font>
             </td>
             {{- end }}
+            
 
 
             {{- if .work }}
             <td align="center" style="width:10%;text-align:center"><a
-                    href="{{ .Site.baseurl }}/assignment/{{ .assignment }}/">
+                    href="{{ .Site.baseurl }}/work/{{ .work }}/">
                     <i class="fas fa-laptop-code"></i></a></td>
             {{- else }}
             <td align="center" style="width:10%;text-align:center">

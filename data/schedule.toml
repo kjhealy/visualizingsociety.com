@@ -10,42 +10,42 @@ date = "Aug. 19 / 21"
 [[lessons]]
 title = "Ways of Seeing / Starting with R"
 date = "Aug. 26 / 28"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Ways of Not Seeing / Working with Data"
 date = "Sep. 2 / 4"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "What is Data? / Making Graphs"
 date = "Sep. 9 / 11"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Groups and Categories / Tables and Labels"
 date = "Sep. 16 / 18"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Trends and Flows / Time and Chance"
 date = "Sep. 23 / 25"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Populations and Distributions / Swarms, Pyramids, Surfaces"
 date = "Sep. 30 / Oct. 2"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "The View from Nowhere / High-Dimensional Data"
 date = "Oct. 7 / 9"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Kinship and Ties / Visualizing Networks"
 date = "Oct. 14 / 16"
-assignment = ""
+work = ""
 
 [[lessons]]
 title = "Midterm Workshop / Midterm Presentations"
@@ -55,16 +55,16 @@ class = ""
 [[lessons]]
 title = "Space, Place, and People I / Maps I"
 date = "Oct. 28 / 30"
-assignment = "04-problem-set"
+work = ""
 
 [[lessons]]
 title = "Space, Place, and People II / Maps II"
 date = "Nov. 4 / 6"
-assignment = ""
+work = ""
 class = ""
 
 [[lessons]]
 title = "Design Thinking / Refining Plots"
 date = "Nov. 11 / 13"
 class = ""
-assignment = ""
+work = ""
