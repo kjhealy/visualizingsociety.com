@@ -114,6 +114,7 @@ course:
   location: "Soc-Psych 126"
   dates: "Aug 19th - Nov 17th"
   github: "kjhealy/visualizingsociety.com"
+  slack: "https://soc179fs.slack.com"
   copyrightYear: "2020"
 
 university: 
@@ -128,8 +129,8 @@ school:
 ## Social
 ############################
 
-# Default image for social sharing and search engines. Place image in `static/img/` folder and specify image name here.
-sharing_image: "dataviz_hirez.png"
+# Default image for social sharing and search engines. Place image in `static/media/` folder and specify image name here.
+sharing_image: "soc179fs_icon.png"
 
 # Twitter username (without @). Used when a visitor shares your site on Twitter.
 twitter: "kjhealy"

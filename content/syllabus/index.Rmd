@@ -119,7 +119,7 @@ There is more to the situation than simply logistics, however. The transition to
 
 ## Course Slack
 
-During the first week we will set up a [Slack group](https://slack.com) for the course. This will be the most convenient way to share information with everyone, to share things like additional readings and code, and to contact me. 
+During the first week you will receive an invitation to the [Slack workgroup](https://soc179fs.slack.com) for the course. This will be the most convenient way to share information with everyone, to distribute links to readings and code, and to contact me. 
 
 ## Required Work and Grading
 

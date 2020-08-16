@@ -17,3 +17,6 @@ main:
   - name: Reference
     url: /reference/
     weight: 5
+  - name: '<i class="fab fa-slack"></i>'
+    url: "https://soc179fs.slack.com"
+    weight: 6

@@ -1,0 +1,11 @@
+---
+title: Assignments
+menu:
+  content:
+    parent: Overview
+    weight: 1
+type: docs
+weight: 1
+---
+
+Weekly Assignments and Memos

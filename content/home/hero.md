@@ -8,7 +8,7 @@ weight: 10
 title: "Visualizing Society"
 
 # Hero image (optional). Enter filename of an image in the `static/media/` folder.
-hero_media: dataviz_hires.png
+hero_media: soc179fs_icon.png
 
 design:
   background:
