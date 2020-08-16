@@ -15,6 +15,9 @@ design:
     # Background gradient
     gradient_start: '#CB8480'
     gradient_end: '#CB8480'
+    image: plotter-cropped.gif
+    image_size: "cover"
+    image_darken: 0.4
 
     # Text color (true=light or false=dark).
     text_color_light: true

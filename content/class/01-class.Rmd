@@ -12,4 +12,5 @@ editor_options:
   chunk_output_type: console
 ---
 
-# 
+
+`r blogdown::shortcode("slide-buttons")`
