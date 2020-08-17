@@ -1,5 +1,5 @@
 baseURL: "https://visualizingsociety.com/"
-languageCode: en-us
+defaultContentLanguage: en-us
 title: Visualizing Society
 theme: "hugo-academic"
   
@@ -69,6 +69,7 @@ ignoreFiles:
   - _files$
   - _cache$
   - \.csl$
-
+  - \.Rproj.user$
+  - \.Rhistory$
 
     

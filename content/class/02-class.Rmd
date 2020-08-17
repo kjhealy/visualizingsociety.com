@@ -16,6 +16,7 @@ output:
     toc: true
 editor_options: 
   chunk_output_type: console
+draft: true  
 ---
 
 ## Getting set up with R and RStudio

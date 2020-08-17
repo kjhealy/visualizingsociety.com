@@ -1,5 +1,6 @@
 ---
 title: Assignments and Memos
+date: "2020-08-17"
 menu:
   work:
     parent: Overview
@@ -9,3 +10,5 @@ weight: 1
 ---
 
 Weekly Assignments and Memos
+
+Most weeks you will do an assignment that either reflects on the readings or lets you practice your R skills, or both. To submit an assignment, Save it with a name of the form `lastname_firstname_ps01` and upload it to the Sakai dropbox for the course. 
