@@ -6,6 +6,7 @@ header = true
 [[lessons]]
 title = "Orientation and Setup"
 date = "Aug. 19 / 21"
+class = "01-class"
 
 [[lessons]]
 title = "Ways of Seeing / Starting with R"

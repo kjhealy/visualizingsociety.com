@@ -1,7 +1,7 @@
 ---
-title: Examples
+title: Examples and Demos
 menu:
-  content:
+  show:
     parent: Overview
     weight: 1
 type: docs

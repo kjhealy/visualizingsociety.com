@@ -1,9 +1,21 @@
 ---
-title: "Truth, Beauty, and Data"
-date: "2018-09-04"
-citeproc: false
-bibliography: ../../static/bib/references.bib
-csl: ../../static/bib/chicago-fullnote-bibliography-no-bib.csl
+title: "Example 1"
+linktitle: "1: Example 1"
+date: "2020-08-17"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+slides: "01-slides"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+
 ---
 
 # Required

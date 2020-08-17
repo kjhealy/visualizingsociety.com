@@ -1,19 +1,19 @@
 ---
-title: "Getting Started"
-linktitle: "1: Getting Started"
-date: "2020-08-17"
-read_date: "2020-08-17"
+title: "Ways of Seeing"
+linktitle: "2: Ways of Seeing"
+date: "2020-08-15"
 menu:
   class:
     parent: Content
     weight: 1
 type: docs
-bibliography: "../../static/bib/references.bib"
-csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
-slides: "01-slides"
+weight: 1
+bibliography: ../../static/bib/references.bib
+csl: ../../static/bib/chicago-syllabus-no-bib.csl 
 output:
   blogdown::html_page:
-    toc: false
+    template: ../../pandoc/toc-title_html.template
+    toc: true
 editor_options: 
   chunk_output_type: console
 ---
@@ -61,3 +61,5 @@ install.packages(data_packages)
 
 If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. (This is not required for the course, it will just be helpful to have one.) To get set up, read and _carefully follow_ the instructions in Parts I and II of [Happy Git With R](https://happygitwithr.com), and then also the instructions in [Appendix B](https://happygitwithr.com/github-pat.html) of the same document.
 
+
+`r blogdown::shortcode("slide-buttons")`

@@ -19,7 +19,7 @@ build:
 	Rscript -e "blogdown::build_site()"
 
 serve: build
-	Rscript -e "blogdown::serve_site()"
+	hugo serve
 
 deploy:	build
 	rsync --exclude='.DS_Store' -Prvzce 'ssh -p 22' $(PUBLIC_DIR) $(SSH_USER):$(DOCUMENT_ROOT) --delete-after

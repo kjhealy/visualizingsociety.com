@@ -20,3 +20,22 @@ main:
   - name: '<i class="fab fa-slack"></i>'
     url: "https://soc179fs.slack.com"
     weight: 6
+    
+
+class:
+  - name: Overview
+    weight: 1
+  - name: Content
+    weight: 2
+show:
+  - name: Overview
+    weight: 1
+  - name: Examples
+    weight: 2
+work:
+  - name: Overview
+    weight: 1
+  - name: Work
+    weight: 2
+
+

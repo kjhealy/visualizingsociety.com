@@ -1,12 +1,13 @@
 ---
-title: Class Materials
+title: Readings, lectures, videos
 menu:
-  content:
+  class:
     parent: Overview
     weight: 1
 type: docs
 weight: 1
 ---
+
 
 Required readings, slides, and other material 
 

@@ -1,8 +1,18 @@
 ---
 title: "Problem set 1: Plotting Gapminder Data"
+linktitle: "1. Plotting the Gapminder data"
 date: "2019-09-13"
 due_date: "2019-09-20"
 due_time: "6:00 PM"
+output:
+  blogdown::html_page:
+    toc: true
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
 editor_options: 
   chunk_output_type: console
 ---
