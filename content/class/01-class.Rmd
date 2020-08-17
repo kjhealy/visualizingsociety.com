@@ -24,15 +24,23 @@ We will be doing a lot of work in this class using two related pieces of softwar
 
 These notes describe how to download and install R and RStudio on your laptop, as well as how to install some additional stuff inside of R that we'll be using also.
 
+### Downloading R and RStudio
+
+Before you begin, watch [this short screencast](https://www.youtube.com/embed/ZHcl5RXv2lc) on where and how to download R and RStudio:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ZHcl5RXv2lc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
 ### Installing R and RStudio on your Laptop
 
-- Begin by installing R (<http://cloud.r-project.org>). Choose the version appropriate for your computer: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.2.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.2-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
+- First install R (<http://cloud.r-project.org>). Choose the version appropriate for your computer: [macOS](https://cloud.r-project.org/bin/macosx/R-4.0.2.pkg), [Windows](https://cloud.r-project.org/bin/windows/base/R-4.0.2-win.exe), or [Linux](https://cloud.r-project.org/bin/linux/).
 
 - Next, install RStudio (<http://rstudio.com>). Follow the links to download the [free RStudio Desktop edition](https://rstudio.com/products/rstudio/download/#download) recommended for your computer.
 
 ### Installing the required additional Packages
 
-Once the R and RStudio are installed, launch RStudio. Then, either carefully type in or (better) copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first < and then the short dash or minus symbol, -.
+Once R and RStudio are installed, launch RStudio. Then, either carefully type in or (better) copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first < and then the short dash or minus symbol, -.
 
 ```R
 ## Code to run at the RStudio console begins here
@@ -57,7 +65,9 @@ install.packages(data_packages)
 
 ```
 
+This code will take a little while to run. Let me know in the Slack (in #general) if you have any problems.
+
 ### Optional: get set up on GitHub
 
-If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. (This is not required for the course, it will just be helpful to have one.) To get set up, read and _carefully follow_ the instructions in Parts I and II of [Happy Git With R](https://happygitwithr.com), and then also the instructions in [Appendix B](https://happygitwithr.com/github-pat.html) of the same document.
+If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. This is not required for the course, it will just be helpful to have one. The process is a little tedious, but to get set up, read and _carefully follow_ the instructions in Parts I and II of [Happy Git With R](https://happygitwithr.com), and then also the instructions in [Appendix B](https://happygitwithr.com/github-pat.html) of the same document.
 
