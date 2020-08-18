@@ -40,6 +40,10 @@ Before you begin, watch [this short screencast](https://youtu.be/9UITYisElZ8) on
 
 ### Installing the required additional Packages
 
+You can watch [this short screencast](https://www.youtube.com/embed/s9JYECUf2rA) demonstrating the next step, which is to install some extra stuff that will be useful for the class.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/s9JYECUf2rA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Once R and RStudio are installed, launch RStudio. Then, either carefully type in or (better) copy-and-paste the following lines of code at R’s command prompt, located in the RStudio window named “Console”, and then hit return. In the code below, the `<-` arrow is made up of two keystrokes, first < and then the short dash or minus symbol, -.
 
 ```R
