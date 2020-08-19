@@ -1,3 +1,9 @@
 {{ if .Page.Params.slides}}
-<p><a class="btn btn-primary btn-lg" target="_blank" href="/slides/{{ .Page.Params.slides }}.html"><i class="fas fa-external-link-alt"></i> View all slides in new window</a> <a class="btn btn-primary btn-lg" target="_blank" href="/slides/{{ .Page.Params.slides }}.pdf" role="button"><i class="far fa-file-pdf"></i> Download PDF of all slides</a></p>
+<h2>Slides</h2>
+{{ if .Page.Params.thumb}}
+<figure>
+    <a href="/slides/{{ .Page.Params.pdf }}.pdf"><img src="/slides/{{ .Page.Params.thumb }}.png" alt="First slide" /></a>
+</figure>
+{{ end }}
+<p><a class="btn btn-primary btn-lg" target="_blank" href="/slides/{{ .Page.Params.slides }}.pdf" role="button"><i class="far fa-file-pdf"></i> Download a PDF of today's slides</a></p>
 {{ end }}

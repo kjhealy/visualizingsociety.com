@@ -3,6 +3,9 @@ title: "Getting Started"
 linktitle: "1: Getting Started"
 date: "2020-08-17"
 read_date: "2020-08-21"
+slides: "slides/01_visualizing_society_f20.pdf"
+pdf: "01_visualizing_society_f20"
+thumb: "01_visualizing_society_f20_thumb"
 menu:
   class:
     parent: Content
@@ -10,7 +13,6 @@ menu:
 type: docs
 bibliography: "../../static/bib/references.bib"
 csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
-slides: "01-slides"
 output:
   blogdown::html_page:
     toc: false
@@ -75,3 +77,4 @@ This code will take a little while to run. Let me know in the Slack (in #general
 
 If you do not have one already, it will be useful to create a GitHub account and obtain a GitHub Personal Access Token. This is not required for the course, it will just be helpful to have one. The process is a little tedious, but to get set up, read and _carefully follow_ the instructions in Parts I and II of [Happy Git With R](https://happygitwithr.com), and then also the instructions in [Appendix B](https://happygitwithr.com/github-pat.html) of the same document.
 
+{{% slide-buttons %}}
