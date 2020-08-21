@@ -8,5 +8,5 @@ type: docs
 weight: 1
 ---
 
-Worked examples and code
+Worked examples and code. Follow the links to the left to see examples for each lecture, if there are any.
 

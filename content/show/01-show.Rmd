@@ -17,3 +17,5 @@ editor_options:
   chunk_output_type: console
 ---
 
+# Nothing to show this week
+

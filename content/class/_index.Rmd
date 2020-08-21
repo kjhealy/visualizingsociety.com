@@ -9,5 +9,5 @@ weight: 1
 ---
 
 
-Required readings, slides, and other material 
+Required readings, slides, and other material. Follow the links to the left to see class content for each lecture. 
 
