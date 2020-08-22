@@ -30,7 +30,7 @@ Reading for Wednesday:
 - @berger72:_ways_seein Chapters 1 and 7.
 - @tufte83:_visual_displ_quant_infor Chapter 1.
 
-These readings can be found on the Sakai page for the course. Follow the Resources link (marked with an open folder icon,  <i class="fas fa-folder-open"></i>) and go to Readings > Week 02.
+These readings can be found on the [Sakai page for the course](https://sakai.duke.edu/portal/site/32befc81-2136-48ae-9e4e-4c9b56e5794a). Follow the Resources link (marked with an open folder icon,  <i class="fas fa-folder-open"></i>) and go to Readings > Week 02.
 
 In addition to reading Berger, I recommend watching the first of the episodes of the TV program that went with the book:
 
