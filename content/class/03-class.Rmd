@@ -1,0 +1,40 @@
+---
+title: "Ways of Seeing"
+linktitle: "3: Ways of Seeing"
+date: "2020-08-22"
+read_date: "2020-08-26"
+#slides: "03_visualizing_society_f20"
+#pdf: "03_visualizing_society_f20"
+#thumb: "03_visualizing_society_f20_thumb"
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Ways of Seeing
+
+This week we will begin to learn more about the principles behind the design of good visualizations. Many of these principles will lead to rules of thumb, guidelines, and techniques that we will end up applying in the code we write. But it is also important to situate these ideas a little more generally. So we start not just with information design or data in particular, but with some questions about the nature of artistic representation in general. 
+
+Reading for Wednesday:
+
+- @berger72:_ways_seein Chapters 1 and 7.
+- @tufte83:_visual_displ_quant_infor Chapter 1.
+
+These readings can be found on the Sakai page for the course. Follow the Resources link (marked with an open folder icon,  <i class="fas fa-folder-open"></i>) and go to Readings > Week 02.
+
+In addition to reading Berger, I recommend watching the first of the episodes of the TV program that went with the book:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0pDE4VX_9Kk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+{{% slide-buttons %}}
