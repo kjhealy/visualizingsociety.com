@@ -1,0 +1,34 @@
+---
+title: "Make a Plot"
+linktitle: "1: Make a plot"
+date: "2020-08-26"
+due_date: "2020-08-28"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set 1
+
+### Task: Knit an Rmd File
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps01.Rmd`
+2. Inside the file, create a code chunk that loads the `tidyverse` and `gapminder` packages and produces a plot looking like this:
+
+```{r plot1, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(gapminder)
+ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp)) +
+    geom_point()
+```
+
+Knit the file and put it in the Sakai dropbox for the course.

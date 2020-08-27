@@ -3,9 +3,9 @@ title: "Ways of Seeing"
 linktitle: "3: Ways of Seeing"
 date: "2020-08-22"
 read_date: "2020-08-26"
-#slides: "03_visualizing_society_f20"
-#pdf: "03_visualizing_society_f20"
-#thumb: "03_visualizing_society_f20_thumb"
+slides: "03_visualizing_society_f20"
+pdf: "03_visualizing_society_f20"
+thumb: "03_visualizing_society_f20_thumb"
 citeproc: true
 menu:
   class:

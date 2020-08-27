@@ -15,10 +15,10 @@ class = "02-class"
 show = "02-show"
 
 [[lessons]]
-title = "Ways of Seeing / Starting with R"
-date = "Aug. 26 / 28"
+title = "Ways of Seeing"
+date = "Aug. 26"
 class = "03-class"
-work = ""
+work = "03-work"
 
 [[lessons]]
 title = "Ways of Not Seeing / Working with Data"
