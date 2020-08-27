@@ -4,7 +4,7 @@ blogdown::html_page:
   md_extensions: +markdown_in_html_blocks+raw_html+smart
   section_divs: false
   pandoc_args: [
-      "--highlight-style", "tango",
+      "--highlight-style", "zenburn",
       "--shift-heading-level-by=2",
       "--filter", "pandoc-citeproc"
     ]

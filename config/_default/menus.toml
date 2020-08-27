@@ -1,0 +1,58 @@
+[[main]]
+name = "Syllabus"
+url = "/syllabus/"
+weight = 1.0
+
+[[main]]
+name = "Schedule"
+url = "/schedule/"
+weight = 2.0
+
+[[main]]
+name = "Class"
+url = "/class/"
+weight = 3.0
+
+[[main]]
+name = "Show"
+url = "/show/"
+weight = 4.0
+
+[[main]]
+name = "Work"
+url = "/work/"
+weight = 4.0
+
+[[main]]
+name = "Reference"
+url = "/reference/"
+weight = 5.0
+
+[[main]]
+name = "<i class=\"fab fa-slack\"></i>"
+url = "https://soc179fs.slack.com"
+weight = 6.0
+
+[[class]]
+name = "Overview"
+weight = 1.0
+
+[[class]]
+name = "Content"
+weight = 2.0
+
+[[show]]
+name = "Overview"
+weight = 1.0
+
+[[show]]
+name = "Examples"
+weight = 2.0
+
+[[work]]
+name = "Overview"
+weight = 1.0
+
+[[work]]
+name = "Work"
+weight = 2.0

@@ -1,0 +1,75 @@
+baseURL = "https://visualizingsociety.com/"
+defaultContentLanguage = "en-us"
+title = "Visualizing Society"
+theme = "hugo-academic"
+buildFuture = true
+disableKinds = [
+  "taxonomy",
+  "taxonomyTerm"
+]
+copyright = ""
+enableGitInfo = true
+hasCJKLanguage = false
+defaultContentLanguageInSubdir = false
+removePathAccents = true
+paginate = 10.0
+enableEmoji = true
+footnotereturnlinkcontents = "<sup>^</sup>"
+ignoreFiles = [
+  "\\.Rmd$",
+  "\\.Rmarkdown$",
+  "\\.yaml$",
+  "_files$",
+  "_cache$",
+  "\\.csl$",
+  "\\.Rproj.user$",
+  "\\.Rhistory$"
+]
+
+[permalinks]
+post = "/:year/:month/:day/:slug/"
+
+[markup]
+defaultMarkdownHandler = "goldmark"
+
+  [markup.goldmark]
+
+    [markup.goldmark.renderer]
+    unsafe = true
+
+  [markup.highlight]
+  codeFences = false
+
+  [markup.tableOfContents]
+  startLevel = 2.0
+  endLevel = 4.0
+
+[imaging]
+resampleFilter = "lanczos"
+quality = 90.0
+anchor = "smart"
+
+[outputs]
+home = [
+  "HTML",
+  "RSS",
+  "JSON",
+  "WebAppManifest"
+]
+section = [
+  "HTML",
+  "RSS"
+]
+
+[mediaTypes]
+
+  [mediaTypes."application/manifest+json"]
+  suffixes = [
+    "webmanifest"
+  ]
+
+[outputFormats]
+
+  [outputFormats.WebAppManifest]
+  mediaType = "application/manifest+json"
+  rel = "manifest"
