@@ -1,0 +1,37 @@
+---
+title: "Vision, Data, and Design"
+linktitle: "5: Vision, Data, and Design"
+date: "2020-08-28"
+read_date: "2020-09-02"
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+# Vision, Data, and Design
+
+This week we'll learn a little about perception and its relationship to visualization. We'll also continue to develop our understanding of the relationships between data and visual elements through mappings and scales.
+
+# Reading for Wednesday
+
+- @ware08:_visual_think_desig Chapter 2.
+- @tufte83:_visual_displ_quant_infor Chapter 2.
+- @wilke:2019 Chapters 2 and 3.
+
+In addition, I recommend reviewing
+
+- @healy:2019 Chapters 1 to 3.
+
+The first three readings can be found on the [Sakai page for the course](https://sakai.duke.edu/portal/site/32befc81-2136-48ae-9e4e-4c9b56e5794a). Follow the Resources link (marked with an open folder icon,  <i class="fas fa-folder-open"></i>). 
+
+{{% slide-buttons %}}

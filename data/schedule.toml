@@ -21,9 +21,15 @@ class = "03-class"
 work = "03-work"
 
 [[lessons]]
-title = "Ways of Not Seeing / Working with Data"
+title = "Making Graphs"
+date = "Aug. 28"
+class = "04-class"
+
+[[lessons]]
+title = "Vision, Data, and Design"
 date = "Sep. 2 / 4"
-work = ""
+class = "05-class"
+work = "05-work"
 
 [[lessons]]
 title = "What is Data? / Making Graphs"

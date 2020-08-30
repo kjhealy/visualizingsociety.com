@@ -25,7 +25,7 @@ editor_options:
 
 This week we will begin to learn more about the principles behind the design of good visualizations. Many of these principles will lead to rules of thumb, guidelines, and techniques that we will end up applying in the code we write. But it is also important to situate these ideas a little more generally. So we start not just with information design or data in particular, but with some questions about the nature of artistic representation in general. 
 
-Reading for Wednesday:
+# Reading for Wednesday:
 
 - @berger72:_ways_seein Chapters 1 and 7.
 - @tufte83:_visual_displ_quant_infor Chapter 1.

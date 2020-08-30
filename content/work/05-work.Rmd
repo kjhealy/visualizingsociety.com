@@ -1,0 +1,82 @@
+---
+title: "Vision, Data, and Design"
+linktitle: "2: Vision, Data, and Design"
+date: "2020-08-30"
+due_date: "2020-09-04"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set 2
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps02.Rmd`
+2. Set up your file with a code chunk that loads the `tidyverse`, and `gapminder` packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(gapminder)
+library(socviz)
+```
+
+3. Then use R to draw these plots:
+
+```{r plot-samples-1, fig.cap = "GDP and Life Expecancy 1", echo = FALSE, message = FALSE}
+
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp)) + 
+     geom_point() + 
+     geom_smooth() + 
+     labs(x = "GDP Per Capita",
+     y = "Life Expectancy")
+
+```
+
+
+```{r plot-samples-2, fig.cap = "GDP and Life Expecancy 2", echo = FALSE, message = FALSE}
+
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp)) + 
+     geom_point() + 
+     geom_smooth() + 
+     scale_x_log10(labels = scales::dollar) + 
+     labs(x = "GDP Per Capita (log scale)",
+     y = "Life Expectancy")
+
+```
+
+```{r plot-samples-3, fig.cap = "GDP and Life Expecancy 3", echo = FALSE, message = FALSE}
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp, size = pop)) + 
+     geom_point() + 
+     geom_smooth(method = "lm") + 
+     scale_x_log10(labels = scales::dollar) + 
+     labs(x = "GDP Per Capita (log scale)",
+     y = "Life Expectancy", size = "Population")
+
+```
+
+```{r plot-samples-4, fig.cap = "GDP and Life Expectancy 4", echo = FALSE, message = FALSE}
+ggplot(data = gapminder,  
+     mapping = aes(y = gdpPercap, x = lifeExp, size = pop)) + 
+     geom_point(color = "gray20", alpha = 0.3) + 
+     geom_smooth() + 
+     scale_y_log10(labels = scales::dollar) + 
+     labs(y = "GDP Per Capita (log scale)",
+     x = "Life Expectancy", size = "Population")
+
+```
+
+4. Discuss in a few words 
+- a) What the mappings are in each plot.
+- b) How the plots do or do not illustrate what Tufte, Wilke, or Ware discuss in the readings.
+- c) The differences between Figures 2, 3, and 4, and what difference if any those differences make to your interpretation of the figure.
