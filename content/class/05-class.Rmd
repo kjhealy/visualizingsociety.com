@@ -3,6 +3,7 @@ title: "Vision, Data, and Design"
 linktitle: "5: Vision, Data, and Design"
 date: "2020-08-28"
 read_date: "2020-09-02"
+slides: "05_visualizing_society_f20"    
 pdf: "05_visualizing_society_f20"
 thumb: "05_visualizing_society_f20_thumb"    
 citeproc: true
@@ -41,5 +42,6 @@ In addition, I recommend reviewing
 - @healy:2019 Chapters 1 to 3.
 
 The first three readings can be found on the [Sakai page for the course](https://sakai.duke.edu/portal/site/32befc81-2136-48ae-9e4e-4c9b56e5794a). Follow the Resources link (marked with an open folder icon,  <i class="fas fa-folder-open"></i>). 
+
 
 {{% slide-buttons %}}
