@@ -3,6 +3,8 @@ title: "Vision, Data, and Design"
 linktitle: "5: Vision, Data, and Design"
 date: "2020-08-28"
 read_date: "2020-09-02"
+pdf: "05_visualizing_society_f20"
+thumb: "05_visualizing_society_f20_thumb"    
 citeproc: true
 menu:
   class:
@@ -21,6 +23,12 @@ editor_options:
 # Vision, Data, and Design
 
 This week we'll learn a little about perception and its relationship to visualization. We'll also continue to develop our understanding of the relationships between data and visual elements through mappings and scales.
+
+# A little primer on Color
+
+Captain Disillusion's seven minute overview of some concepts in color theory is worth your time:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/FTKP0Y9MVus" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 # Reading for Wednesday
 
