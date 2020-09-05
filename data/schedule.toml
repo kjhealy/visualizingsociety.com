@@ -27,9 +27,16 @@ class = "04-class"
 
 [[lessons]]
 title = "Vision, Data, and Design"
-date = "Sep. 2 / 4"
+date = "Sep. 2"
 class = "05-class"
 work = "05-work"
+
+[[lessons]]
+title = "ggplot's Grammar of Graphics"
+date = "Sep. 4"
+class = "06-class"
+show = "06-show"
+
 
 [[lessons]]
 title = "What is Data? / Making Graphs"

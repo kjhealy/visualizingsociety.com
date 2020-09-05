@@ -1,0 +1,121 @@
+---
+title: "ggplot's Grammar of Graphics"
+linktitle: "6: Basic mappings"
+date: "2020-09-04"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+slides: "01-slides"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(gapminder)
+library(socviz)
+```
+
+## Plots from the Problem Set
+
+```{r plot-samples-1, fig.cap = "GDP and Life Expecancy 1"}
+
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp)) + 
+     geom_point() + 
+     geom_smooth() + 
+     labs(x = "GDP Per Capita",
+     y = "Life Expectancy")
+
+```
+
+
+```{r plot-samples-2, fig.cap = "GDP and Life Expecancy 2"}
+
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp)) + 
+     geom_point() + 
+     geom_smooth() + 
+     scale_x_log10(labels = scales::dollar) + 
+     labs(x = "GDP Per Capita (log scale)",
+     y = "Life Expectancy")
+
+```
+
+```{r plot-samples-3, fig.cap = "GDP and Life Expecancy 3"}
+ggplot(data = gapminder,  
+     mapping = aes(x = gdpPercap, y = lifeExp, size = pop)) + 
+     geom_point() + 
+     geom_smooth(method = "lm") + 
+     scale_x_log10(labels = scales::dollar) + 
+     labs(x = "GDP Per Capita (log scale)",
+     y = "Life Expectancy", size = "Population")
+
+```
+
+```{r plot-samples-4, fig.cap = "GDP and Life Expectancy 4"}
+ggplot(data = gapminder,  
+     mapping = aes(y = gdpPercap, x = lifeExp, size = pop)) + 
+     geom_point(color = "gray20", alpha = 0.3) + 
+     geom_smooth() + 
+     scale_y_log10(labels = scales::dollar) + 
+     labs(y = "GDP Per Capita (log scale)",
+     x = "Life Expectancy", size = "Population")
+
+```
+
+## The Group Aesthetic
+
+Gapminder's data is grouped by country, but R knows nothing of this.
+
+```{r group_1}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = year,
+                          y = gdpPercap))
+p + geom_line()       
+```
+
+```{r group_2}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = year,
+                          y = gdpPercap))
+p + geom_line(mapping = 
+                    aes(group = country))       
+```
+
+
+### Faceting 
+
+```{r facet_1}
+p <- ggplot(data = gapminder,
+            mapping = aes(x = year,
+                          y = gdpPercap))
+
+p + geom_line(mapping =  
+              aes(group = country)) + 
+facet_wrap(~ continent)      
+```
+
+```{r facet_polished, fig.height = 5, fig.width = 12, layout = 'l-page'}
+p + geom_line(color="gray70",
+              mapping=aes(group = country)) +
+    geom_smooth(size = 1.1,
+                method = "loess",
+                se = FALSE) +
+    scale_y_log10(labels=scales::dollar) +
+    facet_wrap(~ continent, ncol = 5) +
+    labs(x = "Year",
+         y = "log GDP per capita",
+         title = "GDP per capita on Five Continents")      
+```
