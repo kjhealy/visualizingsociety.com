@@ -37,11 +37,10 @@ date = "Sep. 4"
 class = "06-class"
 show = "06-show"
 
-
 [[lessons]]
-title = "What is Data? / Making Graphs"
+title = "What is Data? / Showing the Right Numbers"
 date = "Sep. 9 / 11"
-work = ""
+class = "07-class"
 
 [[lessons]]
 title = "Groups and Categories / Tables and Labels"
