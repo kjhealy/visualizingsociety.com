@@ -1,11 +1,10 @@
 ---
 title: "What is Data?"
-linktitle: "7: What is Data?"
+linktitle: "8: Show the Right Numbers"
 date: "2020-09-09"
-read_date: "2020-09-09"
-slides: "07_visualizing_society_f20"    
-pdf: "07_visualizing_society_f20"
-thumb: "07_visualizing_society_f20_thumb"    
+slides: "08_visualizing_society_f20"    
+pdf: "08_visualizing_society_f20"
+thumb: "08_visualizing_society_f20_thumb"    
 citeproc: true
 menu:
   class:

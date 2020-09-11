@@ -38,9 +38,14 @@ class = "06-class"
 show = "06-show"
 
 [[lessons]]
-title = "What is Data? / Showing the Right Numbers"
-date = "Sep. 9 / 11"
+title = "What is Data?"
+date = "Sep. 9"
 class = "07-class"
+
+[[lessons]]
+title = "Showing the Right Numbers"
+date = "Sep. 11"
+class = "08-class"
 
 [[lessons]]
 title = "Groups and Categories / Tables and Labels"
