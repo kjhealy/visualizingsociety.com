@@ -1,7 +1,7 @@
 ---
-title: "What is Data?"
-linktitle: "8: Show the Right Numbers"
-date: "2020-09-09"
+title: "Show the Right Numbers, 1"
+linktitle: "8: Show the Right Numbers, 1"
+date: "2020-09-11"
 slides: "08_visualizing_society_f20"    
 pdf: "08_visualizing_society_f20"
 thumb: "08_visualizing_society_f20_thumb"    
@@ -20,18 +20,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-# What is Data?
+# Show the right numbers
 
-Where data comes from, what it looks like, where it goes.
+Single-variable summaries, crosstabulation, pipes.
 
-## Reading
-
-@lupi16:_dear_data Pages 1-95.
-
-Maciej Cegłowski. "[Scott and Scurvy](https://idlewords.com/2010/03/scott_and_scurvy.htm)", _Idle Words_, March 2010. 
-
-## Task 
-
-Pick _one_ of the postcards from the assigned readings and think about whether it could be described in terms of ggplot's grammar of graphics.
 
 {{% slide-buttons %}}

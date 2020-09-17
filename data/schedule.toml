@@ -43,13 +43,21 @@ date = "Sep. 9"
 class = "07-class"
 
 [[lessons]]
-title = "Showing the Right Numbers"
+title = "Showing the Right Numbers, 1"
 date = "Sep. 11"
 class = "08-class"
+show = "08-show"
+
+[[lessons]]
+title = "Showing the Right Numbers, 2"
+date = "Sep. 16"
+class = "09-class"
+show = "09-show"
+
 
 [[lessons]]
 title = "Groups and Categories / Tables and Labels"
-date = "Sep. 16 / 18"
+date = "Sep 18"
 work = ""
 
 [[lessons]]

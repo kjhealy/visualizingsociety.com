@@ -1,0 +1,162 @@
+---
+title: "Show the right numbers, 2"
+linktitle: "9: Show the right numbers, 2"
+date: "2020-09-16"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(gapminder)
+library(socviz)
+```
+
+## A dplyr pipeline
+
+```{r pipeline}
+
+rel_by_region <- gss_sm %>%
+    group_by(bigregion, religion) %>%
+    tally() %>%
+    mutate(freq = n / sum(n),
+           pct = round((freq*100), 1))
+
+```
+
+
+```{r 05-tables-and-labels-1 }
+rel_by_region
+```
+
+## n(), tally(), and count()
+
+```{r 05-aside-n}
+gss_sm %>%
+    group_by(bigregion, religion) %>%
+    summarize(n = n())
+```
+
+```{r 05-aside-tally}
+gss_sm %>%
+    group_by(bigregion, religion) %>%
+    tally()
+
+```
+
+```{r 05-aside-count}
+gss_sm %>%
+    count(bigregion, religion)
+```
+
+## Table checking
+```{r 05-tables-and-labels-2 }
+rel_by_region %>% group_by(bigregion) %>%
+    summarize(total = sum(pct))      
+```
+
+
+## Facets are better than fill mappings
+
+```{r dodge2}
+
+p <- ggplot(rel_by_region, aes(x = bigregion, y = pct, fill = religion))
+p + geom_col(position = "dodge") +
+    labs(x = "Region",y = "Percent", fill = "Religion") +
+    theme(legend.position = "top")      
+```
+
+```{r facet_dodge, fig.height = 2.5, fig.width = 8}
+p <- ggplot(rel_by_region, aes(x = pct, y = religion, fill = religion))
+p + geom_col() +
+    labs(x = "Percent", y = NULL, fill = "Religion") +
+    guides(fill = FALSE) + 
+    facet_wrap(~ bigregion, nrow = 1)      
+```
+
+## facet_wrap and facet_grid
+
+```{r grid_v_wrap}
+p <-  ggplot(data = gss_sm,
+             mapping = aes(x = age, y = childs))
+
+
+p + geom_point(alpha = 0.2) + geom_smooth() +
+    facet_wrap(sex ~ race)
+
+p + geom_point(alpha = 0.2) + geom_smooth() +
+  facet_grid(sex ~ race)
+
+
+p + geom_point(alpha = 0.2) + geom_smooth() +
+  facet_grid(bigregion ~ sex + race)
+
+```
+
+
+## The Organ Donation Data
+
+```{r organdata}
+organdata
+```
+
+```{r 05-tables-and-labels-3 }
+organdata %>% select(1:6) %>% sample_n(size = 10)      
+```
+
+```{r 05-tables-and-labels-4 }
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_point()      
+```
+
+```{r 05-tables-and-labels-5 }
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line(mapping = aes(group = country))      
+```
+
+
+- Control the height and width of your figures with, for example, `fig.width = 12, fig.height = 8` in the options to the code chunk that draws the plot.
+
+```{r grouped_and_faceted, fig.width = 12, fig.height = 8}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line() + 
+  facet_wrap(~ country)      
+```
+
+## Using reorder() to arrange facets by average donation rate
+
+```{r grouped_and_faceted-1, fig.width = 12, fig.height = 8}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line() + 
+  facet_wrap(~ reorder(country, donors, na.rm = TRUE))      
+```
+
+- A trick for reversing the ordering: reorder on the negative of the `donors` variable:
+
+```{r grouped_and_faceted-2, fig.width = 12, fig.height = 8}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line() + 
+  facet_wrap(~ reorder(country, -donors, na.rm = TRUE))      
+```
+
+
+
