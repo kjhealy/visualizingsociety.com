@@ -1,0 +1,143 @@
+---
+title: "Extending your Vocabulary"
+linktitle: "10: Extending your Vocabulary"
+date: "2020-09-18"
+due_date: "2020-09-25"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set: Extending your Vocabulary
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps03.Rmd`
+2. Set up your file with a code chunk that loads the `tidyverse`, `socviz` packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(gapminder)
+library(socviz)
+```
+
+3. Then use R to draw these plots:
+
+
+### 1
+
+```{r plot-samples-1, fig.cap = "Organdata boxplot", echo = FALSE, message = FALSE, warning = FALSE}
+
+ggplot(data = organdata,
+            mapping = aes(y = reorder(country, donors, na.rm=TRUE),
+                          x = donors, fill = world)) + 
+    geom_boxplot() +
+    labs(y=NULL, x = "Donation rate", fill = "Welfare State") + 
+    theme(legend.position = "top")
+
+
+```
+
+### 2
+
+```{r plot-samples-1a, fig.cap = "Organdata filtered", echo = FALSE, message = FALSE, warning = FALSE}
+
+organdata %>%
+   filter(world %in% "Corporatist") %>%
+   ggplot(mapping = aes(y = reorder(country, donors, na.rm=TRUE),
+                          x = donors, color = consent_law)) + 
+    geom_boxplot() +
+    labs(y=NULL, 
+    x = "Donation Rate",
+    color = "Consent Law") + 
+    theme(legend.position = "top")
+
+```
+
+### 3 
+
+```{r jitplot, fig.cap = "Organdata jittered", echo = FALSE, message = FALSE, warning = FALSE}
+
+ggplot(data = organdata,
+            mapping = aes(y = reorder(country, donors, na.rm=TRUE),
+                          x = donors, color = world)) + 
+    geom_jitter(position = position_jitter(height = 0.15)) +
+    labs(y=NULL, x = "Donation rate", color = "Welfare State") + 
+    theme(legend.position = "top")
+
+
+```
+
+### 4
+
+```{r plot-samples-2, fig.cap = "Summarize and Plot 1", echo = FALSE, message = FALSE}
+
+organdata %>% 
+  group_by(consent_law, country) %>%
+    summarize(across(where(is.numeric), 
+              list(mean = mean, sd = sd),
+              na.rm = TRUE,
+              .names = "{col}_{fn}"), 
+              .groups = "drop") %>%
+  ggplot(mapping = aes(x = donors_mean, 
+                          y = reorder(country, donors_mean),
+                          color = consent_law)) + 
+  geom_point(size=3) +
+    labs(x = "Donor Procurement Rate",
+         y = "", color = "Consent Law") +
+    theme(legend.position="top")              
+
+```
+
+### 5
+
+```{r text, fig.cap = "Summarize and Plot, 2", echo = FALSE, message = FALSE}
+
+organdata %>% 
+  group_by(consent_law, country) %>%
+    summarize(across(where(is.numeric), 
+              list(mean = mean, sd = sd),
+              na.rm = TRUE,
+              .names = "{col}_{fn}"), 
+              .groups = "drop") %>%
+  ggplot(mapping = aes(x = gdp_mean, 
+                      y = donors_mean, 
+                      label = country)) + 
+  geom_text(size=4) + 
+  labs(x = "Average GDP per capita over the period", 
+       y = "Average donation rate") 
+
+```
+
+### 6
+
+- Hint: for this next one, read the help page on `facet_wrap()` and look for the discussion of the `scales` argument to that function.
+
+```{r plot-samples-3, fig.width = 6, fig.height = 5, fig.cap = "Summarize and Plot, 3", echo = FALSE, message = FALSE}
+
+organdata %>% 
+  group_by(consent_law, country) %>%
+    summarize(across(where(is.numeric), 
+              list(mean = mean, sd = sd),
+              na.rm = TRUE,
+              .names = "{col}_{fn}"), 
+              .groups = "drop") %>%
+  ggplot(mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean))) + 
+    geom_point(size=3) +
+    facet_wrap(~ consent_law, scales = "free_y", ncol = 1) +
+    labs(x= "Donor Procurement Rate",
+         y= NULL, 
+         title = "Average procurement rate by country and consent law", 
+         subtitle = "Data are for 1991 to 2002")
+
+```
+
+

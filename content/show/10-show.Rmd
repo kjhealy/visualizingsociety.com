@@ -1,0 +1,76 @@
+---
+title: "Extending your vocabulary"
+linktitle: "10: Extending your vocabulary"
+date: "2020-09-18"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+```
+
+
+```{r 05-tables-and-labels-3 }
+organdata %>% select(1:6) %>% sample_n(size = 10)      
+```
+
+## Continuous variables by category
+
+```{r 05-tables-and-labels-4 }
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_point()      
+```
+
+```{r grouped_and_faceted}
+p <- ggplot(data = organdata,
+            mapping = aes(x = year, y = donors))
+p + geom_line(aes(group = country)) + 
+  facet_wrap(~ country)      
+```
+
+```{r 05-tables-and-labels-5 }
+p <- ggplot(data = organdata,
+            mapping = aes(x = country, y = donors))
+p + geom_boxplot()      
+```
+
+```{r 05-tables-and-labels-6 }
+p <- ggplot(data = organdata,
+            mapping = aes(x = donors, y = country))
+p + geom_boxplot()      
+```
+
+## Summarizing a table with something besides `n()`
+
+Here's one simple way to do it for one or two variables:
+
+```{r summarize1}
+
+organdata %>% group_by(consent_law, country) %>%
+    summarize(donors_mean= mean(donors, na.rm = TRUE),
+              gdp_mean = mean(gdp, na.rm = TRUE),
+              roads_mean = mean(roads, na.rm = TRUE),
+              cerebvas_mean = mean(cerebvas, na.rm = TRUE),
+              .groups = "drop")
+
+```
+
+
+We'll talk about more efficient ways on Wednesday.

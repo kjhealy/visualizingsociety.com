@@ -56,14 +56,17 @@ show = "09-show"
 
 
 [[lessons]]
-title = "Groups and Categories / Tables and Labels"
+title = "Extending your Vocabulary"
 date = "Sep 18"
-work = ""
+work = "10-work"
+show = "10-show"
+class = "10-class"
 
 [[lessons]]
-title = "Trends and Flows / Time and Chance"
-date = "Sep. 23 / 25"
-work = ""
+title = "Tables and Text"
+date = "Sep. 25"
+class = "12-class"
+show = "12-show"
 
 [[lessons]]
 title = "Populations and Distributions / Swarms, Pyramids, Surfaces"

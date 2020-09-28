@@ -1,6 +1,6 @@
 ---
 title: "Making Graphs"
-linktitle: "4: Making Graphs"
+linktitle: "04: Making Graphs"
 date: "2020-08-28"
 slides: "04_visualizing_society_f20"
 pdf: "04_visualizing_society_f20"

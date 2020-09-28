@@ -1,6 +1,6 @@
 ---
 title: "ggplot's Grammar of Graphics"
-linktitle: "6: Basic mappings"
+linktitle: "06: Basic mappings"
 date: "2020-09-04"
 menu:
   show:

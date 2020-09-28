@@ -1,6 +1,6 @@
 ---
 title: "Make a Plot"
-linktitle: "1: Make a plot"
+linktitle: "03: Make a plot"
 date: "2020-08-26"
 due_date: "2020-08-28"
 due_time: "11:59 AM"

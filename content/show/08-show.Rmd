@@ -1,0 +1,211 @@
+---
+title: "Show the right numbers, 1"
+linktitle: "08: Show the right numbers"
+date: "2020-09-11"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(gapminder)
+library(socviz)
+```
+
+### Geoms can transform data
+
+```{r bar1}
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar()
+
+```
+
+```{r bar2}
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar(mapping = aes(y = ..prop..))
+
+```
+
+```{r bar3}
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion))
+p + geom_bar(mapping = aes(y = ..prop.., group = 1)) 
+
+
+```
+
+
+### Histograms and Density Plots 
+
+```{r hist_1}
+
+p <- ggplot(data = midwest,
+            mapping = aes(x = area))
+p + geom_histogram()
+
+p <- ggplot(data = midwest,
+            mapping = aes(x = area))
+p + geom_histogram(bins = 10)
+
+```
+
+
+```{r hist_2}
+
+oh_wi <- c("OH", "WI")
+
+p <- ggplot(data = subset(midwest, subset = state %in% oh_wi),
+            mapping = aes(x = percollege, fill = state))
+p + geom_histogram(alpha = 0.4, bins = 20)
+
+```
+
+
+```{r density_1}
+
+p <- ggplot(data = midwest,
+            mapping = aes(x = area))
+p + geom_density()
+
+
+```
+
+```{r density_2}
+
+
+p <- ggplot(data = midwest,
+            mapping = aes(x = area, fill = state, color = state))
+p + geom_density(alpha = 0.3)
+
+```
+
+### Avoid transformations when necessary
+
+
+```{r titanic_1}
+
+titanic
+
+```
+
+```{r titanic_2}
+
+p <- ggplot(data = titanic,
+            mapping = aes(x = fate, y = percent, fill = sex))
+p + geom_bar(position = "dodge", stat = "identity") + theme(legend.position = "top")
+
+```
+
+
+```{r lifegap_1}
+
+oecd_sum
+
+```
+
+```{r lifegap_2, fig.height = 4, fig.width = 9, layout = 'l-page'}
+
+p <- ggplot(data = oecd_sum,
+            mapping = aes(x = year, y = diff, fill = hi_lo))
+p + geom_col() + guides(fill = FALSE) +
+  labs(x = NULL, y = "Difference in Years",
+       title = "The US Life Expectancy Gap",
+       subtitle = "Difference between US and OECD average life expectancies, 1960-2015",
+       caption = "Data: OECD. After a chart by Christopher Ingraham,
+                  Washington Post, December 27th 2017.")
+
+```
+
+### Frequency Plots the Slightly Awkward Way
+
+```{r gss_tab}
+
+with(gss_sm, table(religion))
+
+```
+
+```{r gss_color_fill}
+
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = religion, color = religion))
+p + geom_bar()
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = religion, fill = religion))
+p + geom_bar() + guides(fill = FALSE)
+
+```
+
+```{r two_way_1}
+
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, 
+                          fill = religion))
+p + geom_bar()
+
+```
+
+```{r two_way_2}
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, 
+                          fill = religion))
+p + geom_bar(position = "fill")      
+```
+
+```{r two_way_3}
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, 
+                          fill = religion))
+p + geom_bar(position = "dodge",
+             mapping = aes(y = ..prop..))      
+```
+
+
+```{r two_way_4}
+p <- ggplot(data = gss_sm,
+            mapping = aes(x = bigregion, 
+                          fill = religion))
+p + geom_bar(position = "dodge",
+             mapping = aes(y = ..prop.., 
+                           group = religion))       
+```
+
+This gets awkward and a bit confusing quite fast. In general it's better not to try to make ggplot do too much right at the plotting stage. Instead, pre-compute the numbers you want to show. We'll see how to do that next.
+
+
+## Dplyr pipelines
+
+```{r pipeline}
+
+rel_by_region <- gss_sm %>%
+    group_by(bigregion, religion) %>%
+    tally() %>%
+    mutate(freq = n / sum(n),
+           pct = round((freq*100), 1))
+
+```
+
+
+```{r 05-tables-and-labels-1 }
+rel_by_region
+```

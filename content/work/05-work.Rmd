@@ -1,6 +1,6 @@
 ---
 title: "Vision, Data, and Design"
-linktitle: "2: Vision, Data, and Design"
+linktitle: "05: Vision, Data, and Design"
 date: "2020-08-30"
 due_date: "2020-09-04"
 due_time: "11:59 AM"

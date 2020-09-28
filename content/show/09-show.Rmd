@@ -1,6 +1,6 @@
 ---
 title: "Show the right numbers, 2"
-linktitle: "9: Show the right numbers, 2"
+linktitle: "09: Show the right numbers, 2"
 date: "2020-09-16"
 menu:
   show:

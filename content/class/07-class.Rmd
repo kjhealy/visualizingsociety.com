@@ -1,6 +1,6 @@
 ---
 title: "What is Data?"
-linktitle: "7: What is Data?"
+linktitle: "07: What is Data?"
 date: "2020-09-09"
 read_date: "2020-09-09"
 slides: "07_visualizing_society_f20"    

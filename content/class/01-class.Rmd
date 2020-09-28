@@ -1,6 +1,6 @@
 ---
 title: "Getting Started"
-linktitle: "1: Getting Started"
+linktitle: "01: Getting Started"
 date: "2020-08-17"
 read_date: "2020-08-21"
 slides: "slides/01_visualizing_society_f20.pdf"

@@ -1,6 +1,6 @@
 ---
 title: "Get Up and Running"
-linktitle: "2: Get Up and Running"
+linktitle: "02: Get Up and Running"
 date: "2020-08-21"
 slides: "02_visualizing_society_f20"
 pdf: "02_visualizing_society_f20"

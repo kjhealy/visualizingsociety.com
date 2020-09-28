@@ -1,6 +1,6 @@
 ---
 title: "Vision, Data, and Design"
-linktitle: "5: Vision, Data, and Design"
+linktitle: "05: Vision, Data, and Design"
 date: "2020-08-28"
 read_date: "2020-09-02"
 slides: "05_visualizing_society_f20"    

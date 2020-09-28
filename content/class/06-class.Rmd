@@ -1,6 +1,6 @@
 ---
 title: "ggplot and the Gramar of Graphics"
-linktitle: "6: The Grammar of Graphics"
+linktitle: "06: The Grammar of Graphics"
 date: "2020-09-04"
 slides: "06_visualizing_society_f20"    
 pdf: "06_visualizing_society_f20"

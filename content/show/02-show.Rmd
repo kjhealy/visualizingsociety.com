@@ -1,6 +1,6 @@
 ---
 title: "Get Up and Running: Code Examples"
-linktitle: "2: Up and Running"
+linktitle: "02: Up and Running"
 date: "2020-08-21"
 menu:
   show:

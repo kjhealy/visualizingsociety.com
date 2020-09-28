@@ -1,6 +1,6 @@
 ---
 title: "Show the Right Numbers, 2"
-linktitle: "9: Show the Right Numbers, 2"
+linktitle: "09: Show the Right Numbers, 2"
 date: "2020-09-16"
 slides: "09_visualizing_society_f20"    
 pdf: "09_visualizing_society_f20"
