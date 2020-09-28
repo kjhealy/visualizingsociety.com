@@ -151,7 +151,7 @@ p + geom_pointrange(mapping = aes(xmin = donors_mean - donors_sd,
 ### As a rule, don't use geom_text(), use gg_repel()
 
 
-```{r fig.cap="Popular and Electoral College Margins.",  out.width="100%", fig.width=9, fig.height=8, fig.fullwidth=TRUE}
+```{r fig.cap="Popular and Electoral College Margins.",  out.width="100%", fig.width=12, fig.height=8, fig.fullwidth=TRUE}
 library(ggrepel)
 
 ## Put long labels in named objects; good housekeeping
