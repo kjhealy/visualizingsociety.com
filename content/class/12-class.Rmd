@@ -1,0 +1,26 @@
+---
+title: "Tables and Text"
+linktitle: "12: Tables and Text"
+date: "2020-09-25"
+slides: "12_visualizing_society_f20"    
+pdf: "12_visualizing_society_f20"
+thumb: "12_visualizing_society_f20_thumb"    
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+Be sure to check [the show/ page](/show/12-show/) for the code examples. 
+
+
+{{% slide-buttons %}}

@@ -1,6 +1,6 @@
 ---
 title: "Example 1"
-linktitle: "01: Example 1"
+linktitle: "1: Example 1"
 date: "2020-08-17"
 menu:
   show:

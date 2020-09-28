@@ -1,0 +1,252 @@
+---
+title: "Tables and Text"
+linktitle: "12: Tables and Text"
+date: "2020-09-25"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r knitr-opts, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+``` 
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+```
+
+## Controlling jitter
+
+```{r jitter}
+
+p <- ggplot(data = organdata, 
+            mapping = aes(x = donors,
+                          y = reorder(country, donors, na.rm=TRUE),
+                          color = world))
+
+p + geom_jitter(position = position_jitter(height=0.15)) +
+    labs(y = NULL) + 
+    theme(legend.position = "top")
+
+```
+
+## Summarize better with dplyr
+
+### 1.
+
+```{r }
+by_country <- organdata %>% 
+              group_by(consent_law, country) %>%
+              summarize(donors_mean = mean(donors, na.rm = TRUE),
+                        donors_sd = sd(donors, na.rm = TRUE),
+                        gdp = mean(gdp, na.rm = TRUE),
+                        health = mean(health, na.rm = TRUE),
+                        roads_mean = mean(roads, na.rm = TRUE),
+                        cerebvas = mean(cerebvas, na.rm = TRUE))
+                        
+by_country                        
+```
+
+
+### 2. 
+
+```{r }
+by_country <- organdata %>% 
+  group_by(consent_law, country) %>%
+    summarize_if(is.numeric, 
+                 list(~ mean(.x, na.rm = TRUE), 
+                      ~ sd(.x, na.rm = TRUE))) %>%
+    ungroup()
+
+by_country
+```
+
+
+### 3. 
+
+```{r }
+by_country <- organdata %>% 
+  group_by(consent_law, country) %>%
+    summarize(across(where(is.numeric),
+                     list(mean = mean, sd = sd),
+                      na.rm = TRUE,
+                      .names = "{col}_{fn}"),
+              .groups = "drop")
+
+by_country
+```
+
+## Free scales when faceting categorical variables
+
+### No
+
+```{r }
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean, 
+                          y = reorder(country, 
+                                      donors_mean)))
+
+p + geom_point(size=3) +
+    facet_wrap(~ consent_law) +
+    labs(x = "Donor Procurement Rate",
+         y = NULL)
+```
+
+
+## Closer but still no
+
+```{r }
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean, 
+                          y = reorder(country, 
+                                      donors_mean)))
+
+
+p + geom_point(size=3) +
+    facet_wrap(~ consent_law, scales = "free_y") +
+    labs(x= "Donor Procurement Rate",
+         y= NULL)
+```
+
+## Good
+
+```{r }
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean, 
+                y = reorder(country, donors_mean)))
+
+p + geom_point(size=3) +
+    facet_wrap(~ consent_law, 
+                 scales = "free_y", ncol = 1) +
+    labs(x = "Donor Procurement Rate",
+         y = NULL)
+```
+
+## There are a lot of variants in the point-and-range family
+
+```{r }
+
+p <- ggplot(data = by_country,
+            mapping = aes(x = donors_mean,
+                          y = reorder(country, donors_mean)))
+
+p + geom_pointrange(mapping = aes(xmin = donors_mean - donors_sd, 
+                                  xmax = donors_mean + donors_sd)) +
+    labs(x = "Donor Procurement Rate", y = NULL)
+
+```
+
+## Plotting Text Directly
+
+### As a rule, don't use geom_text(), use gg_repel()
+
+
+```{r fig.cap="Popular and Electoral College Margins.",  out.width="100%", fig.width=9, fig.height=8, fig.fullwidth=TRUE}
+library(ggrepel)
+
+## Put long labels in named objects; good housekeeping
+
+p_title <- "Presidential Elections: Popular & Electoral College Margins"
+p_subtitle <- "1824-2016"
+p_caption <- "Data for 2016 are provisional."
+x_label <- "Winner's share of Popular Vote"
+y_label <- "Winner's share of Electoral College Votes"
+
+## Set a theme
+theme_set(theme_minimal())
+
+## Note use of geom_hline() and geom_vline()
+p <- ggplot(data = elections_historic, 
+            mapping = aes(x = popular_pct,
+                          y = ec_pct,
+                          label = winner_label))
+                          
+p + geom_hline(yintercept = 0.5, size = 1.4, color = "gray70") +
+    geom_vline(xintercept = 0.5, size = 1.4, color = "gray70") +
+    geom_point() +
+    geom_text_repel() +
+    scale_x_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::percent) +
+    labs(x = x_label,
+         y = y_label,
+         title = p_title,
+         subtitle = p_subtitle,
+         caption = p_caption)
+
+```
+
+- Control the height and width of your plot via `ggsave()` or in the options to your code chunk with `fig.width` and `fig.height`.
+
+
+## Exploring covdata
+
+```{r }
+
+## Please reinstall covdata! It's been updated. Use at least version 0.5
+
+# drat::addRepo("kjhealy")
+# install.packages("covdata")
+
+library(covdata)
+
+```
+
+### Short Term Morality Fluctuations
+
+### Belgium (mortality rates, from `stmf`)
+
+```{r }
+stmf %>%
+  filter(sex == "b", country_code == "BEL") %>%
+  group_by(year, week) %>%
+  mutate(yr_ind = year %in% 2020) %>%
+  group_by(yr_ind, year, week) %>% 
+  summarize(tot_death = sum(death_count), .groups = "drop") %>% 
+  ggplot(aes(x = week, y = tot_death, color = yr_ind, group = year)) + 
+  geom_line(size = 0.9) + 
+  scale_color_manual(values = c("gray70", "red"), labels = c("2000-2019", "2020")) +
+  labs(x = "Week of the Year", 
+       y = "Total Deaths", 
+       color = "Year",
+       title = "Weekly recorded deaths in Belgium, 2000-2020") + 
+  theme_minimal() + 
+  theme(legend.position = "top")
+
+```
+
+
+### United States, (mortality counts, from `nchs_wdc`)
+
+```{r }
+
+nchs_wdc %>%
+  filter(jurisdiction == "United States", cause == "All Cause", year > 2014) %>%
+  group_by(year, week) %>%
+  mutate(yr_ind = year %in% 2020) %>%
+  filter(!(year == 2020 & week > 30)) %>%
+  ggplot(aes(x = week, y = n, color = yr_ind, group = year)) +
+  geom_line(size = 0.9) +
+  scale_color_manual(values = c("gray70", "firebrick"), labels = c("2015-2019", "2020")) +
+  scale_x_continuous(breaks = c(1, 10, 20, 30, 40, 50),
+                     labels = as.character(c(1, 10, 20, 30, 40, 50))) +
+  scale_y_continuous(labels = scales::comma) +
+  labs(x = NULL,
+       y = "Total Deaths",
+       color = "Years",
+       title = "Weekly recorded deaths from all causes in the United States",
+       subtitle = "2020 data are for Weeks 1 to 30. Raw Counts.") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+
+```
