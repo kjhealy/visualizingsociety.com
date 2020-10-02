@@ -69,9 +69,18 @@ class = "12-class"
 show = "12-show"
 
 [[lessons]]
-title = "Populations and Distributions / Swarms, Pyramids, Surfaces"
-date = "Sep. 30 / Oct. 2"
-work = ""
+title = "Making Maps I"
+date = "Sep. 30"
+class = "13-class"
+show = "13-show"
+
+[[lessons]]
+title = "Making Maps II"
+date = "Oct. 2"
+class = "14-class"
+show = "14-show"
+work = "14-work"
+
 
 [[lessons]]
 title = "The View from Nowhere / High-Dimensional Data"

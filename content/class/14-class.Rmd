@@ -1,0 +1,27 @@
+---
+title: "Making Maps II"
+linktitle: "14: Making Maps I"
+date: "2020-09-30"
+slides: "14_visualizing_society_f20"    
+pdf: "14_visualizing_society_f20"
+thumb: "14_visualizing_society_f20_thumb"    
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+- There is a [problem set](/work/14-work) today that is due next Friday.
+- Be sure to check [the show/ page](/show/14-show/) for the code examples. 
+
+
+{{% slide-buttons %}}

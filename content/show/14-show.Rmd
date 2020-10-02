@@ -1,0 +1,351 @@
+---
+title: "Making Maps II"
+linktitle: "14: Making Maps II"
+date: "2020-10-02"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Libraries
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(colorspace)
+library(here)
+library(maps)
+library(socviz)
+library(tidyverse)
+
+library(sf)
+library(nycdogs)
+
+```
+
+## State map outline
+
+```{r statemaps}
+us_states <- map_data("state")
+head(us_states)
+dim(us_states)
+```
+
+## Map theme
+
+```{r }
+theme_map <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0,0)
+              )
+}
+
+```
+
+
+## America's ur-choropleths
+
+```{r county1}
+county_map %>% sample_n(5)
+```
+
+
+```{r county2}
+county_data %>%
+    select(id, name, state, pop_dens, pct_black) %>%
+    sample_n(5)
+```
+
+
+```{r county3}
+county_full <- left_join(county_map, county_data, by = "id")
+```
+
+
+```{r ch-07-urchoro1, fig.cap='US population density by county.', out.width="100%", fig.width = 12, fig.height = 8, layout = 'l-screen-inset'}
+
+p <- ggplot(data = county_full,
+            mapping = aes(x = long, y = lat,
+                          fill = pop_dens, 
+                          group = group))
+
+p1 <- p + geom_polygon(color = "gray90", size = 0.05) + coord_equal()
+
+p2 <- p1 + scale_fill_brewer(palette="Blues",
+                             labels = c("0-10", "10-50", "50-100", "100-500",
+                                        "500-1,000", "1,000-5,000", ">5,000"))
+
+p2 + labs(fill = "Population per\nsquare mile") +
+    theme_map() +
+    guides(fill = guide_legend(nrow = 1)) + 
+    theme(legend.position = "bottom")
+```
+
+
+```{r ch-07-urchoro2, fig.cap='Percent Black population by county.', out.width="100%", fig.width = 12, fig.height = 8, , layout = 'l-screen-inset'}
+
+p <- ggplot(data = county_full,
+            mapping = aes(x = long, y = lat, fill = pct_black, 
+                          group = group))
+p1 <- p + geom_polygon(color = "gray90", size = 0.05) + coord_equal()
+p2 <- p1 + scale_fill_brewer(palette="Greens")
+
+p2 + labs(fill = "US Population, Percent Black") +
+    guides(fill = guide_legend(nrow = 1)) + 
+    theme_map() + theme(legend.position = "bottom")
+
+```
+
+
+```{r 07-maps-13}
+
+orange_pal <- RColorBrewer::brewer.pal(n = 6, name = "Oranges")
+orange_pal
+
+orange_rev <- rev(orange_pal)
+orange_rev
+
+```
+
+
+```{r ch-07-gunsu, fig.cap='Gun-related suicides by county; Reverse-coded population density by county.', out.width="50%", fig.show="hold", fig.width = 10, fig.height = 7, , layout = 'l-screen-inset'}
+
+gun_p <- ggplot(data = county_full,
+            mapping = aes(x = long, y = lat,
+                          fill = su_gun6, 
+                          group = group))
+
+gun_p1 <- gun_p + geom_polygon(color = "gray90", size = 0.05) + coord_equal()
+
+gun_p2 <- gun_p1 + scale_fill_manual(values = orange_pal)
+
+gun_p2 + labs(title = "Gun-Related Suicides, 1999-2015",
+              fill = "Rate per 100,000 pop.") +
+    theme_map() +
+    theme(legend.position = "bottom")
+
+
+pop_p <- ggplot(data = county_full,
+            mapping = aes(x = long, y = lat,
+                          fill = pop_dens6, 
+                          group = group))
+
+pop_p1 <- pop_p + geom_polygon(color = "gray90", size = 0.05) + coord_equal()
+
+pop_p2 <- pop_p1 + scale_fill_manual(values = orange_rev)
+
+pop_p2 + labs(title = "Reverse-coded Population Density",
+              fill = "People per square mile") +
+    theme_map() +
+    theme(legend.position = "bottom")
+
+```
+
+## Small-multiple maps
+
+```{r 07-maps-16}
+opiates
+```
+
+
+```{r 07-maps-17}
+
+opiates <- opiates %>%
+    mutate(region = tolower(state))
+
+opiates_map <- left_join(us_states, opiates)
+
+```
+
+```{r opiatemap, fig.cap='A small multiple map. States in grey reported too few deaths for a reliable population estimate in that year. States in white reported no data.', out.width="100%", fig.width=8, fig.height=12, fig.show = "hold", fig.fullwidth=TRUE, tidy = FALSE, message = FALSE}
+
+library(viridis)
+
+p0 <- ggplot(data = subset(opiates_map, year > 1999),
+             mapping = aes(x = long, y = lat,
+                 group = group,
+                 fill = adjusted))
+
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.05) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+
+p2 <- p1 + scale_fill_viridis_c(option = "plasma")
+
+p2 + theme_map() + facet_wrap(~ year, ncol = 3) +
+    theme(legend.position = "bottom",
+          strip.background = element_blank()) +
+    labs(fill = "Death rate per 100,000 population ",
+         title = "Opiate Related Deaths by State, 2000-2014")  
+
+```
+
+## Dogs of New York and `geom_sf()`
+
+
+### An NYC-friendly map theme
+```{r theme}
+theme_nymap <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0.1, 0.6), 
+              legend.direction = "horizontal"
+        )
+}
+
+```
+
+### Licenses
+
+```{r}
+nyc_license
+```
+
+### Zipcodes
+
+```{r}
+nyc_zips
+```
+
+```{r }
+nyc_fb <- nyc_license %>%
+    group_by(zip_code, breed_rc) %>%
+    tally() %>%
+    mutate(freq = n / sum(n),
+           pct = round(freq*100, 2)) %>%
+    filter(breed_rc == "French Bulldog")
+
+nyc_fb
+
+
+fb_map <- left_join(nyc_zips, nyc_fb)
+
+
+```
+
+
+## First cut
+
+```{r, fig.cap='French Bulldogs I', out.width="100%", fig.width=10, fig.height=10 }
+fb_map %>% ggplot(mapping = aes(fill = pct)) +
+    geom_sf(color = "gray80", size = 0.1) +
+    scale_fill_viridis_c(option = "A") +
+    labs(fill = "Percent of All Licensed Dogs") +
+    annotate(geom = "text", x = -74.145 + 0.029, y = 40.82-0.012, 
+           label = "New York City's French Bulldogs", size = 6) + 
+    annotate(geom = "text", x = -74.1468 + 0.029, y = 40.8075-0.012, 
+           label = "By Zip Code. Based on Licensing Data", size = 5) + 
+    theme_nymap() + 
+    guides(fill = guide_legend(title.position = "top", 
+                               label.position = "bottom",
+                             keywidth = 1, nrow = 1))
+
+```
+
+## Better
+
+```{r, fig.cap='French Bulldogs II', out.width="100%", fig.width=10, fig.height=10}
+## using a colorspace scale function here
+fb_map %>% ggplot(mapping = aes(fill = pct)) +
+    geom_sf(color = "gray80", size = 0.1) +
+    scale_fill_continuous_sequential(palette = "Oranges") +
+    labs(fill = "Percent of All Licensed Dogs") +
+   annotate(geom = "text", x = -74.145 + 0.029, y = 40.82-0.012, 
+           label = "New York City's French Bulldogs", size = 6) + 
+    annotate(geom = "text", x = -74.1468 + 0.029, y = 40.7955, 
+           label = "By Zip Code. Based on Licensing Data", size = 5) + 
+    theme_nymap() + 
+    guides(fill = guide_legend(title.position = "top", 
+                               label.position = "bottom",
+                             keywidth = 1, nrow = 1))  
+
+```
+
+
+## Compare and carefully contrast
+
+```{r }
+nyc_license %>%
+    group_by(zip_code, breed_rc) %>%
+    tally() %>%
+    mutate(freq = n / sum(n),
+           pct = round(freq*100, 2)) %>%
+    filter(breed_rc == "French Bulldog")
+```
+
+
+```{r }
+nyc_license %>%
+    group_by(zip_code, breed_rc) %>%
+    tally() %>%
+    ungroup() %>%
+    complete(zip_code, breed_rc, 
+             fill = list(n = 0)) %>%
+    mutate(freq = n / sum(n),
+           pct = round(freq*100, 2)) %>%
+    filter(breed_rc == "French Bulldog")
+
+```
+
+## Using this new approach
+
+```{r fig.cap='French Bulldogs III', out.width="100%", fig.width=10, fig.height=10}
+nyc_fb <- nyc_license %>%
+    group_by(zip_code, breed_rc) %>%
+    tally() %>%
+    ungroup() %>%
+    complete(zip_code, breed_rc, 
+             fill = list(n = 0)) %>%
+    mutate(freq = n / sum(n),
+           pct = round(freq*100, 2)) %>%
+    filter(breed_rc == "French Bulldog")
+
+
+fb_map <- left_join(nyc_zips, nyc_fb)
+
+fb_map %>% ggplot(mapping = aes(fill = pct)) +
+    geom_sf(color = "gray80", size = 0.1) +
+    scale_fill_continuous_sequential(palette = "Oranges") +
+   labs(fill = "Percent of All Licensed Dogs in the City") +
+  annotate(geom = "text", x = -74.145 + 0.029, y = 40.82-0.012, 
+           label = "New York City's French Bulldogs", size = 6) + 
+  annotate(geom = "text", x = -74.1468 + 0.029, y = 40.8075-0.012, 
+           label = "By Zip Code. Based on Licensing Data", size = 5) + 
+    theme_nymap() + 
+    guides(fill = guide_legend(title.position = "top", 
+                               label.position = "bottom",
+                             keywidth = 1, nrow = 1))
+
+```
+
+

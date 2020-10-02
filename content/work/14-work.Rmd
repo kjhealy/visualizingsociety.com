@@ -1,0 +1,114 @@
+---
+title: "Making Maps II"
+linktitle: "14: Making Maps II"
+date: "2020-10-02"
+due_date: "2020-10-07"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set: Maps
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps04.Rmd`
+2. Set up your file with a code chunk that loads these packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+library(sf)
+library(nycdogs)
+library(colorspace)
+```
+
+## New York City Dog Names
+
+Here's a theme that's good for the NYC map:
+
+```{r theme}
+theme_nymap <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0.1, 0.6), 
+              legend.direction = "horizontal"
+        )
+}
+
+```
+
+```{r gss}
+nyc_license
+
+boro_names <- c("Manhattan", "Queens", 
+                "Brooklyn", "Bronx", 
+                "Staten Island")
+                
+                
+no_name <- c("Unknown", "Name Not Provided")
+
+```
+
+- Try making a table of the most popular dog names in the city as a whole, and then by borough.
+- Add percentages (i.e., relative popularity of all names). 
+- Make a Cleveland dotplot of popular dog names faceted by borough.
+
+Hints: 
+
+- Not everyone fills out their borough correctly, and not every dog has a name. The `boro_names` and `no_name` vectors will help you filter your data. 
+- To boil the table down to the top 5 or 10 names in each borough, take a look at the `top_n()` function in the help.
+
+## 4 Mapping the Dogs
+
+Here's a map from the slides today:
+
+```{r dogmap, echo = FALSE, message = FALSE, warning = FALSE, fig.height = 10, fig.width = 10, fig.fullwidth=TRUE}
+nyc_fb <- nyc_license %>%
+    group_by(zip_code, breed_rc) %>%
+    tally() %>%
+    ungroup() %>%
+    complete(zip_code, breed_rc, 
+             fill = list(n = 0)) %>%
+    mutate(freq = n / sum(n),
+           pct = round(freq*100, 2)) %>%
+    filter(breed_rc == "French Bulldog")
+
+fb_map <- left_join(nyc_zips, nyc_fb)
+
+fb_map %>% ggplot(mapping = aes(fill = pct)) +
+    geom_sf(color = "gray80", size = 0.1) +
+    scale_fill_continuous_sequential(palette = "Oranges") +
+   labs(fill = "Percent of All Licensed Dogs in the City") +
+   annotate(geom = "text", x = -74.145 + 0.029, y = 40.82-0.012, 
+           label = "New York City's French Bulldogs", size = 6) + 
+    theme_nymap() + 
+    guides(fill = guide_legend(title.position = "top", 
+                               label.position = "bottom",
+                             keywidth = 1, nrow = 1))
+
+
+```
+
+- Can you reproduce this map, or something close to it? Make a note of the steps that seemed to be a bit tricky.
+- Try drawing a similar map showing the relative prevalence of a different breed of dog
+- Try drawing a similar map showing the relative popularity of a particular dog name
+
+## 5 Knit the document as an HTML, PDF

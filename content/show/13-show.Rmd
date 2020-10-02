@@ -1,0 +1,236 @@
+---
+title: "Making Maps I"
+linktitle: "13: Making Maps I"
+date: "2020-09-30"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Libraries
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(gapminder)
+library(here)
+library(tidyverse)
+library(ggrepel)
+library(socviz)
+```
+
+
+## Map U.S. state-level data
+
+```{r 07-maps-1}
+election %>% select(state, total_vote,
+                    r_points, pct_trump, party, census) %>%
+    sample_n(5)
+```
+
+
+```{r 07-maps-2, fig.width=4, fig.height=10}
+
+# Hex color codes for Dem Blue and Rep Red
+party_colors <- c("#2E74C0", "#CB454A") 
+
+p0 <- ggplot(data = subset(election, st %nin% "DC"),
+             mapping = aes(x = r_points,
+                           y = reorder(state, r_points),
+                           color = party))
+
+p1 <- p0 + geom_vline(xintercept = 0, color = "gray30") +
+    geom_point(size = 2)
+
+p2 <- p1 + scale_color_manual(values = party_colors)
+
+p3 <- p2 + scale_x_continuous(breaks = c(-30, -20, -10, 0, 10, 20, 30, 40),
+                              labels = c("30\n (Clinton)", "20", "10", "0",
+                                         "10", "20", "30", "40\n(Trump)"))
+
+p3 + facet_wrap(~ census, ncol=1, scales="free_y") +
+    guides(color=FALSE) + labs(x = "Point Margin", y = "") +
+    theme(axis.text=element_text(size=8))
+
+```
+
+
+```{r 07-maps-3}
+library(maps)
+us_states <- map_data("state")
+head(us_states)
+dim(us_states)
+```
+
+## Maps shapes are just a series of lines drawn in the right order to make polygons
+
+```{r 07-maps-4 }
+
+p <- ggplot(data = us_states,
+            mapping = aes(x = long, y = lat,
+                          group = group))
+
+p + geom_polygon(fill = "white", color = "black")
+
+```
+
+
+```{r 07-maps-5, fig.cap='Coloring the states', out.width="100%", fig.width=6, fig.height=5}
+
+p <- ggplot(data = us_states,
+            aes(x = long, y = lat,
+                group = group, fill = region))
+
+p + geom_polygon(color = "gray90", size = 0.1) + guides(fill = FALSE)
+
+```
+
+## Latitude and Longitude is just a coordinate system 
+
+```{r 07-maps-6, fig.cap='Improving the projection', out.width="100%", fig.width=6, fig.height=5}
+
+p <- ggplot(data = us_states,
+            mapping = aes(x = long, y = lat,
+                          group = group, fill = region))
+
+p + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) +
+    guides(fill = FALSE)
+
+```
+
+## Add data to the map
+
+```{r 07-maps-7}
+
+## Base R version:
+# election$region <- tolower(election$state)
+
+election <- election %>%
+     mutate(region = tolower(state))
+
+election
+
+
+us_states_elec <- left_join(us_states, election)
+
+
+us_states_elec
+
+
+```
+
+
+## Map projections transform coordinate locations on a spherical surface into coordinate locations on an x-y plane
+
+```{r 07-maps-8, fig.cap='Mapping the results', out.width="100%", fig.width=6, fig.height=5}
+
+p <- ggplot(data = us_states_elec,
+            aes(x = long, y = lat,
+                group = group, fill = party))
+
+p + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+
+```
+
+
+```{r 07-maps-9}
+
+theme_map <- function(base_size=9, base_family="") {
+    require(grid)
+    theme_bw(base_size=base_size, base_family=base_family) %+replace%
+        theme(axis.line=element_blank(),
+              axis.text=element_blank(),
+              axis.ticks=element_blank(),
+              axis.title=element_blank(),
+              panel.background=element_blank(),
+              panel.border=element_blank(),
+              panel.grid=element_blank(),
+              panel.spacing=unit(0, "lines"),
+              plot.background=element_blank(),
+              legend.justification = c(0,0),
+              legend.position = c(0,0)
+              )
+}
+
+```
+
+
+```{r ch-07-firstmap-05, fig.cap='Election 2016 by State', fig.width=8, fig.height=5}
+
+p0 <- ggplot(data = us_states_elec,
+             mapping = aes(x = long, y = lat,
+                           group = group, fill = party))
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+p2 <- p1 + scale_fill_manual(values = party_colors) +
+    labs(title = "Election Results 2016", fill = NULL)
+p2 + theme_map() 
+
+```
+
+
+## Versions of the State-level Election Choropleth
+
+```{r 07-maps-10, fig.cap='Two versions of Percent Trump by State', out.width="100%", fig.width=6, fig.height=5, fig.show = 'hold'}
+
+p0 <- ggplot(data = us_states_elec,
+             mapping = aes(x = long, y = lat, group = group, fill = pct_trump))
+
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+
+p1 + labs(title = "Trump vote") + theme_map() + labs(fill = "Percent")
+
+p2 <- p1 + scale_fill_gradient(low = "white", high = "#CB454A") +
+        labs(title = "Trump vote") 
+p2 + theme_map() + labs(fill = "Percent")
+
+```
+
+
+```{r 07-maps-11, fig.cap='Two views of Trump vs Clinton share: a white midpoint, and a Purple America version.', out.width="100%", fig.width=6, fig.height=5, fig.show = "hold"}
+
+p0 <- ggplot(data = us_states_elec,
+             mapping = aes(x = long, y = lat, group = group, fill = d_points))
+
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+
+p2 <- p1 + scale_fill_gradient2() + labs(title = "Winning margins") 
+p2 + theme_map() + labs(fill = "Percent")
+
+p3 <- p1 + scale_fill_gradient2(low = "red", mid = scales::muted("purple"),
+                                high = "blue", breaks = c(-25, 0, 25, 50, 75)) +
+    labs(title = "Winning margins") 
+p3 + theme_map() + labs(fill = "Percent")
+
+```
+
+
+```{r 07-maps-12, fig.cap='A Purple America version of Trump vs Clinton that excludes results from Washington, DC.', out.width="100%", fig.width=6, fig.height=5}
+
+p0 <- ggplot(data = subset(us_states_elec,
+                           region %nin% "district of columbia"),
+             aes(x = long, y = lat, group = group, fill = d_points))
+
+p1 <- p0 + geom_polygon(color = "gray90", size = 0.1) +
+    coord_map(projection = "albers", lat0 = 39, lat1 = 45) 
+
+p2 <- p1 + scale_fill_gradient2(low = "red",
+                                mid = scales::muted("purple"),
+                                high = "blue") +
+    labs(title = "Winning margins") 
+p2 + theme_map() + labs(fill = "Percent")
+```
+
