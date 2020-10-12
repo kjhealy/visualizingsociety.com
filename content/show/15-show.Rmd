@@ -1,0 +1,273 @@
+---
+title: "Names"
+linktitle: "15: Names"
+date: "2020-10-07"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Libraries
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(socviz)
+library(tidyverse)
+
+library(sf)
+library(nycdogs)
+
+theme_set(theme_minimal())
+
+```
+
+
+## First, the problem set
+
+Your strategy should be to think about the table of data you start with, and then---one step at a time---plan out the sequence of transformations needed to get that table into a condition where it can be cleanly handed off to ggplot. Try to think about two things. First, think about the operations you want to perform. What numbers to I need to get out of this table? How are they organized? It can help to think of the shape of the plot you want. For example, in this case, we want panels containing dots representing the proportion of Dogs with a particular name. Which names? The ten most relatively popular names. Which panels? By borough. So we need to calculate the relative frequency of names of dogs within each of the five boroughs.
+
+Second, think of how you will need to logically group the rows of the table to do these calculations, and how the shape of the table will change at each step. Are we deleting some rows? Are we adding some columns? Are we making a smaller table with a new number of rows _and_ columns? Remember that group-level calculations are one on the _innermost_ group in your `group_by()` statement. That is, the one furthest to the right in the list of grouping variables. 
+
+Generally speaking, when you think you have to break up your table into sub-tables or loop over things, this is exactly what the `group_by()` step is meant to help you accomplish.                                                                       
+
+Finally, take advantage of the step-by-step "and then" structure of the pipeline to pause at each step in the line to see what you have. 
+
+For example, in sequence, 
+
+
+1. The main table. 
+
+```{r}
+nyc_license
+
+```
+
+
+2. The names of the boroughs we want included, and dog names we don't want included. 
+
+```{r}
+boro_names <- c("Manhattan", "Queens", 
+                "Brooklyn", "Bronx", 
+                "Staten Island")
+no_name <- c("Unknown", "Name Not Provided")
+
+```
+
+3. Clean the table by filtering on the boroughs we want, the names we don't want, and any missing values in `animal_gender`.
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) 
+```
+
+4. We want the relative frequency of names within boroughs. So we group `animal_name` within (i.e. to the right of) `borough`. This gives us more than 28,000 logical groups, because even though there are only 5 boroughs, there are a lot of names!
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) 
+
+```
+
+5. The `tally()` function is a summarizing step. It will change the shape of the table. We are counting up the number of rows (i.e. the number of individual dogs) with each category. See how the number of groups has now changed.
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) %>% 
+  tally() 
+```
+
+6. We calculate proportions. This is a _mutating_ step: it adds a new column but does not change the number of rows. The `n / sum(n)` step will be calculated with reference to the current level of grouping, which is `borough`. Thus `n / sum(n)` will be the value of `n` for each particular row---or dog name---within each borough, and `sum(n)` will be the sum total number of dogs within each borough.
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n)) 
+```
+
+7. Almost done now. For our own convenience we'll reshuffle the rows so that they're in descending order of `prop`.
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n)) %>% 
+  arrange(desc(prop)) 
+
+```
+
+8. And then use `slice_max()` to find the ten rows with the highest values of `prop`, which is to say the ten most relatively common dog names within each borough.
+
+```{r}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n)) %>% 
+  arrange(desc(prop)) %>% 
+  slice_max(n = 10, order_by = prop) 
+
+
+```
+
+9. That's our table. Finally, we hand it off to ggplot with instructions to draw it, putting proportion on the x-axis, name on the y-axis, and faceting by borough. 
+
+```{r, fig.height=3, fig.width=10}
+nyc_license %>% 
+    filter(borough %in% boro_names, 
+           animal_name %nin% no_name,
+           animal_gender %nin% NA) %>%
+  group_by(borough, animal_name) %>% 
+  tally() %>% 
+  mutate(prop = n/sum(n)) %>% 
+  arrange(desc(prop)) %>% 
+  slice_max(n = 10, order_by = prop) %>% 
+  ggplot(mapping = aes(x = prop, y = reorder(animal_name, prop))) + 
+  geom_point(size = 2) + 
+  scale_x_continuous(labels = scales::percent) +
+  facet_wrap(~ reorder(borough, -prop), 
+             scales = "free_y", nrow = 1) + 
+  labs(x = "Percent", y = NULL) + 
+  theme_minimal()
+
+```
+
+## Human baby names
+
+```{r}
+## Remember, except for updates you only need to install a package once, not every time you run your code.
+# install.packages("babynames")
+
+library(babynames)
+
+babynames
+
+```
+
+```{r, fig.height = 4.5, fig.width=8}
+babynames %>% 
+  group_by(year, sex) %>%
+  slice_max(n = 1, order_by = prop) %>% 
+  ggplot(mapping = aes(x = year, y = prop, color = sex)) + 
+  geom_line(size = 1) + scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(breaks = seq(1880, 2015, by = 10)) +
+   labs(y = "Percent", x = "Year",
+        title = "Most Popular Name as a Percent of All Names",
+   color = "Sex") + 
+  theme(legend.position = "top")
+```
+
+```{r, fig.height = 4.5, fig.width=8}
+babynames %>% 
+  group_by(year, sex) %>%
+  filter(prop <= 0.001) %>%
+  group_by(year, sex) %>% 
+  tally() %>%   
+  ggplot(mapping = aes(x = year, y = n, color = sex)) + 
+  geom_line(size = 1) + scale_y_continuous(labels = scales::comma) +
+  scale_x_continuous(breaks = seq(1880, 2015, by = 10)) +
+  labs(y = "Count", x = "Year", 
+       title = "Names with a frequency of 1 in 1,000 or less",
+       color = "Sex") + 
+  theme(legend.position = "top")
+```
+
+```{r, fig.height = 4.5, fig.width=8}
+babynames %>% 
+  filter(sex == "M" & name == "Oliver") %>% 
+  group_by(year) %>% 
+  ggplot(mapping = aes(x = year, y = prop)) + 
+  geom_line(size = 1.2) + 
+  scale_y_continuous(labels = scales::percent) +
+   scale_x_continuous(breaks = seq(1880, 2015, by = 10)) +
+   labs(y = "Percent of All Names", x = "Year", title = "Oliver")
+```
+
+We don't want to have to copy and paste this code every time we'd like to look at a new name. Instead, we'll write a function to draw the plot for any given name, and _map_ it to a some vector of names.
+
+First let's write the function.
+
+```{r}
+## A bit more efficient
+make_nameplot <- function(the_name, the_sex) {
+  
+  n_series <- babynames %>% 
+    filter(sex == the_sex) %>% 
+    filter(name == the_name) %>% 
+    group_by(year)
+
+p <- ggplot(n_series, aes(x = year, y = prop))
+p_out <-  p + geom_line(size = 1.1) + 
+  scale_y_continuous(labels = scales::percent) +
+   scale_x_continuous(breaks = seq(1880, 2015, by = 10)) +
+   labs(y = "Percent of All Names", x = "Year", title = the_name)
+
+p_out
+}
+
+```
+
+Next, which names? Here are some:
+
+```{r}
+## We'll assign gender on the basis of the most 
+## common designation of the _name_ in the babynames 
+## data, not my guess about people in particular
+
+example_names <- tibble(
+  name = c("Thorin", "Melanie", "Jacob", "Vincent", "Christina", "Livia", "Elyse", "Akash", "Eavan", "Krishna", "Jonah", "Jackson", "Jamael", "Georgiana", "Daniel"),
+  gen = c("M", "F", "M", "M", "F", "F", "F", "M", "F", "F", "M", "M", "M", "F", "M")
+)
+
+example_names
+
+```
+
+Now we're going to feed this data one bit at a time to the `make_nameplot()` function we just wrote. This is called _mapping_ a function. When we only need to pass one piece of information to a function to get it to work properly, we use `map()`. But our plotting function needs to know two things: the name we want and the sex category we want to look within. So we use `map2()`.
+
+```{r}
+example_names <- example_names %>% 
+  mutate(plot = map2(name, gen, make_nameplot))
+
+example_names
+```
+
+Isn't that nice? Using `mutate()` we've added a column to the table of data. Each entry in that column is a ggplot object that draws our plot for that name. We could look at them one by one, but let's _walk_ the list to print each one of them right here.
+
+
+```{r, fig.height = 4.5, fig.width=8}
+
+walk(example_names$plot, print)
+
+```
+
+Notice that these plots are _not_ comparable --- not just on the y-axis, but on the x-axis as well. Some names don't show up in the data until later years. Think about how you could make a comparable plot using these names. 
+

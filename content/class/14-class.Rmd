@@ -1,7 +1,7 @@
 ---
 title: "Making Maps II"
-linktitle: "14: Making Maps I"
-date: "2020-09-30"
+linktitle: "14: Making Maps II"
+date: "2020-10-02"
 slides: "14_visualizing_society_f20"    
 pdf: "14_visualizing_society_f20"
 thumb: "14_visualizing_society_f20_thumb"    

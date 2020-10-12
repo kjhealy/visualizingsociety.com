@@ -1,0 +1,130 @@
+---
+title: "Fads and Fashions in Names"
+linktitle: "16: Names"
+date: "2020-10-12"
+due_date: "2020-10-16"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set: Names
+
+
+## A. Setup 
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps05.Rmd`
+2. _At the console, not in your Rmd file_ install the `e1071` package, which has a couple of useful functions we'll use. Install the package with `install.packages("e1071")`. Remember, you only need to install a package once, but you need to load it with `library` at the beginning of each Rmd file that uses it.
+
+
+3. Set up your file with a code chunk that loads these packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+library(babynames)
+library(e1071)
+```
+
+4. A function
+
+Here's a function that might be useful when you're working with the data:
+
+```{r}
+
+## Plot the popularity of a given name withn sex
+make_nameplot <- function(the_name, the_sex) {
+  
+  n_series <- babynames %>% 
+    filter(sex == the_sex, name == the_name) %>% 
+    group_by(year)
+
+p <- ggplot(n_series, aes(x = year, y = prop))
+p_out <-  p + geom_line(size = 1.1) + 
+  scale_y_continuous(labels = scales::percent) +
+   scale_x_continuous(breaks = seq(1880, 2015, by = 10)) +
+   labs(y = "Percent of All Names", x = "Year", title = the_name)
+
+p_out
+}
+```
+
+You can use it like this:
+
+```{r}
+  make_nameplot(the_name = "Brian", the_sex = "M")
+```
+
+## B Questions
+
+### Fashion in names
+
+Here's a thing you can do that will be useful: 
+
+```{r}
+babynames %>% 
+  filter(sex == "F", 
+         name %in% c("Linda", "Jennifer"))  %>%
+    group_by(name) %>%
+    mutate(max_yr = year[prop == max(prop)],
+           year_c = year - max_yr)
+```
+
+Take a minute to think about what `max_yr` and `year_c` mean in this table. 
+
+- Q1. Make a line plot of this output, showing both Linda and Jennifer, with `year_c` on the x-axis and `prop` on the y-axis. Label the axes  informatively and title the plot in a way that tells the reader what it shows. Explain in a sentence or two what this plot is showing you.
+
+- Q2. Experiment with a few other names you think might be faddish, and show a plot of the results. 
+
+We should examine the faddishness of popular names a little more systematically. 
+
+- Q3. Create an object called `top_20` that does the same calculation you just did for Linda and Jennifer, but for the top 20 girls' names in any year. Hint: you should use `slice_max()` to get the 20 most relatively common names within each year.
+
+- Q4. Make a plot with the `top_20` object, again like the one in Q1. This time do not map the `color` aesthetic to anything. Just show all the lines in black. What does this plot look like? What does it suggest? Do any of the lines look weird to you? Can you think of which names these might be? 
+
+
+### Skew and Peakedness in names
+
+_Skew_ and _kurtosis_ are two summary measures of the shape of a distribution. Roughly, skew measures how asymmetric a distribution is and kurtosis measures how peaked or spiky it is. The E1701 package has a couple of functions to calculate these numbers for us. Let's do that for Linda and Jennifer.
+
+```{r}
+babynames %>% 
+  filter(sex == "F", 
+         name %in% c("Linda", "Jennifer"))  %>%
+  group_by(name) %>% 
+  summarize(kurt = e1071::kurtosis(prop, na.rm = TRUE), 
+            skew = e1071::skewness(prop, na.rm = TRUE))
+```
+
+- Q5. Do this summary calculation with the `top_20` object you created, so you get a table that looks something like this:
+
+```{r}
+# A tibble: 144 x 3
+#   name      kurt     skew
+#   <chr>    <dbl>    <dbl>
+# 1 Abigail -1.42  -0.183  
+# 2 Addison -1.66  -0.369  
+# 3 Alexis  -1.43  -0.00915
+# 4 Alice   -0.105  0.531  
+# 5 Alyssa  -1.23  -0.507  
+# 6 Amanda  -1.59  -0.169  
+# 7 Amber   -1.28  -0.217  
+# 8 Amelia  -1.88   0.202  
+# 9 Amy     -1.19   0.381  
+# 10 Angela  -1.11  -0.341  
+# … with 134 more rows
+```
+
+- Q6. Put this table in an object called `top_ks`. Find the five names with the greatest skew and make a plot of them that looks like the line plot you made in Q1. What's the most skewed girl's name in the data? What's the most peaked? Why do you think this is?
+
+
+## 5 Knit the document as an HTML, PDF

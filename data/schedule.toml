@@ -81,29 +81,36 @@ class = "14-class"
 show = "14-show"
 work = "14-work"
 
+[[lessons]]
+title = "Names"
+date = "Oct. 7"
+class = "15-class"
+show = "15-show"
+
+[[lessons]]
+title = "More on Names"
+date = "Oct. 9"
+class = "16-class"
+show = "16-show"
+work = "16-work"
 
 [[lessons]]
 title = "The View from Nowhere / High-Dimensional Data"
-date = "Oct. 7 / 9"
-work = ""
-
-[[lessons]]
-title = "Kinship and Ties / Visualizing Networks"
 date = "Oct. 14 / 16"
 work = ""
 
 [[lessons]]
-title = "Midterm Workshop / Midterm Presentations"
+title = "Kinship and Ties / Visualizing Networks"
 date = "Oct. 21 / 23"
 class = ""
 
 [[lessons]]
-title = "Space, Place, and People I / Maps I"
+title = ""
 date = "Oct. 28 / 30"
 work = ""
 
 [[lessons]]
-title = "Space, Place, and People II / Maps II"
+title = ""
 date = "Nov. 4 / 6"
 work = ""
 class = ""

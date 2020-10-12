@@ -1,0 +1,27 @@
+---
+title: "More about Names"
+linktitle: "16: More on Names"
+date: "2020-10-09"
+slides: "16_visualizing_society_f20"    
+pdf: "16_visualizing_society_f20"
+thumb: "16_visualizing_society_f20_thumb"    
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+- Be sure to check [the show/ page](/show/16-show/) for the code examples. 
+- There is a [problem set](/show/16-work/) due this Friday (10/16). 
+
+
+{{% slide-buttons %}}
