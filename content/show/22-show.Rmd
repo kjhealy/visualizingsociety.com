@@ -1,0 +1,76 @@
+---
+title: "Zombie Data"
+linktitle: "22: Zombie Data"
+date: "2020-10-30"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(socviz)
+library(demog)
+```
+
+```{r }
+okboomer
+```
+
+```{r, fig.height = 4, fig.width = 16}
+okboomer %>%
+    filter(country == "United States") %>%
+    ggplot(aes(x = date, y = births_pct_day)) +
+    geom_line(size = 0.5) +
+    labs(x = "Year",
+         y = "Average daily births per million") 
+```
+
+## Tile plot
+
+- We make some factors (categorical variables, ordered in this case) to draw the grid.
+
+```{r }
+okboomer <- okboomer %>%
+    mutate(year_fct = factor(year,  
+                             levels = unique(year), 
+                             ordered = TRUE),
+           month_fct = factor(month,
+                              levels = rev(c(1:12)),
+                              labels = rev(c("Jan", "Feb", "Mar", "Apr",
+                                    "May", "Jun", "Jul", "Aug",
+                                    "Sep", "Oct", "Nov", "Dec")),
+                              ordered = TRUE)) %>%
+    select(year, month, 
+           year_fct, month_fct, everything())
+           
+okboomer           
+```
+
+```{r, fig.height = 4, fig.width = 16}
+okboomer %>%
+    filter(country == "United States") %>%
+    ggplot(aes(x = year_fct, y = month_fct)) +
+    geom_tile(mapping = aes(fill = births_pct_day), 
+              color = "white") + 
+   scale_x_discrete(breaks = seq(1940, 2010, 5)) +    
+   scale_y_discrete(position = "top") +              
+    scale_fill_viridis_c(option = "B") + 
+    labs(x = NULL, y = NULL, fill = NULL, title = "Monthly Birth Rates",
+         subtitle = "Average births per million people per day.",
+         caption = "Data: US Census Bureau.")
+
+```

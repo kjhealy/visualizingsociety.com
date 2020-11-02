@@ -1,0 +1,89 @@
+---
+title: "Congressional Data"
+linktitle: "18: Congress"
+date: "2020-10-16"
+due_date: "2020-10-23"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set: Congress
+
+In this problem set we'll take a look at data on members of congress since 1945.
+
+
+## A. Setup 
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps06.Rmd`
+2. _At the console, not in your Rmd file_ install the `congress` package, which has a couple of useful functions we'll use. Install it like this:
+
+```{r, eval = FALSE, echo = TRUE}
+drat::addRepo(:"kjhealy")
+install.packages("congress")
+```
+
+
+3. Set up your file with a code chunk that loads these packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+library(congress)
+library(naniar)
+```
+
+```{r}
+# Hex color codes for Dem Blue and Rep Red
+party_colors <- c("#2E74C0", "#CB454A")
+
+## Sex
+sex_colors <- c("#E69F00", "#993300")
+```
+
+
+### Get to know the data
+
+```{r}
+congress
+```
+
+
+Take a look at the help page for the package, which contains summary information about the variables in it. Think about how the careers of members of congress can work (e.g., repeated elections and the possibility of losing them, the possibility of moving from the House to the Senate, changing congressional districts, etc). Two useful anchor points in the data are 
+
+(1) `congress`, the first column in the data, which identifies the two-year congressional session, beginning with the the 79th (January 1945-January 1947). If you are not familiar with how U.S. Congressional sessions work, see for example [this brief overview](https://www.usa.gov/midterm-state-and-local-elections#item-213861)   
+
+(2) `pid` or person-id, which uniquely identifies each individual in the dataset.
+
+
+## B Questions
+
+- Q1. What is the _unit of observation_ in this data? That is, what exactly does each row represent?
+
+- Q2. Use some of the tools in the `naniar` package to visualize the structure of missing data in the `congress` data. Do different variables seem to be missing in different ways? Why might that be?
+
+- Q3. Write code to display a graph of the trend in the _median age_ of members of the U.S. House of Representatives since 1945. 
+
+- Q4. Adapt the code you just wrote to show this trend separately for members of the Democratic and Republican parties. 
+
+- Q5. Draw a column chart of trends in the proportion of representatives by sex or race in Congress since 1945.
+
+- Q6. Ask another question of the data---the more interesting the better---and draw a figure showing the answer it gives. Discuss the result in a couple of sentences.                                                                                                                                                
+
+
+## Optional: A harder task
+
+- With the congress data, produce a table where each row shows the name, party affiliation, and state of every person who has served in *both* the House and the Senate. Note: this is trickier than it might seem. 
+
+- Whether or not you can write the code to generate the table, say (perhaps using an example) what it is that makes this task a bit tricky.
+
+## 5 Knit the document as an HTML or PDF file and submit it to the Sakai dropbox

@@ -1,0 +1,23 @@
+---
+title: "Social Theory and Social Data"
+linktitle: "21: Social Theory & Social Data"
+date: "2020-10-28"
+slides: "21_visualizing_society_f20"    
+pdf: "21_visualizing_society_f20"
+thumb: "21_visualizing_society_f20_thumb"    
+citeproc: true
+menu:
+  class:
+    parent: Content
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-syllabus-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+{{% slide-buttons %}}

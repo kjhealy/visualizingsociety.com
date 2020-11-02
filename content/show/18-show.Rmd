@@ -1,0 +1,200 @@
+---
+title: "Messy and Missing Data"
+linktitle: "18: Messy and Missing Data"
+date: "2020-10-16"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+## Load Libraries
+
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(socviz)
+library(tidyverse)
+library(janitor)
+
+
+theme_set(theme_minimal())
+
+```
+
+## Messy data
+
+```{r}
+data <- clean_names(read_csv("http://kjhealy.co/data/prison_jail_1970_2016.csv"))
+
+data
+```
+
+### The columns we want
+```{r}
+data %>% select(year, us_total_pris_pop,
+                state_total_pris_pop,
+                nc_total_pris_pop)
+```
+
+
+### Select and pivot them to long format
+```{r}
+data %>% select(year, us_total_pris_pop,
+                state_total_pris_pop,
+                nc_total_pris_pop) %>%
+  pivot_longer(cols = c(us_total_pris_pop:nc_total_pris_pop))
+```
+
+
+### `recode()`
+
+```{r}
+data %>% select(year, us_total_pris_pop,
+                state_total_pris_pop,
+                nc_total_pris_pop) %>%
+  pivot_longer(cols = c(us_total_pris_pop:nc_total_pris_pop), 
+               names_to = "series", values_to = "count") %>%
+  mutate(series = recode(series, us_total_pris_pop = "US",
+                           state_total_pris_pop = "State",
+                           nc_total_pris_pop = "NC"))
+
+```
+
+
+### ... and plot
+```{r}
+data %>% select(year, us_total_pris_pop,
+                state_total_pris_pop,
+                nc_total_pris_pop) %>%
+  pivot_longer(cols = c(us_total_pris_pop:nc_total_pris_pop), 
+               names_to = "series", values_to = "count") %>%
+    mutate(series = recode(series, us_total_pris_pop = "US",
+                           state_total_pris_pop = "State",
+                           nc_total_pris_pop = "NC")) %>%
+    ggplot(aes(x = year, y = count, linetype = series)) +
+    geom_line() +
+    scale_y_continuous(labels = scales::comma) +
+    labs(x = "Year", y = "Count", linetype = NULL,
+         title = "US, State, and NC Prison Populations 1970-2016") +
+    theme(legend.position = "top")
+```
+
+## Missing Data
+
+```{r}
+library(naniar)
+library(visdat)
+
+organdata
+```
+
+```{r}
+gg_miss_var(organdata)
+```
+
+```{r}
+vis_dat(organdata)
+```
+
+```{r}
+miss_var_summary(organdata)
+```
+
+```{r}
+miss_case_summary(organdata)
+```
+
+```{r}
+organdata %>%
+  select(consent_law, year, pubhealth, roads) %>%
+  group_by(consent_law) %>%
+  miss_var_summary()
+
+```
+
+```{r}
+vis_miss(organdata)
+```
+
+```{r}
+vis_miss(organdata, cluster = TRUE)
+```
+
+```{r}
+gg_miss_upset(organdata)
+```
+
+
+```{r}
+ggplot(organdata, 
+       aes(x = donors, 
+           y = pubhealth)) + 
+  geom_miss_point()
+```
+
+## More on Upset Plots
+
+```{r}
+symptoms <- c("Anosmia", "Cough", "Fatigue", 
+              "Diarrhea", "Breath", "Fever")
+names(symptoms) <- symptoms
+symptoms
+```
+
+```{r}
+dat <- readxl::read_xlsx("~/Downloads/symptoms.xlsx") 
+dat %>% print(n = nrow(dat))
+
+```
+
+```{r}
+subsets <- dat$combination
+
+## Check if each subset mentions each symptom or not
+symptom_mat <- map_dfc(subsets, str_detect, symptoms) %>%
+    data.frame() %>%
+    t() %>% # transpose the result, this is a little gross, sorry
+    as_tibble(.name_repair = "unique")
+
+colnames(symptom_mat)  <- symptoms
+
+symptom_mat$count <- dat$count
+
+symptom_mat %>% print(n = nrow(symptom_mat))
+
+```
+
+```{r}
+indvs <- symptom_mat %>%
+    uncount(count) 
+
+indvs
+
+```
+
+```{r, fig.width=16, fig.height=9}
+# devtools::install_github("krassowski/complex-upset")
+
+library(ComplexUpset)
+
+upset(data = indvs, intersect = symptoms, 
+      name="Symptom Groupings by Frequency. Total pool is 1,764 individuals.", 
+      min_size = 0,
+      width_ratio = 0.125) +
+    labs(title = "Co-Occurence of COVID-19 Symptoms",
+         caption = "Data: covid.joinzoe.com/us | Graph: @kjhealy")
+
+
+```
+

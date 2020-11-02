@@ -95,25 +95,38 @@ show = "16-show"
 work = "16-work"
 
 [[lessons]]
-title = "The View from Nowhere / High-Dimensional Data"
-date = "Oct. 14 / 16"
-work = ""
+title = "Let's try that again"
+date = "Oct. 14"
 
 [[lessons]]
-title = "Kinship and Ties / Visualizing Networks"
-date = "Oct. 21 / 23"
-class = ""
+title = "Messy and Missing Data"
+date = "Oct. 16"
+class = "18-class"
+show = "18-show"
+work = "18-work"
 
 [[lessons]]
-title = ""
-date = "Oct. 28 / 30"
-work = ""
+title = "Visualizing Networks"
+date = "Oct. 21"
+class = "19-class"
+show = "19-show"
 
 [[lessons]]
-title = ""
-date = "Nov. 4 / 6"
-work = ""
-class = ""
+title = "Congressional Data"
+date = "Oct. 23"
+class = "20-class"
+show = "20-show"
+
+[[lessons]]
+title = "Social Theory and Social Data"
+date = "Oct. 28"
+class = "21-class"
+
+[[lessons]]
+title = "Zombie Data"
+date = "Oct 30"
+class = "22-class"
+show = "22-show"
 
 [[lessons]]
 title = "Design Thinking / Refining Plots"

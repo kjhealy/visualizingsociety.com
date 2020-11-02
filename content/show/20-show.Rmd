@@ -1,0 +1,276 @@
+---
+title: "Congressional Data"
+linktitle: "20: Congress"
+date: "2020-10-23"
+menu:
+  show:
+    parent: Examples
+    weight: 1
+type: docs
+bibliography: "../../static/bib/references.bib"
+csl: "../../static/bib/chicago-fullnote-bibliography-no-bib.csl"
+output:
+  blogdown::html_page:
+    toc: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(socviz)
+library(ggbeeswarm)
+library(ggrepel)
+library(congress)
+```
+
+
+```{r}
+###--------------------------------------------------
+### Constants and functions
+###--------------------------------------------------
+
+# Hex color codes for Dem Blue and Rep Red
+party_colors <- c("#2E74C0", "#CB454A")
+
+## Sex
+sex_colors <- c("#E69F00", "#993300")
+
+## Footer tag
+caption_text <-  "@kjhealy http://socviz.co Data: Congressional Quarterly"
+
+```
+
+```{r}
+congress
+```
+
+## Some plots of the data
+
+```{r}
+###--------------------------------------------------
+### Median ages
+###--------------------------------------------------
+
+median_age <- congress %>% 
+  filter(position == "U.S. Representative") %>%
+  group_by(congress) %>%
+  summarize(year = first(start_year), 
+              median_age = median(start_age, na.rm = TRUE))
+
+p <- ggplot(median_age, aes(x = year, y = median_age))
+
+p_out <- p + geom_line(size = 1.2) +
+    scale_x_date(date_breaks = "10 years",
+                 date_labels = "%Y",
+                 limits = c(int_to_year(1945), 
+                            int_to_year(2020, 02, 01))) +
+    labs(title = "Median Age of Congressional Representatives",
+         x = "Year", y = "Age in Years",
+         caption = caption_text)
+
+p_out
+
+```
+
+```{r, fig.height = 4.5, fig.width = 14}
+###--------------------------------------------------
+### Age distributions over time
+###--------------------------------------------------
+
+age_counts <- congress %>%
+    filter(position == "U.S. Representative",
+           party %in% c("Democrat", "Republican")) %>%
+    group_by(party, start_year, start_age) %>%
+    tally() %>%
+    mutate(freq = n / sum(n),
+           pct = round((freq*100), 1)) %>%
+    arrange(desc(start_year))
+
+mean_age_swarm <- congress %>%
+    filter(position == "U.S. Representative",
+           party %in% c("Democrat", "Republican")) %>%
+    group_by(congress, party) %>%
+    summarize(year = first(start_year),
+              mean_age = mean(start_age, na.rm = TRUE),
+              lo = quantile(start_age, 0.25, na.rm = TRUE),
+              hi = quantile(start_age, 0.75, na.rm = TRUE)) %>%
+    mutate(yr_fac = factor(year(year)))
+
+oldest_group_by_year <- congress %>% 
+  filter(party %in% c("Democrat", "Republican"),
+         position == "U.S. Representative") %>%
+    group_by(congress, party) %>% 
+  filter(start_age > quantile(start_age, 0.99, na.rm = TRUE))
+
+youngest_group_by_year <- congress %>% 
+  filter(party %in% c("Democrat", "Republican"),
+         position == "U.S. Representative") %>%
+    group_by(congress, party) %>% 
+  filter(start_age < quantile(start_age, 0.01, na.rm = TRUE))
+
+
+exclude_pid <- c(oldest_group_by_year$pid, youngest_group_by_year$pid)
+
+party_names <- c(`Democrat` = "Democrats",
+                    `Republican` = "Republicans")
+
+p <- ggplot(data = subset(congress,
+                          party %in% c("Democrat", "Republican") &
+                          position == "U.S. Representative" &
+                          pid %nin% exclude_pid),
+            mapping = aes(x = yr_fac, 
+                          y = start_age,
+                          color = party,
+                          label = last))
+
+p_out <- p + geom_quasirandom(size = 0.1, alpha = 0.4,
+                     method = "pseudorandom", dodge.width = 1) +
+    geom_line(data = mean_age_swarm,
+                mapping = aes(x = yr_fac, y = mean_age,
+                              color = party, group = party),
+                inherit.aes = FALSE, size = 1, alpha = 0.5) +
+    geom_ribbon(data = mean_age_swarm,
+                mapping = aes(x = yr_fac, 
+                              ymin = lo, 
+                              ymax = hi,
+                              color = NULL, 
+                              fill = party, 
+                              group = party),
+                inherit.aes = FALSE, alpha = 0.2) +
+    geom_text(data = oldest_group_by_year,
+              size = 0.9, alpha = 1, 
+              position = position_jitter(width = 0.4, height = 0.4)) +
+    geom_text(data = youngest_group_by_year,
+              size = 0.9, alpha = 1, 
+              position = position_jitter(width = 0.4, height = 0.4)) +
+    scale_x_discrete(breaks = levels(congress$yr_fac)[c(T, rep(F, 4))]) +
+    scale_color_manual(values = party_colors) +
+    scale_fill_manual(values = party_colors) +
+    guides(color = FALSE, fill = FALSE) +
+    labs(x = "Year", y = "Age", 
+         title = "Age Distribution of Congressional Representatives, 1945-2019",
+         subtitle = "Trend line is mean age; bands are 25th and 75th percentiles of the range.\n\n Youngest and oldest percentiles are named instead of being shown by points.",
+         caption = caption_text) +
+    facet_wrap( ~ party, nrow = 1, 
+                labeller = as_labeller(party_names)) +
+    theme(plot.subtitle = element_text(size = 10))
+
+print(p_out)
+
+```
+
+
+
+
+## The inner-join operation from the problem set
+
+```{r}
+senate <- congress %>% 
+  filter(position == "U.S. Senator") %>% 
+  group_by(pid) %>% 
+  summarize(first = first(first), 
+            last = first(last), 
+            party = first(party),
+            state = first(state), 
+            start = first(start), 
+            end = first(end))
+
+senate
+
+house <- congress %>% 
+  filter(position == "U.S. Representative") %>% 
+  group_by(pid) %>% 
+  summarize(state = first(state),
+            district = first(district),
+            start = first(start), 
+            end = first(end))
+
+house
+
+sen_and_house <- inner_join(senate, house, by = "pid")
+
+sen_and_house
+
+```
+
+```{r}
+senate <- congress %>% 
+  filter(position == "U.S. Senator") %>% 
+  select(pid, first, last, party, state, start, end) %>% 
+  rename_with(~paste0("s_", .), -c("pid", "first", "last")) %>% 
+  group_by(pid) %>% 
+  nest(data = c(s_party, s_state, s_start, s_end)) %>%
+  mutate(senate_spells = map(data, distinct, s_party, s_state), 
+         s_n = map_dbl(senate_spells, n_distinct))
+
+
+senate
+
+
+
+```
+
+```{r}
+senate %>%  
+  filter(s_n > 1) %>% 
+  unnest(cols = c(senate_spells))
+
+
+
+```
+
+```{r}
+house <- congress %>% 
+  filter(position == "U.S. Representative") %>% 
+  select(pid, first, last, party, state, district, start, end) %>% 
+  rename_with(~paste0("h_", .), -c("pid", "first", "last")) %>% 
+  group_by(pid) %>% 
+  nest(data = c(h_party, h_state, h_district, h_start, h_end)) %>%
+  mutate(house_spells = map(data, distinct, h_party, h_state), 
+         h_n = map_dbl(house_spells, n_distinct))  
+
+house
+
+```
+
+
+```{r}
+house %>%  
+  filter(h_n > 1) %>% 
+  unnest(cols = c(house_spells))
+```
+
+```{r}
+house %>%  
+  filter(h_n == 3) %>% 
+  unnest(cols = c(house_spells)) %>%
+  select(pid:data) %>%
+  unnest(cols = c(data))
+
+```
+
+```{r}
+sen_and_house <- house %>%
+  select(-first, -last) %>%
+  inner_join(senate, by = "pid") %>%
+  select(-data.x, -data.y) %>%
+  select(pid, last, first, everything()) %>%
+  unnest(cols = c(senate_spells, house_spells))
+
+sen_and_house
+
+```
+
+
+```{r}
+sen_and_house %>% 
+  filter(s_n > 1 | h_n > 1)
+
+```
+
