@@ -1,0 +1,395 @@
+---
+title: "The 2020 Election"
+linktitle: "23: The 2020 Election"
+date: "2020-10-11"
+due_date: "2020-11-15"
+due_time: "11:59 AM"
+output:
+  blogdown::html_page:
+    toc: false
+menu:
+  work:
+    parent: Work
+    weight: 1
+type: docs
+weight: 1
+editor_options: 
+  chunk_output_type: console
+---
+
+## Problem Set: The 2020 US Election
+
+In this final problem set we'll examine the 2020 elections in the United States.
+
+
+## 1. Setup 
+
+1. Use RStudio to create a file named something like `lastname_firstname_ps07.Rmd`
+2. _At the console, not in your Rmd file_ install the `tidycensus` package. Like this:
+
+```{r, eval = FALSE, echo = TRUE}
+install.packages("tidycensus")
+```
+
+
+3. Set up your file with a code chunk that loads these packages:
+
+```{r plot1, message = FALSE}
+library(tidyverse)
+library(socviz)
+library(tidycensus)
+```
+
+```{r}
+# Hex color codes for Dem Blue and Rep Red
+party_colors <- c("#2E74C0", "#CB454A")
+```
+
+
+### Set up a Census API key
+
+We are going to get some Census and American Community Survey data in this problem set. For this will will need an API Key from the Census. Go to this URL to generate a key: < http://api.census.gov/data/key_signup.html>
+
+Your key will be a long string that looks like this: `c92a1fbfd5c027b49672f7cda9cew013a199afa6`. Don't lose it. 
+
+Once you have a key, activate it like this:
+
+```{r, eval = FALSE}
+census_api_key("c92a1fbfd5c027b49672f7cda9cew013a199afa6") # use your key instead; this one won't work
+```
+
+The `tidycensus` package lets you use the `get_decennial()` and `get_acs()` functions. The former grants access to the 2000 and 2010 decennial US Census APIs. The latter grants access to the 1-year and 5-year American Community Survey APIs. These contain a _lot_ of data. Read [the package help pages](https://walker-data.com/tidycensus/articles/basic-usage.html) for more details. 
+
+
+Check to make sure your key is working by downloading some data. First, grab a table of all the (many) measures in the 2018 ACS:
+
+```{r }
+
+v18 <- load_variables(2018, "acs5", cache = TRUE)
+
+v18
+
+```
+
+We'll start with some population measures. 
+
+```{r }
+
+popvars <- c("B01003_001", "B01001A_001", "B01001B_001", "B01001H_001",  "B01001I_001")
+
+pop_names <- tribble(
+    ~varname, ~clean,
+    "B01003_001", "pop",
+    "B01001B_001", "black",
+    "B01001A_001", "white",
+    "B01001H_001", "nh_white",
+    "B01001I_001", "hispanic"
+  )
+  
+pop_names
+  
+
+```
+
+The following is a helper function to make the variable names a little more friendly.
+
+
+```{r }
+clean_names <- function(variable, lookup) {
+  
+  vtbl <- lookup
+  
+  for(i in 1:nrow(vtbl)) {
+    variable <- stringr::str_replace(variable, vtbl$varname[i], vtbl$clean[i])
+  }
+  
+  variable
+  
+}
+
+```
+
+### Get a batch of ACS data
+
+Now we're going to pull a table of data, tidy it up, and calculate some proportions.
+
+```{r }
+
+fips_pop <- get_acs(geography = "county", 
+                    variables = popvars, 
+                    cache_table = TRUE) %>% 
+  mutate(variable = clean_names(variable, lookup = pop_names)) %>% 
+  pivot_wider(names_from = variable, values_from = c(estimate, moe)) %>% 
+  rename(fips = GEOID, name = NAME) %>% 
+  mutate(prop_black = estimate_black/estimate_pop, 
+         prop_hisp = estimate_hispanic/estimate_pop, 
+         prop_white = estimate_white/estimate_pop)
+
+fips_pop
+
+```
+
+Make sure you understand what this code is doing. The best way to do this is to repeatedly run it one segment of the pipeline at a time, so you can see what is being returned. 
+
+### Get the election results
+
+A CSV of the election results can be found here: <https://github.com/kjhealy/us_elections_2020_csv>.
+
+Read in the results:
+
+```{r }
+results_df <- read_csv("https://github.com/kjhealy/us_elections_2020_csv/blob/master/results_current.csv?raw=true")
+
+results_df
+
+```
+
+The columns of the file are as follows:
+
+- `race`: President, Senate, House, Governor
+- `id`: Variable length character. Codes are as follows:
+  - _For President, Governor, and Senate Races_. ONE OF: (a) "0", if the row refers to results for a whole state. Identify states using `fips_char` instead. (b) A *five*-digit county FIPS code if the row refers to results for a county. (c) A *ten*-digit FIPS location code for results from a township or similar location (the first five characters are this location's county FIPS). Note zero padding. 
+  - _For House races only_: A four-digit code consisting of a two-digit State FIPS + two-digit House District. Note zero padding. 
+  - This column should be parsed as character, not numeric.
+- `fips_char`: Two digit state FIPS code. Note zero padding. This column should be parsed as character, not numeric.
+- `fips5`: Five digit FIPS code identifying the county the place is in. Note zero padding. This column should be parsed as character, not numeric.
+- `place`: State name, or place name. House races are reported by District and have NA for place names. In some states (for example, Vermont), the Presidential, Senate, and Governor results are reported by township or 
+similar location, not county. Thus, (a) place is not county and (b) if you filter out rows where `id` = 0 (i.e., whole states), the rows you are left with are still are not unique counties  To get 
+true county-level results for these races you will have to aggregate vote counts in the rows by `fips5`. 
+- `fname`: Candidate first name
+ju- `lname`: Candidate last name
+- `party`: Three-letter party code
+- `pab`: One letter party code
+- `votes`: N votes
+- `incumbent`: 1 = is incumbent, 0 otherwise
+- `mpc`: 1 if candidate is a main party candidate (Rep or Dem), 0 otherwise
+
+
+The rows of the data record the vote results in a particular _race_ (President, Senate, House district, Governor) for a particular _place_. There are rows present for whole states these always have an `id` of 0. There are also rows reporting results for smaller areas within each state, usually counties but sometimes a sub-county area like a township.
+
+Setting the state-level totals aside, a variable (`fips5`) is provided that classifies places by their county FIPS. Votes are not reported more than once, however. So, again excluding state totals first, within any given state summing votes across `id` should yield the same total as summing them by `fips5` and then summing those totals. 
+
+For example, for Massachussets:
+
+```{r }
+results_df %>% 
+  filter(race == "President", id != "0", fips_char == "25", mpc == "1") %>% 
+  select(race, id, fips_char, fips5,  place, lname, votes)
+
+```
+
+These are townships, not counties. To get county totals, group by `fips5` and sum:
+
+```{r }
+results_df %>% 
+  filter(race == "President", id != "0", fips_char == "25", mpc == "1") %>% 
+  select(race, id, fips_char, fips5,  place, lname, votes) %>% 
+  group_by(fips5, lname) %>%  # Group by county fips
+  summarize(votes = sum(votes))
+```
+
+For many states, `id` and `fips5` will be identical as all results are reported by county.
+
+
+## 2. Investigate the data
+
+
+### A. Investigate the ACS Data by itself
+
+```{r }
+fips_pop
+```
+
+Remember, this is _county-level_ data. 
+
+
+We will merge in some state id codes from the `county_data` file in the socviz library. 
+
+```{r }
+as_tibble(county_data)
+```
+
+```{r }
+tmp <- as_tibble(county_data) %>%
+      select(id, state, census_region) %>%
+      rename(fips = id)
+      
+fips_pop <- fips_pop %>% 
+      left_join(tmp, by = "fips") %>%
+      select(fips, census_region, state, name, everything())
+
+fips_pop
+
+```
+
+
+- Which county in the US has the largest Black population, numerically? Which has the smallest? What about by proportion of total population?
+- Which county has the largest White population as a proportion of the total population?
+- Which states have the highest proportion of Hispanics? Which the lowest?
+
+### B. Tidy the Election Data 
+
+```{r }
+results_df
+```
+
+- Make a tibble with just the local-level results for the Presidential race, for Trump and Biden only. (Hint: exclude state-level results by filtering out rows whose `id` is 0. Exclude other candidates by filtering out rows where `mpc` is not 1).
+- Select the `fips5`, `lname`, and `votes` columns.
+- Add up the votes Trump and Biden received within each county. Your table should look something like this:
+
+```r
+
+# A tibble: 6,310 x 3
+# Groups:   fips5 [3,155]
+   fips5 lname votes
+   <chr> <chr> <int>
+ 1 01001 Biden  7450
+ 2 01001 Trump 19764
+ 3 01003 Biden 24344
+ 4 01003 Trump 83055
+ 5 01005 Biden  4772
+ 6 01005 Trump  5605
+ 7 01007 Biden  1982
+ 8 01007 Trump  7508
+ 9 01009 Biden  2627
+10 01009 Trump 24595
+# … with 6,300 more rows
+
+```
+
+(If you have a more recent vote total file, the numbers may look different.)
+
+- Widen the data so that Trump and Biden are their own columns, with their votes in each row. Calculate the difference between the two, the winner in each county, and the two-party share for each candidate. Finally, rename `fips5` to `fips`. Your table should look like this:
+
+```r
+
+# A tibble: 3,155 x 7
+# Groups:   fips [3,155]
+   fips  Biden Trump  diff r_2share d_2share winner
+   <chr> <int> <int> <int>    <dbl>    <dbl> <chr> 
+ 1 01001  7450 19764 12314    0.726   0.274  Trump 
+ 2 01003 24344 83055 58711    0.773   0.227  Trump 
+ 3 01005  4772  5605   833    0.540   0.460  Trump 
+ 4 01007  1982  7508  5526    0.791   0.209  Trump 
+ 5 01009  2627 24595 21968    0.903   0.0965 Trump 
+ 6 01011  3439  1143 -2296    0.249   0.751  Biden 
+ 7 01013  3953  5448  1495    0.580   0.420  Trump 
+ 8 01015 15118 34964 19846    0.698   0.302  Trump 
+ 9 01017  6356  8748  2392    0.579   0.421  Trump 
+10 01019  1619 10562  8943    0.867   0.133  Trump 
+# … with 3,145 more rows
+
+```
+
+- Call this table `results_county`
+
+### C. Merge the election data with the ACS data
+
+- Join the `results_county`  table to the `fips_pop` table using `fips_code` as the key.
+- Examine the relationship between county-level results and the demographic characteristics of the counties, with some scatterplots or other visualizations you think would be informative.
+
+
+### D. Compare to the previous election
+
+Again, we'll use `county_data` from socviz.
+
+
+```{r }
+as_tibble(county_data)
+```
+
+Select a few measures of interest and make a new tibble:
+
+```{r }
+county_sv <- as_tibble(county_data) %>% 
+  select(id, pop_dens6, female, land_area, 
+         per_dem_2016, per_gop_2016, 
+         partywinner16, flipped) %>% 
+  rename(fips = id, flipped16 = flipped)
+```
+
+- Join it to `results_county` using `fips` as the key. It should look something like this:
+
+```{r, echo = FALSE, message = FALSE}
+
+results_county <- results_df %>% 
+  filter(race == "President", id != 0, mpc == 1) %>% 
+  select(fips5, lname, votes) %>% 
+  group_by(fips5, lname) %>% 
+  summarize(votes = sum(votes)) %>% 
+  pivot_wider(names_from = lname, values_from = votes) %>% 
+  mutate(diff = Trump - Biden,
+         r_2share = Trump/(Trump + Biden),
+         d_2share = Biden/(Trump + Biden),
+         winner = ifelse(diff > 0, "Trump", "Biden")) %>% 
+  rename(fips = fips5)
+
+county_sv <- as_tibble(county_data) %>% 
+  select(id, pop_dens6, female, land_area, 
+         per_dem_2016, per_gop_2016, 
+         partywinner16, flipped) %>% 
+  rename(fips = id, flipped16 = flipped)
+
+
+results_county <- results_county %>% 
+  left_join(county_sv, by = "fips")
+
+```
+
+```{r }
+results_county
+```
+
+
+- Now you have some additional information about the 2016 election. Use it to compare to the 2020 results. Again, poke around in the data and see what you can find, and think about how best to visualize the relationships you're interested in. 
+
+### E. Optional: Experiment with drawing maps
+
+The Census API makes it fairly straightforward to get map geometries for any of the kinds of data you can query. Here is how to get county-level data for example:
+
+```{r }
+fips_map <- get_acs(geography = "county", 
+                    variables = "B01001_001", 
+                    geometry = TRUE,
+                    shift_geo = TRUE,
+                    cache_table = TRUE) %>% 
+  select(GEOID, NAME, geometry) %>% 
+  rename(fips = GEOID, name = NAME)
+
+```
+
+Once you have the map geometry you can merge it in to any other data at the same level of observation. 
+
+```{r }
+maps_df <- fips_pop %>% 
+  left_join(results_county, by = "fips") %>% 
+  left_join(fips_map, by = c("fips"))
+  
+  
+maps_df  
+```
+
+The geodata is in the `geometry` column:
+
+```{r }
+maps_df %>%
+  select(fips, state, name.x, geometry)
+```
+
+
+And draw a map with the `sf` package:
+
+```{r }
+maps_df %>% 
+  ggplot(aes(fill = prop_black, geometry = geometry)) + 
+  geom_sf(color = "gray80", size = 0.05) +
+  scale_fill_viridis_c(option = "A", direction = -1, labels = scales::percent_format()) + 
+  guides(fill = guide_colorbar(barwidth = rel(20))) +
+  labs(fill = "Percent Black") + 
+  theme_void() + theme(legend.position = "top")
+```
+
+Can you make an election choropleth that shows the vote share for Biden and Trump, using party colors?
+
+## 3 Knit the document as an HTML or PDF file and submit it to the Sakai dropbox
+
